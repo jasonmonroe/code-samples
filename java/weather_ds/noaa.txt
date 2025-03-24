@@ -1,0 +1,264 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head><!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN"><html><head>
+<title>Gridpoint Forecast</title>
+<link rel="STYLESHEET" type="text/css" href="/weather/images/fcicons/main.css">
+</head>
+<body leftmargin="0" topmargin="0" rightmargin="0" marginwidth="0" marginheight="0" bgcolor="#FFFFFF" background="/weather/images/fcicons/gray_background.gif">
+<table cellspacing="0" cellpadding="0" border="0" width="670" background="/weather/images/fcicons/topbanner.jpg">
+<tr>
+<td height="19">&nbsp;&nbsp;&nbsp;</td>
+</tr>
+</table>
+<table cellspacing="0" cellpadding="0" border="0" width="670">
+<tr valign="top">
+<td rowspan="2"><a href="http://www.noaa.gov"><img src="/weather/images/fcicons/noaaleft.jpg" alt="NOAA logo - Click to go to the NOAA homepage" width="85" height="78" border="0"></a></td>
+<td align="left"><img src="/weather/images/fcicons/forecast_title.jpg" alt="Your National Weather Service forecast" width="500" height="20" border="0"></td>
+<td rowspan="2" align="right"><a href="http://weather.gov"><img src="/weather/images/fcicons/nwsright.jpg" alt="NWS logo" width="85" height="78" border="0"></a></td>
+</tr>
+      	
+<tr align="center">
+<td background="/weather/images/fcicons/forecast_blank.jpg" height="57" class="white1">
+Columbia, MO 
+<a href="#contents"><img src="/weather/images/fcicons/skipgraphic.gif" alt="Skip to Detailed 7-Day Forecast" width="1" height="1" border="0"></a></td>
+</tr>
+</table>
+<table cellspacing="0" cellpadding="0" border="0" background="/weather/images/fcicons/navbkgrnd.gif" width="670">	
+<tr>
+<td><img src="/weather/images/fcicons/navbarleft.jpg" alt="" width="94" height="23" border="0"></td>
+<td align="left" class="searchinput"><form method="POST" action="http://www.crh.noaa.gov/zipcity.php">
+	<span class="yellow">Enter Your &quot;City, ST&quot; or zip code </span>
+	<span class="searchinput"><input type="text" name="inputstring" size="15" value=""></span>&nbsp;&nbsp; <INPUT TYPE="submit" NAME="Go2" VALUE="Go"></td>
+</tr>
+</table>
+
+<table width="670" border="0" align="left">
+<tr><td>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+<tr>
+<td align="left" ><a href="http://www.crh.noaa.gov/lsx">NWS St. Louis, MO</a></td>
+<td align="right">
+<a href="http://www.crh.noaa.gov/survey/">Comments/Feedback</a></td>
+
+</tr>
+ <tr><td align="left">
+<a href="http://products.weather.gov/detaile.php?selrow=134">Experimental</a> Gridpoint forecast for 38.95 -92.32</td>
+<td align="right">Last Update: 9:00 am CST November 20, 2003</td>
+
+</tr>
+<tr><td colspan="2" align="left">
+<img alt="Forecast at a glance" src=http://www.crh.noaa.gov/weather/images/fcicons/7dayfcst.jpg>
+</td>
+</tr>
+</table>
+</td></tr>
+<tr><td>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+<tr valign ="top" align="center">
+  <td width="11%">
+<b>This<br>Afternoon</b><br>
+<img src="http://www.crh.noaa.gov/weather/images/fcicons/skc.jpg" width="55" height="58" alt="Sunny">
+<br>
+Sunny<br><br>
+Hi <font color="#FF0000">76&deg;F</font><img src="http://www.crh.noaa.gov/ifps/text/down.gif" border="0" alt="Falling Temperatures"></td>
+<td width="11%">
+<b>Tonight<br></b><br>
+<img src="http://www.crh.noaa.gov/weather/images/fcicons/nfew.jpg" width="55" height="58" alt="Mostly Clear">
+<br>
+Mostly<br>Clear<br>Lo <font color="#0033CC">48&deg;F</font></td>
+<td width="11%">
+<b>Friday<br></b><br>
+<img src="http://www.crh.noaa.gov/weather/images/fcicons/sct.jpg" width="55" height="58" alt="Partly Cloudy">
+<br>
+Partly<br>Cloudy<br>Hi <font color="#FF0000">67&deg;F</font></td>
+<td width="11%">
+<b>Friday<br>Night</b><br>
+<img src="http://www.crh.noaa.gov/weather/images/fcicons/nsct.jpg" width="55" height="58" alt="Partly Cloudy">
+<br>
+Partly<br>Cloudy<br>Lo <font color="#0033CC">50&deg;F</font></td>
+<td width="11%">
+<b>Saturday<br></b><br>
+<img src="http://www.crh.noaa.gov/weather/images/fcicons/shra.jpg" width="55" height="58" alt="Chance Showers">
+<br>
+Chance<br>Showers<br>Hi <font color="#FF0000">64&deg;F</font></td>
+<td width="11%">
+<b>Saturday<br>Night</b><br>
+<img src="http://www.crh.noaa.gov/weather/images/fcicons/ntsra.jpg" width="55" height="58" alt="Chance Tstms">
+<br>
+Chance<br>Tstms<br>Lo <font color="#0033CC">46&deg;F</font></td>
+<td width="11%">
+<b>Sunday<br></b><br>
+<img src="http://www.crh.noaa.gov/weather/images/fcicons/tsra.jpg" width="55" height="58" alt="Tstms Likely">
+<br>
+Tstms<br>Likely<br>Hi <font color="#FF0000">60&deg;F</font></td>
+<td width="11%">
+<b>Sunday<br>Night</b><br>
+<img src="http://www.crh.noaa.gov/weather/images/fcicons/nrasn.jpg" width="55" height="58" alt="Rain/Snow Showers">
+<br>
+Rain/Snow<br>Showers<br>Lo <font color="#0033CC">25&deg;F</font></td>
+<td width="11%">
+<b>Monday<br></b><br>
+<img src="http://www.crh.noaa.gov/weather/images/fcicons/sn.jpg" width="55" height="58" alt="Snow Showers">
+<br>
+Snow<br>Showers<br>Hi <font color="#FF0000">33&deg;F</font></td>
+</tr>
+</table>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+<tr valign ="top">
+<td valign="middle" align="center" width="50%">
+<br>
+<img alt="Detailed text forecast" src=http://www.crh.noaa.gov/weather/images/fcicons/fcst.jpg>
+</td>
+<td valign="top" align="center" width="50%">
+<br>
+<img src="/weather/images/fcicons/currentconds.jpg" width="326" height="20" border="0" alt="Current local weather">
+</td></tr>
+<tr valign ="top">
+<td valign="top" align="left" width="50%">
+<a name="contents"></a>
+ 
+
+<b>This Afternoon: </b>Sunny, with a temperature falling to around 68 by 5pm. South wind around 17 mph, with gusts as high as 22 mph. <br>
+<br>
+<b>Tonight: </b>Mostly clear, with a low around 48. South wind 7 to 15 mph becoming east. Winds could gust as high as 23 mph.<br>
+<br>
+<b>Friday: </b>Partly cloudy, with a high near 67. North wind between 7 and 10 mph, with gusts as high as 25 mph. <br>
+<br>
+<b>Friday Night: </b>Partly cloudy, with a low near 50. South wind between 11 and 18 mph. <br>
+<br>
+<b>Saturday: </b>Rain showers possible. Chance for precipitation is 30%. Mostly cloudy, with a high near 64. Breezy, with a south wind between 16 and 20 mph, with gusts as high as 26 mph. <br>
+<br>
+<b>Saturday Night: </b>Rain showers and thunderstorms possible. Chance for precipitation is 50%. Cloudy, with a low around 46.<br>
+<br>
+<b>Sunday: </b>Rain and thunderstorms likely. Rain possibly heavy at times. Chance for precipitation is 60%. Cloudy, with a high near 60.<br>
+<br>
+<b>Sunday Night: </b>Snow showers possible after 10pm. Rain showers possible until 10pm. Cloudy, with a low around 25.<br>
+<br>
+<b>Monday: </b>Snow showers possible. Mostly cloudy, with a high near 33.<br>
+<br>
+<b>Monday Night: </b>Partly cloudy, with a low near 24.<br>
+<br>
+<b>Tuesday: </b>Mostly cloudy, with a high around 42.<br>
+<br>
+<b>Tuesday Night: </b>Mostly cloudy, with a low around 31.<br>
+<br>
+<b>Wednesday: </b>Partly cloudy, with a high around 47.<br>
+<br>
+
+</td>
+<td valign="top" align="center" width="50%">
+<br>
+<table cellspacing="0" cellspacing="0" border="0" width="100%">
+<tr align="center">
+<td><span class="blue1">Columbia Regional Airport</span><br>
+ Last Update on Nov 20, 1:54 pm CST<br><br></td>
+ </tr>
+ <tr>
+ <td colspan="2"><table cellspacing="0" cellpadding="0" border="0">
+ <tr>
+ <td class="big" width="120" align="center">Fair<br><br>72&deg;F<br>(22&deg;C)</td>
+ <td rowspan="2" width="200"><table cellspacing="0" cellpadding="2" border="0" width="100%">
+ <tr bgcolor="#b0c4de">
+ <td><b>Humidity</b>:</td>
+ <td align="right">27 %</td>
+ </tr>
+ <tr bgcolor="#ffefd5">
+ <td><b>Wind Speed</b>:</td>
+ <td align="right">SW 20 G 28 MPH</td>
+ </tr>
+ <tr bgcolor="#b0c4de">
+ <td><b>Barometer</b>:</td>
+ <td align="right" nowrap>29.82&quot; (1009.4 mb)</td>
+ </tr>
+ <tr bgcolor="#ffefd5">
+ <td><b>Dewpoint</b>:</td>
+ <td align="right">36&deg;F (2&deg;C)</td>
+ </tr><tr bgcolor="#b0c4de">
+      <td><b>Heat Index</b>:</td>
+      <td align="right">76&deg;F (24&deg;C)</td>
+      </tr><tr bgcolor="#ffefd5">
+ <td><b>Visibility</b>:</td>
+ <td align="right">10.00 mi.</td>
+ </tr><tr><td nowrap><b><a href="/obslocal.php?warnzone=MOZ041&local_place=Columbia&zoneid=CST&offset=21600" class="link">More Local Wx</a></b>:</td><td nowrap align="right"><b><a href="/data/obhistory/KCOU.html" class="link">2 Day History</a></b>:</td></tr>
+         </table></td></tr>
+
+	    </table></td></tr>
+</table>
+<br>
+<img alt="Radar and Satellite (Click for larger image)" src=http://www.crh.noaa.gov/weather/images/fcicons/radandsat.jpg>
+<br><br>
+<a href="http://www.crh.noaa.gov/radar/latest/DS.p19r0/si.klsx.shtml"><img src="http://www.crh.noaa.gov/radar/small/klsx.jpg" width="130" height="130" border="0" alt="Link to Local Radar Data"></a>
+<a href="http://www.goes.noaa.gov/ECIR4.html"><img src="http://www.crh.noaa.gov/data/satellite/thumbs/ECI8.JPG" width="173" height="130" border="0" alt="Link to Satellite Data"></a>
+<br><br>
+<img alt="Additional Forecasts and Information" src=http://www.crh.noaa.gov/weather/images/fcicons/addinfosml.jpg>
+<br><br>
+<table cellspacing="0" cellpadding="1" border="0" width="320">
+<tr bgcolor="#b0c4de">
+<td colspan="2" align="center"><a href="http://www.crh.noaa.gov/data/forecasts/MOZ041.php?zo=1&city=Boone+County">Zone Averaged Forecast for Boone County, MO</a></td>
+</tr>
+<tr bgcolor="#ffefd5">
+<td><a href="http://www.crh.noaa.gov/ifps/MapClick.php?FcstType=graphical&map.x=75&map.y=116&site=lsx&Radius=0&CiTemplate=0">Element Meteorogram</a></td>
+<td><a href="http://www.crh.noaa.gov/ifps/MapClick.php?FcstType=digital&map.x=75&map.y=116&site=lsx&Radius=0&CiTemplate=0">Digital/Tabular Forecast</a></td>
+</tr>
+<tr bgcolor="#b0c4de">
+<td><a href="http://www.crh.noaa.gov/lsx/severe.php">Hazardous Weather</a></td>
+<td><a href="http://www.crh.noaa.gov/product.php?site=lsx&product=AFDSTL&format=ci">Forecast Discussion</a></td>
+</tr>
+<tr bgcolor="#ffefd5">
+<td><a href="http://www.crh.noaa.gov/product.php?site=lsx&product=AFMLSX&format=ci">County Digital Fcst</a></td>
+<td><a href="http://www.crh.noaa.gov/product.php?site=lsx&product=PFMLSX&format=ci">City Digital Fcst</a></td>
+</tr>
+<tr bgcolor="#b0c4de">
+<td><a href="http://www.crh.noaa.gov/product.php?site=lsx&product=CLISTL&format=ci">STL Climate Summary</a></td>
+<td><a href="http://www.crh.noaa.gov/product.php?site=lsx&product=CLICOU&format=ci">COU Climate Summary</a></td>
+</tr>
+<tr bgcolor="#ffefd5">
+<td><a href="http://www.crh.noaa.gov/product.php?site=lsx&product=RVASTL&format=ci">River Stages</a></td>
+<td><a href="http://www.crh.noaa.gov/product.php?site=lsx&product=RTPSTL&format=ci">Weather Roundup</a></td>
+</tr>
+<tr bgcolor="#b0c4de">
+<td><a href="http://www.crh.noaa.gov/lsx/calc.htm">Weather Calculator</a></td>
+<td><a href="http://www.crh.noaa.gov/lsx/climate.php">Local Climatology</a></td>
+</tr>
+<tr bgcolor="#ffefd5">
+<td><a href="http://www.crh.noaa.gov/eax/grids/MakeYourOwn.htm>Interactive Forecast Map</a></td>
+<td><a href=http://www.crh.noaa.gov/lsx>Home</a></td>
+</tr>
+<tr bgcolor="#ffefd5">
+<td><a href=></a></td>
+<td><a href=></a></td>
+</tr>
+<tr bgcolor="#b0c4de">
+<td><a href=></a></td>
+<td><a href=></a></td>
+</tr>
+<tr bgcolor="#ffefd5">
+<td><a href=></a></td>
+<td><a href=></a></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr valign="top">
+<td class="gray" align="left" colspan="2">
+<table border="0" width="100%">
+    <tr>
+    <td colspan="3"><hr width="100%" size="2" noshade></td>
+    </tr>
+    <tr valign="top">
+    <td class="gray" align="left" width="40%">National Weather Service:<br> St. Louis, MO
+</td>
+	<td align="center" width="30%"><form><input type="button" value="Back to previous page" onClick="history.back()"></form></td>
+	<td align="right" width="30%" class="gray">
+      <a href="http://www.crh.noaa.gov"><u>www.crh.noaa.gov</u></a><br>
+	<a href="http://www.nws.noaa.gov/notice.html">Privacy</a><br>
+	<a href="http://www.nws.noaa.gov/disclaimer.html">Disclaimer</a></td>
+    </tr>
+    <tr>
+    <td class="gray" colspan="3">Locations within 5 miles of this gridpoint include...Columbia MO</td>
+    </tr>
+  </table>
+</td>
+</tr>
+</table>
+</table>
+</body>
+</html>

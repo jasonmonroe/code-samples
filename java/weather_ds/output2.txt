@@ -1,0 +1,1190 @@
+html =<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0071)http://www.wunderground.com/cgi-bin/findweather/getForecast?query=65201 -->
+<HTML><HEAD><TITLE>Weather Underground: Columbia, Missouri Forecast</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META http-equiv=Refresh 
+content=1800;URL=/cgi-bin/findweather/getForecast?query=65201>
+<META http-equiv=pics-label 
+content='(pics-1.1 "http://www.icra.org/ratingsv02.html" comment "ICRAonline v2.0" l gen true for "http://www.wunderground.com" r (nz 0 vz 0 lz 0 oz 0 cz 0) "http://www.rsac.org/ratingsv01.html" l gen true for "http://www.wunderground.com"  r (n 0 s 0 v 0 l 0))'>
+<STYLE>BODY {
+	FONT-FAMILY: Arial,Helvetica
+}
+.forecastbefore {
+	FONT-FAMILY: serif
+}
+.forecast {
+	FONT-SIZE: x-small; FONT-FAMILY: Arial,Helvetica,sans-serif
+}
+.leftadbody {
+	FONT-SIZE: x-small; FONT-FAMILY: Arial,Helvetica,sans-serif
+}
+.leftadhead {
+	FONT-SIZE: x-small; FONT-FAMILY: Arial,Helvetica,sans-serif
+}
+.leftbarbody {
+	FONT-SIZE: x-small; FONT-FAMILY: Arial,Helvetica,sans-serif
+}
+.leftbarhead {
+	FONT-SIZE: x-small; FONT-FAMILY: Arial,Helvetica,sans-serif
+}
+.smalltableheader {
+	FONT-SIZE: x-small; FONT-FAMILY: Arial,Helvetica,sans-serif
+}
+.smalltable {
+	FONT-SIZE: x-small; FONT-FAMILY: Arial,Helvetica,sans-serif
+}
+</STYLE>
+<!-- BEGIN Popup Blocker -->
+<SCRIPT language=javascript>
+				NS_ActualOpen=window.open;
+				function NS_NullWindow(){this.window;}
+				function NS_NewOpen(url,nam,atr){return(new NS_NullWindow());}
+				window.open=NS_NewOpen;
+				</SCRIPT>
+<!-- END Popup Blocker -->
+<META content="MSHTML 6.00.2800.1276" name=GENERATOR></HEAD>
+<BODY text=#000000 bgColor=#ffffff><A name=top>
+<TABLE class=leftbarhead cellSpacing=0 cellPadding=0 width="100%" 
+bgColor=#eeeeee border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top width=130 rowSpan=3><A 
+      href="http://www.wunderground.com/"><IMG height=73 
+      src="Weather Underground Columbia, Missouri Forecast_files/WUICorner3.gif" 
+      width=130 border=0></A></TD>
+    <TD vAlign=top bgColor=#000000 colSpan=2><IMG height=1 
+      src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+      width=1></TD></TR>
+  <TR>
+    <TD vAlign=top bgColor=#cccccc colSpan=2><IMG height=7 
+      src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+      width=1></TD></TR>
+  <TR>
+    <TD align=left width="100%" height=70>
+      <FORM action=/cgi-bin/findweather/getForecast><FONT color=#000000>Find the 
+      Weather for any <B>City</B>, <B>State</B> or <B>ZIP Code</B>, or 
+      <B>Airport Code</B> or <B>Country</B> </FONT><BR><FONT 
+      color=#000000><INPUT size=30 name=query><INPUT type=submit value="Fast Forecast"> </FONT></FORM></TD>
+    <TD align=middle>
+      <TABLE class=leftbarhead border=0>
+        <TBODY>
+        <TR>
+          <TD align=right>
+            <DIV class=smalltext><B>PDA/Mobile:</B></DIV></TD>
+          <TD>
+            <DIV class=smalltext><A href="http://mobile.wunderground.com/">Click 
+            Here</A></DIV></TD></TR>
+        <TR>
+          <TD align=right>
+            <DIV class=smalltext><B>Units:</B></DIV></TD>
+          <TD>
+            <DIV class=smalltext><A 
+            href="http://www.wunderground.com/cgi-bin/findweather/getForecast?setunits=metric">Metric</A>&nbsp;|&nbsp;<A 
+            href="http://www.wunderground.com/cgi-bin/findweather/getForecast?setunits=english">English</A>&nbsp;|&nbsp;<A 
+            href="http://www.wunderground.com/cgi-bin/findweather/getForecast?setunits=both">Both</A></DIV></TD></TR>
+        <TR>
+          <TD align=right>
+            <DIV class=smalltext><B>Language:</B></DIV></TD>
+          <TD>
+            <DIV class=smalltext><A 
+            href="http://www.wunderground.com/SwitchLanguage.asp">English</A></DIV></TD></TR>
+        <TR>
+          <TD align=right>
+            <DIV class=smalltext><B>Timezone:</B></DIV></TD>
+          <TD>
+            <DIV class=smalltext><A 
+            href="http://www.wunderground.com/picktimezone.asp?tz=America/Chicago">Set 
+            My Timezone</A> </DIV></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD bgColor=#eeeeee><IMG height=1 
+      src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+      width=1></TD>
+    <TD colSpan=3><IMG height=14 
+      src="Weather Underground Columbia, Missouri Forecast_files/WUICorner2.gif" 
+      width=15></TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=7 bgColor=#cccccc><IMG height=7 
+            src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+            width=1></TD></TR>
+        <TR>
+          <TD vAlign=top width=1 bgColor=#000000><IMG height=1 
+            src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+            width=1></TD></TR>
+        <TR>
+          <TD vAlign=top width=6 bgColor=#ffffff><IMG height=6 
+            src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+            width=1></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top align=middle width=115 bgColor=#eeeeee>
+      <TABLE>
+        <TBODY>
+        <TR>
+          <TD class=smalltable>
+            <TABLE class=smalltable border=0><!--
+<a href="http://server2.as5000.com/AS5000/adserver/click?ID=WUND-00006&C=1">
+-->
+              <TBODY>
+              <TR class=leftbarbody>
+                <TD align=middle colSpan=2><A 
+                  href="http://www.wunderground.com/members/signup.asp"><B>Member 
+                  Benefits</B><BR><B><FONT color=#ff0000>No Ads<BR>Weather 
+                  Email<BR>$5 a year<BR></FONT>Signup Here</B></A> </TD></TR>
+              <TR class=leftbarbody>
+                <TD align=left colSpan=2>
+                  <FORM action=http://www.wunderground.com/login/submitlogin.php 
+                  method=post><INPUT type=hidden 
+                  value=http://www.wunderground.com/cgi-bin/findweather/getForecast?query=65201 
+                  name=referer> <FONT size=-1><B>Email</B><BR><INPUT size=15 
+                  name=email autocomplete="on"> <B>Password</B><BR><INPUT 
+                  type=password onchange=this.form.submit() size=15 
+                  name=password autocomplete="off"></FONT> <INPUT type=submit value=Login> 
+        </FORM></TD></TR></TBODY></TABLE></TD></TR>
+        <TR class=leftbarbody>
+          <TD><A 
+            href="http://printer.wunderground.com//cgi-bin/findweather/getForecast?query=65201"><NOBR><IMG 
+            height=24 
+            src="Weather Underground Columbia, Missouri Forecast_files/print.gif" 
+            width=31 align=absMiddle border=0>Print This Page</A></NOBR></TD></TR>
+        <TR>
+          <TD class=leftbarhead align=middle bgColor=#000080><FONT 
+            face=Arial,Helvetica color=#ffffff><B>Features</B></FONT> </TD></TR>
+        <TR>
+          <TD vAlign=top bgColor=#ffffff>
+            <TABLE class=leftbarbody cellSpacing=0 cellPadding=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top>
+                  <LI></LI></TD>
+                <TD><A 
+                  href="http://www.wunderground.com/cgi-bin/findweather/getForecast?addfav=">Favorites</A></TD></TR>
+              <TR>
+                <TD vAlign=top>
+                  <LI></LI></TD>
+                <TD><A 
+                  href="http://www.wunderground.com/wximage/viewimages.html">Wunder 
+                  News Photos</A></TD></TR>
+              <TR>
+                <TD vAlign=top>
+                  <LI></LI></TD>
+                <TD><A href="http://www.wunderground.com/radar/map.asp">NEXRAD 
+                  Radar Stations</A></TD></TR>
+              <TR>
+                <TD vAlign=top>
+                  <LI></LI></TD>
+                <TD><A 
+                  href="http://www.wunderground.com/radar/mosaic.asp">NEXRAD 
+                  Regional Composites</A></TD></TR>
+              <TR>
+                <TD vAlign=top>
+                  <LI></LI></TD>
+                <TD><A 
+                  href="http://www.wunderground.com/weatherstation/index.asp">Personal 
+                  Weather Stations</A></TD></TR>
+              <TR>
+                <TD vAlign=top>
+                  <LI></LI></TD>
+                <TD><A 
+                  href="http://www.wunderground.com/satellite/vis/1k/US.html">US 
+                  Visible Satellite</A></TD></TR>
+              <TR>
+                <TD vAlign=top>
+                  <LI></LI></TD>
+                <TD><A href="http://www.wunderground.com/severe.asp">US Severe 
+                  Weather</A></TD></TR>
+              <TR>
+                <TD vAlign=top>
+                  <LI></LI></TD>
+                <TD><A 
+                  href="http://www.wunderground.com/sky/index.asp">Astronomy</A></TD></TR>
+              <TR>
+                <TD vAlign=top>
+                  <LI></LI></TD>
+                <TD><A href="http://www.wunderground.com/ski/">Ski 
+                Reports</A></TD></TR>
+              <TR>
+                <TD vAlign=top>
+                  <LI></LI></TD>
+                <TD><A href="http://www.wunderground.com/MAR/">Marine 
+                  Forecasts</A></TD></TR>
+              <TR>
+                <TD vAlign=top>
+                  <LI></LI></TD>
+                <TD><A href="http://www.wunderground.com/tropical/">Tropical 
+                  Storms</A></TD></TR>
+              <TR>
+                <TD vAlign=top>
+                  <LI></LI></TD>
+                <TD><A href="http://www.google.com/">Google 
+              Search</A></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD class=leftbarhead align=middle bgColor=#000080><FONT 
+            face=Arial,Helvetica color=#ffffff><B>Page Prefs</B></FONT> </TD></TR>
+        <TR>
+          <TD class=leftbarbody vAlign=top align=middle bgColor=#ffffff>Show 
+            Favorites on left <BR><B>YES</B> | <A 
+            href="http://www.wunderground.com/cgi-bin/findweather/getForecast?setpref=FAVS&amp;value=0">NO</A> 
+          </TD></TR>
+        <TR>
+          <TD class=leftbarbody vAlign=top align=middle bgColor=#ffffff>Show 
+            Weather Stations <BR><B>YES</B> | <A 
+            href="http://www.wunderground.com/cgi-bin/findweather/getForecast?setpref=WXSN&amp;value=0">NO</A> 
+          </TD></TR>
+        <TR>
+          <TD class=leftbarbody vAlign=top align=middle bgColor=#ffffff>Show 
+            Wunder Photos <BR><B>YES</B> | <A 
+            href="http://www.wunderground.com/cgi-bin/findweather/getForecast?setpref=WPHO&amp;value=0">NO</A> 
+          </TD></TR>
+        <TR>
+          <TD class=leftbarhead align=middle bgColor=#000080><FONT 
+            face=Arial,Helvetica color=#ffffff><B>Maps</B></FONT> </TD></TR>
+        <TR>
+          <TD class=leftbarbody bgColor=#ffffff><A 
+            href="http://www.wunderground.com/US/Region/Midwest/Temperature.html">Temperature 
+            </A><BR><A 
+            href="http://www.wunderground.com/US/Region/Midwest/HeatIndex.html">HeatIndex 
+            </A><BR><A 
+            href="http://www.wunderground.com/US/Region/Midwest/Windchill.html">Windchill 
+            </A><BR><A 
+            href="http://www.wunderground.com/US/Region/Midwest/Humidity.html">Humidity 
+            </A><BR><A 
+            href="http://www.wunderground.com/US/Region/Midwest/Radar.html">Radar 
+            Map </A><BR><A 
+            href="http://www.wunderground.com/US/Region/Midwest/Dewpoint.html">Dew 
+            Point </A><BR><A 
+            href="http://www.wunderground.com/US/Region/Midwest/WindSpeed.html">Wind 
+            </A><BR><A 
+            href="http://www.wunderground.com/US/Region/Midwest/Visibility.html">Visibility 
+            </A><BR><A 
+            href="http://www.wunderground.com/US/Region/Midwest/VisSatellite.html">Visible 
+            Satellite Map </A><BR><A 
+            href="http://www.wunderground.com/US/Region/Midwest/IRSatellite.html">Satellite 
+            Map </A><BR><A 
+            href="http://www.wunderground.com/US/Region/Midwest/Fronts.html">Fronts 
+            </A><BR><A 
+            href="http://www.wunderground.com/US/Region/Midwest/SnowDepth.html">Snow 
+            </A><BR><A 
+            href="http://www.wunderground.com/US/Region/Midwest/JetStream.html">Jet 
+            Stream </A><BR></TD></TR>
+        <TR>
+          <TD class=leftbarhead align=middle bgColor=#000080><FONT 
+            face=Arial,Helvetica color=#ffffff><B>International</B></FONT> 
+</TD></TR>
+        <TR>
+          <TD class=leftbarbody bgColor=#ffffff><A 
+            href="http://www.wunderground.com/US/Region/US/Temperature.html">United 
+            States </A><BR><A 
+            href="http://www.wunderground.com/global/Region/CN/Temperature.html">Canada</A><BR><A 
+            href="http://www.wunderground.com/global/Region/CA/Temperature.html">Mexico</A><BR><A 
+            href="http://www.wunderground.com/global/Region/CA/Temperature.html">Central 
+            America</A><BR><A 
+            href="http://www.wunderground.com/global/Region/SA/Temperature.html">South 
+            America</A><BR><A 
+            href="http://www.wunderground.com/global/Region/AS/Temperature.html">Northern 
+            Asia</A><BR><A 
+            href="http://www.wunderground.com/global/Region/A2/Temperature.html">Southern 
+            Asia</A><BR><A 
+            href="http://www.wunderground.com/global/Region/EU/Temperature.html">Europe</A><BR><A 
+            href="http://www.wunderground.com/global/Region/AU/Temperature.html">Australia</A><BR><A 
+            href="http://www.wunderground.com/global/Region/AF/Temperature.html">Africa</A><BR><A 
+            href="http://www.wunderground.com/global/IS_ST_Index.html">Islands</A><BR><A 
+            href="http://www.wunderground.com/global/Region/AN/Temperature.html">Antarctica</A><BR></TD></TR>
+        <TR>
+          <TD class=leftbarhead align=middle bgColor=#000080><FONT 
+            face=Arial,Helvetica color=#ffffff><B>Information</B></FONT> </TD></TR>
+        <TR>
+          <TD class=leftbarbody vAlign=top bgColor=#ffffff><B><A 
+            href="http://help.wunderground.com/">Need Help?</A></B><BR><B><A 
+            href="http://www.wunderground.com/about/faq/faq.asp">Link to 
+            Us</A></B><BR><B><A 
+            href="http://www.wunderground.com/about/contact.asp">About 
+            Us</A></B><BR><B><A 
+            href="http://www.wunderground.com/autobrandinfo/">Custom 
+            Weather</A></B><BR><B><A 
+            href="http://www.wunderground.com/newspaper/">Newspaper 
+            Weather</A></B><BR><B><A 
+            href="http://www.wunderground.com/about/adinfo.asp">Advertising</A></B><BR></TD></TR><!-- BEND-00001 -->
+        <TR>
+          <TD class=leftadhead align=middle bgColor=#000080><FONT 
+            face=Arial,Helvetica color=#ffffff><B>Travel Information</B></FONT> 
+          </TD></TR>
+        <TR>
+          <TD vAlign=top bgColor=#ffffff>
+            <TABLE class=leftadbody width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD class=leftadbody>
+                  <LI><A href="http://www.travelape.com/">Travel Guides </A>
+                  <LI><A href="http://www.hotels-spy.com/">Hotels Spy </A>
+                  <LI><A href="http://www.find-miami-hotels.com/">Miami 
+                  Hotels</A> 
+                  <LI><A href="http://www.lodging-reservations.net/">Lodging</A> 
+
+                  <LI><A href="http://www.huge-hotel-discounts.com/">Huge Hotel 
+                  Discounts</A> </LI></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD class=leftadhead align=middle bgColor=#000080><FONT 
+            face=Arial,Helvetica color=#ffffff><B>Vacation Advice</B></FONT> 
+        </TD></TR>
+        <TR>
+          <TD vAlign=top bgColor=#ffffff>
+            <TABLE class=leftadbody width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD class=leftadbody>
+                  <LI><A href="http://www.tripadvisor.com/">Hotels </A>
+                  <LI><A 
+                  href="http://www.tripadvisor.com/Hotels-g187147-Paris_Ile_de_France-Hotels.html">Paris 
+                  Hotels </A>
+                  <LI><A 
+                  href="http://www.tripadvisor.com/Hotels-g45963-Las_Vegas_Nevada-Hotels.html">Las 
+                  Vegas Hotels </A>
+                  <LI><A href="http://www.tripadvisor.com/">Vacations 
+                </A></LI></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD class=leftadhead align=middle bgColor=#000080><FONT 
+            face=Arial,Helvetica color=#ffffff><B>Sleep Products</B></FONT> 
+        </TD></TR>
+        <TR>
+          <TD vAlign=top bgColor=#ffffff>
+            <TABLE class=leftadbody width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD class=leftadbody>
+                  <LI><A href="http://abed.com/bedroom-furniture.html">Bedroom 
+                  Furniture </A>
+                  <LI><A href="http://abed.com/home-furniture.html">Home 
+                  Furniture </A>
+                  <LI><A href="http://www.waterbed.com/">Waterbeds 
+              </A></LI></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD class=leftadhead align=middle bgColor=#000080><FONT 
+            face=Arial,Helvetica color=#ffffff><B>Lasik Eye Surgery</B></FONT> 
+          </TD></TR>
+        <TR>
+          <TD vAlign=top bgColor=#ffffff>
+            <TABLE class=leftadbody width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD class=leftadbody>
+                  <LI><A href="http://www.lasikeyesurgery.com/">Lasik </A>
+                  <LI><A 
+                  href="http://www.lasikeyesurgery.com/lasik-surgery.asp">Laser 
+                  eye surgery </A></LI></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD class=leftadhead align=middle bgColor=#000080><FONT 
+            face=Arial,Helvetica color=#ffffff><B>Mortgage Info</B></FONT> 
+</TD></TR>
+        <TR>
+          <TD vAlign=top bgColor=#ffffff>
+            <TABLE class=leftadbody width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD class=leftadbody>
+                  <LI><A href="http://mortgage-rate-refinancing.com/">Mortgage 
+                  Loan Refinancing </A>
+                  <LI><A 
+                  href="http://mortgage-rate-refinancing.com/mortgage-calculator.html">Mortgage 
+                  Calculator </A>
+                  <LI><A href="http://www.udub.com/">Mortgage Refinance Rate 
+                  </A></LI></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD class=leftadhead align=middle bgColor=#000080><FONT 
+            face=Arial,Helvetica color=#ffffff><B>Google Search</B></FONT> 
+</TD></TR>
+        <TR>
+          <TD class=leftadbody bgColor=#ffffff>
+            <FORM 
+            action=http://www.google.com/custom>Search&nbsp;the&nbsp;Net!<BR><INPUT 
+            size=14 name=q> <INPUT type=hidden 
+            value=LW:440;L:http://www.wunderground.com/graphics/WUIlogo.gif;LH:55;AH:center;AWFID:1351276b545b1450; 
+            name=cof> 
+            <TABLE>
+              <TBODY>
+              <TR>
+                <TD><INPUT type=submit value=Search><INPUT type=hidden value=0 
+                  name=start></TD></TR></TBODY></TABLE><A 
+            href="http://www.google.com/">Powered&nbsp;by&nbsp;Google</A> 
+            <BR></FORM></TD></TR>
+        <TR>
+          <TD class=leftbarhead align=middle bgColor=#000080><FONT 
+            face=Arial,Helvetica color=#ffffff><B>Desktop Gizmo!</B></FONT> 
+        </TD></TR>
+        <TR>
+          <TD class=leftbarbody vAlign=top bgColor=#ffffff><A 
+            href="http://www.wunderground.com/mschannels/GizmoScroller.cdf">
+            <CENTER><IMG height=25 
+            src="Weather Underground Columbia, Missouri Forecast_files/GizmoScrollerDemo.gif" 
+            width=100></CENTER>Add a Scrolling Gizmo to your Windows Desktop</A> 
+          </TD></TR>
+        <TR>
+          <TD>
+            <DIV style="FONT-SIZE: 50%; font-color: #eeeeee"><FONT 
+            color=#eeeeee>b6<BR>Nov 26 2003 
+        14:57:12<BR></DIV></FONT></TD></TR></TBODY></TABLE></TD>
+    <TD width=6 bgColor=#cccccc><IMG height=1 
+      src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+      width=6> </TD>
+    <TD width=1 bgColor=#000000><IMG height=1 
+      src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+      width=1> </TD>
+    <TD width=8 bgColor=#ffffff><IMG height=1 
+      src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+      width=5> </TD>
+    <TD vAlign=top>
+      <CENTER><? # ---- Special Case Marine Ad for Marine Pages --- ?><!-- AS5000 Server: d3 --><!-- Campaign=ADDS-00011 --><!-- ----------Advertising.com Banner Code---------- --></SCRIPT><NOSCRIPT><A 
+      href="http://servedby.advertising.com/click/site=612225/bnum=32458174" 
+      target=_blank></A></NOSCRIPT><!-- ----------Copyright 2000, Advertising.com---------- --></CENTER>
+      <P><!-- LOCATION LABEL -->
+      <STYLE>.adsample {
+	FONT: xx-small arial,helvetica,sans-serif
+}
+.adsamplename {
+	FONT: x-small arial,helvetica,sans-serif
+}
+.adsampleclick {
+	FONT: x-small arial,helvetica,sans-serif
+}
+.adborder {
+	BORDER-RIGHT: #006 1px solid; BORDER-TOP: #006 1px solid; BORDER-LEFT: #006 1px solid; WIDTH: 300px; BORDER-BOTTOM: #006 1px solid
+}
+</STYLE>
+
+      <CENTER>
+      <TABLE id=Table1 cellSpacing=0 cellPadding=2 width="100%" border=0>
+        <TBODY>
+        <TR vAlign=center bgColor=#000080>
+          <TD>
+            <TABLE id=Table2 cellSpacing=0 cellPadding=0>
+              <TBODY>
+              <TR>
+                <TD><B><FONT color=#ffffff size=+1>Columbia, Missouri 
+                  </FONT></B></TD>
+                <TD><FONT color=#ffffff size=-1>&nbsp; <A 
+                  href="http://www.wunderground.com/php/editfavs.php?addfav=65201.1"><IMG 
+                  height=16 
+                  src="Weather Underground Columbia, Missouri Forecast_files/ADD.gif" 
+                  width=30 border=0></A> this page to your <A 
+                  href="http://www.wunderground.com/cgi-bin/findweather/hdfForecast?addfav="><FONT 
+                  color=#ffffff>Favorites</FONT></A> </FONT></TD>
+                <TD></FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=right><B><FONT color=#ffffff size=-1>38.9° N 92.2° W | <A 
+            href="http://www.vicinity.com/mbmaps/map.mb?CMD=LFILL&amp;&amp;CT=38.89643860:-92.24627686:90000&amp;GAD3=Columbia%2c%20MO"><FONT 
+            color=#ffffff>MapBlast</FONT></A></FONT></B> 
+      </TD></TR></TBODY></TABLE></CENTER><!-- Time Bar [UTC]-->
+      <CENTER>
+      <TABLE id=Table3 cellSpacing=0 cellPadding=2 width="100%" border=0>
+        <TBODY>
+        <TR vAlign=center bgColor=#ccccdd>
+          <TD><FONT size=-1>Local Time: <B>1:07 AM CST on December 02, 
+            2003</B> [America/Chicago] </FONT></TD>
+          <TD align=right><FONT size=-1><A 
+            href="http://www.wunderground.com/picktimezone.asp?tz=America/Chicago">Set 
+            My Timezone</A></FONT> </TD></TR></TBODY></TABLE></CENTER><!-- Time Bar -->
+      <TABLE id=Table4 cellSpacing=2 cellPadding=0 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top align=left>
+            <TABLE cellSpacing=0 cellPadding=0 bgColor=#d3d3d3 border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE class=smalltable id=Table5 cellSpacing=1 cellPadding=2 
+                  bgColor=#d3d3d3 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD vAlign=top align=middle width=102 bgColor=#eeeeee><!--
+	<a href="/radar/station.asp?ID=LSX19&region=b3">Local Radar</a>
+--><A 
+                        href="http://www.wunderground.com/radar/radblast.asp?ID=LSX&amp;region=b3&amp;lat=38.89643860&amp;lon=-92.24627686&amp;label=Columbia%2c%20MO">Local 
+                        Radar</A> </TD>
+                      <TD vAlign=top align=middle width=102 bgColor=#eeeeee><A 
+                        href="http://www.wunderground.com/radar/mixedcomposite.asp?region=b3&amp;size=2x&amp;ID=LSX19">Regional 
+                        Radar</A> </TD>
+                      <TD vAlign=top align=middle bgColor=#eeeeee><A 
+                        href="http://www.wunderground.com/satellite/vis/1k/US/MO/Columbia.html">Local 
+                        Satellite</A> </TD>
+                      <TD vAlign=top align=middle bgColor=#eeeeee><A 
+                        href="http://www.wunderground.com/ski/MO/">Ski 
+                        Conditions </A></TD></TR>
+                    <TR>
+                      <TD vAlign=top align=middle width=102 bgColor=#ffffff><!--
+	<a href="/radar/station.asp?ID=LSX19&region=b3">
+--><A 
+                        href="http://www.wunderground.com/radar/radblast.asp?ID=LSX&amp;region=b3&amp;lat=38.89643860&amp;lon=-92.24627686&amp;label=Columbia%2c%20MO"><IMG 
+                        height=60 
+                        src="Weather Underground Columbia, Missouri Forecast_files/LSX19_thumb.gif" 
+                        width=80 border=0></A> </TD>
+                      <TD vAlign=top align=middle width=102 bgColor=#ffffff><A 
+                        href="http://www.wunderground.com/radar/mixedcomposite.asp?region=b3&amp;size=2x&amp;ID=LSX19"><IMG 
+                        height=60 
+                        src="Weather Underground Columbia, Missouri Forecast_files/thumb-radarb3.gif" 
+                        width=80 border=0></A> </TD>
+                      <TD vAlign=top align=middle bgColor=#ffffff><A 
+                        href="http://www.wunderground.com/satellite/vis/1k/US/MO/Columbia.html"><IMG 
+                        height=59 
+                        src="Weather Underground Columbia, Missouri Forecast_files/pic_satellite.gif" 
+                        width=59 border=0></A> </TD>
+                      <TD vAlign=top align=middle bgColor=#ffffff><A 
+                        href="http://www.wunderground.com/ski/MO/"><IMG 
+                        height=59 
+                        src="Weather Underground Columbia, Missouri Forecast_files/pic_ski.gif" 
+                        width=71 border=0></A> 
+            </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD vAlign=bottom rowSpan=2><!--pollen ad--></TD>
+          <TD vAlign=top rowSpan=2>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%" bgColor=#dddddd 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE cellSpacing=2 cellPadding=1 width=125 bgColor=#dddddd 
+                  border=0>
+                    <TBODY>
+                    <TR>
+                      <TD align=middle bgColor=#ffffff><FONT 
+                        face="Georgia, Times New Roman, Times, serif" size=1><A 
+                        href="http://www.tripadvisor.com/"></A></FONT></TD></TR>
+                    <TR>
+                      <TD noWrap align=middle><FONT face="arial narrow" 
+                        size=-1><A 
+                        href="http://www.tripadvisor.com/ZipFinder-z65201.html">Unbiased 
+                        reviews<BR>and advice for <BR><B>Columbia</B><BR>hotels 
+                        and other cities</A> 
+              </FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD vAlign=top align=middle rowSpan=2>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%" bgColor=#dddddd 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE cellSpacing=2 cellPadding=1 width=125 bgColor=#dddddd 
+                  border=0>
+                    <TBODY>
+                    <TR>
+                      <TD vAlign=center align=middle><A 
+                        href="http://www12.virtualtourist.com/North_America/USA/Missouri/Columbia/?s=wu"></A></TD>
+                      <TD vAlign=center noWrap align=middle><FONT 
+                        face="arial narrow,sans" color=red 
+                        size=3><B>Meet<BR>Locals</B></FONT> </TD></TR>
+                    <TR>
+                      <TD align=middle bgColor=#ffffff colSpan=2><A 
+                        href="http://www12.virtualtourist.com/North_America/USA/Missouri/Columbia/?s=wu"><FONT 
+                        face="arial narrow,sans" size=-1>read their Hotel 
+                        Tips<BR>and Travel Guides for<BR><B>Columbia, 
+                        MO</B></FONT></A> 
+            </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD vAlign=top align=middle rowSpan=2>
+            <TABLE cellSpacing=0 cellPadding=2 width="100%" bgColor=#dddddd 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE class=smalltext cellSpacing=0 cellPadding=0 width=125 
+                  bgColor=#ffffff border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><A 
+                        href="http://server.as5000.com/AS5000/adserver/click?ID=ICHG-00001&amp;C=0&amp;city=Columbia&amp;state=MO&amp;country=&amp;_IATAno=99601073"></A></TD></TR>
+                    <TR>
+                      <TD align=middle><FONT face=arial size=-1><A 
+                        href="http://server.as5000.com/AS5000/adserver/click?ID=ICHG-00001&amp;C=0&amp;city=Columbia&amp;state=MO&amp;country=&amp;_IATAno=99601073">in 
+                        <B>Columbia</B><BR><BR>Official Site<BR><B>Lowest 
+                        Internet 
+                  Rate</B><BR>GUARANTEED</A></FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=smalltableheader id=Table10 border=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=bottom align=middle colSpan=2><A 
+                  href="http://www.wunderground.com/DisplayPollen.asp?Zipcode=65201&amp;SafeCityName=Columbia&amp;StateCode=MO"><FONT 
+                  size=2>Local Allergy Info from Pollen.com</FONT></A> 
+              </TD></TR></TBODY></TABLE><!--br-->
+            <TABLE class=smallheader id=Table11 cellSpacing=0 cellPadding=0 
+            width="100%">
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE>
+                    <TBODY>
+                    <TR>
+                      <TD><IMG height=30 
+                        src="Weather Underground Columbia, Missouri Forecast_files/NoWarning.gif" 
+                        width=31 border=0></TD>
+                      <TD><B>No Active Advisories</B> 
+              </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <TABLE class=smallheader id=Table12 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE class=smalltableheader cellSpacing=0 cellPadding=0 
+            width="100%" bgColor=#eeeeee border=0>
+              <TBODY>
+              <TR>
+                <TD align=left width=35><IMG height=30 
+                  src="Weather Underground Columbia, Missouri Forecast_files/tropical.gif" 
+                  width=31 border=0></TD>
+                <TD noWrap align=left>&nbsp;<B>Western Pacific:&nbsp;</B></TD>
+                <TD width="100%"><NOBR><A 
+                  href="http://www.wunderground.com/tropical/">Tropical Storm 
+                  Lupit </A>&nbsp;</NOBR> 
+      </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <TABLE id=Table13 width="100%" bgColor=#ffffff border=0 valign="top">
+        <TBODY>
+        <TR vAlign=top>
+          <TD vAlign=top colSpan=2>
+            <TABLE id=Table14 border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <STYLE>.adsample {
+	FONT: xx-small arial,helvetica,sans-serif
+}
+.adborder {
+	BORDER-RIGHT: #006 1px solid; BORDER-TOP: #006 1px solid; BORDER-LEFT: #006 1px solid; WIDTH: 300px; BORDER-BOTTOM: #006 1px solid
+}
+</STYLE>
+
+                  <DIV class=adborder>
+                  <TABLE width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD class=adsample vAlign=top align=left><A 
+                        href="http://www.wunderground.com/selfservice/about.html"><IMG 
+                        height=80 
+                        src="Weather Underground Columbia, Missouri Forecast_files/selfservicemug.jpg" 
+                        width=56 border=0></A></TD>
+                      <TD vAlign=top>
+                        <TABLE cellSpacing=0 cellPadding=0>
+                          <TBODY>
+                          <TR>
+                            <TD class=adsample bgColor=#eeeeee><FONT 
+                              color=#ff0000>Your Local Real Estate 
+                              Specialist</FONT></TD></TR>
+                          <TR>
+                            <TD class=adsamplename>Are you a real estate 
+                            agent?</TD></TR>
+                          <TR>
+                            <TD class=adsample>Advertise here!</TD></TR>
+                          <TR>
+                            <TD class=adsample>This zipcode is still 
+                            available.</TD></TR>
+                          <TR>
+                            <TD class=adsampleclick><A 
+                              href="http://www.wunderground.com/selfservice/about.html">Click 
+                              here</A> to place your ad 
+                        now!</A></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></DIV></TD>
+                <TD vAlign=top>
+                  <TABLE id=Table15 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD>
+                        <TABLE cellSpacing=0 cellPadding=0 border=0>
+                          <TBODY>
+                          <TR>
+                            <TD colSpan=4 rowSpan=4><IMG height=7 
+                              src="Weather Underground Columbia, Missouri Forecast_files/highleftr.gif" 
+                              width=7></TD>
+                            <TD bgColor=#000000><IMG height=1 
+                              src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+                              width=1></TD>
+                            <TD colSpan=4 rowSpan=4><IMG 
+                              src="Weather Underground Columbia, Missouri Forecast_files/highrightr.gif"></TD></TR>
+                          <TR>
+                            <TD bgColor=#ff0000><IMG height=2 
+                              src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+                              width=1></TD></TR>
+                          <TR>
+                            <TD bgColor=#000000><IMG height=1 
+                              src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+                              width=1></TD></TR>
+                          <TR>
+                            <TD bgColor=#ffffff><IMG height=2 
+                              src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+                              width=1></TD></TR>
+                          <TR>
+                            <TD bgColor=#000000><IMG height=1 
+                              src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+                              width=1></TD>
+                            <TD bgColor=#ff0000><IMG height=1 
+                              src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+                              width=2></TD>
+                            <TD bgColor=#000000><IMG height=1 
+                              src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+                              width=1></TD>
+                            <TD bgColor=#ffffff><IMG height=1 
+                              src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+                              width=2></TD><!--middle TD tags to be included in whatever file calls this, thus allowing TD controls--><!--use TD to from RedBorder table-->
+                            <TD vAlign=center align=middle><!-- #Empty --><!-- # StateFarm -->
+                              <TABLE class=smalltableheader cellSpacing=0 
+                              cellPadding=1 width=225 border=0>
+                                <TBODY>
+                                <TR>
+                                <TD vAlign=center align=middle>
+                                <DIV class=smalltext><A 
+                                href="http://www.statefarm.com/apps/agentLoc/EasySearch.asp?search=zip&amp;zip=65201"><IMG 
+                                height=58 
+                                src="Weather Underground Columbia, Missouri Forecast_files/statefarm_logo.gif" 
+                                width=60 border=0></A> </DIV></TD>
+                                <TD><A 
+                                href="http://www.statefarm.com/apps/agentLoc/EasySearch.asp?search=zip&amp;zip=65201">Talk 
+                                to State Farm agents near you:<BR></A>
+                                <DIV></DIV></TD></TR></TBODY></TABLE></TD>
+                            <TD bgColor=#ffffff><IMG height=1 
+                              src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+                              width=3></TD>
+                            <TD bgColor=#000000><IMG height=1 
+                              src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+                              width=1></TD>
+                            <TD bgColor=#ff0000><IMG height=1 
+                              src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+                              width=2></TD>
+                            <TD bgColor=#000000><IMG height=1 
+                              src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+                              width=1></TD></TR>
+                          <TR>
+                            <TD colSpan=4 rowSpan=4><IMG height=7 
+                              src="Weather Underground Columbia, Missouri Forecast_files/lowleftr.gif" 
+                              width=7></TD>
+                            <TD bgColor=#ffffff><IMG height=3 
+                              src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+                              width=1></TD>
+                            <TD colSpan=4 rowSpan=4><IMG height=7 
+                              src="Weather Underground Columbia, Missouri Forecast_files/lowrightr.gif" 
+                              width=7></TD></TR>
+                          <TR>
+                            <TD bgColor=#000000><IMG height=1 
+                              src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+                              width=1></TD></TR>
+                          <TR>
+                            <TD bgColor=#ff0000><IMG height=2 
+                              src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+                              width=1></TD></TR>
+                          <TR>
+                            <TD bgColor=#000000><IMG height=1 
+                              src="Weather Underground Columbia, Missouri Forecast_files/blank.gif" 
+                              width=1></TD></TR></TBODY></TABLE></TD>
+                      <TD align=middle><!--<a href="http://www.skijacksonholewyoming.net/lodging.html"><font size="-1"><b>Jackson Hole Lodging</b></font></a>--><!--<a href="http://www.skisunvalleyidaho.net/2bedroom/results_1.html"><font size="-1"><b>Sun Valley Lodging</b></font></a>--><!--<a href="http://www.skibreckenridgecolorado.net"><font size="-1"><b>Breckenridge Lodging</b></font></a>--><!--<a href="http://www.skiparkcityutah.net"><font size="-1"><b>Park City Lodging</b></font></a>--></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD vAlign=top rowSpan=2>
+          <TD vAlign=top rowSpan=2><!-- AS5000 Server: d3 --><!-- Campaign=goog-00002 --><!-- Creative for 120 x 600 format -->
+            <SCRIPT language=JavaScript>
+<!--
+        google_ad_client = 'wunderground_120x600';
+        google_ad_width = 120;
+        google_ad_height = 600;
+         google_safe = 'high';
+
+// -->
+</SCRIPT>
+            </SCRIPT><NOSCRIPT><A 
+            href="http://server.as5000.com/AS5000/adserver/click?ID=goog-00004&amp;C=1"></A></NOSCRIPT>
+            <P>&nbsp;
+            <P><A 
+            href="http://www.wunderground.com/DisplayPollen.asp?Zipcode=65201&amp;SafeCityName=Columbia&amp;StateCode=MO"></A></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="45%" bgColor=#ffffff><!--table class="smalltable" border="0" bgcolor="#ffffff"--><!--bh-->
+            <TABLE cellSpacing=0 cellPadding=0 width="100%" bgColor=#d3d3d3 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE class=smalltable cellSpacing=1 cellPadding=2 
+                  width="100%" bgColor=#d3d3d3 border=0>
+                    <TBODY>
+                    <TR vAlign=top align=middle bgColor=#000080>
+                      <TD class=smalltableheader colSpan=2><FONT 
+                        color=#ffffff><B>Current Conditions</B></FONT></TD></TR>
+                    <TR bgColor=#eeeeee>
+                      <TD colSpan=2>Updated: <B>12:54 AM CST on December 02, 
+                        2003</B><BR>Observed at <B>Columbia, Missouri</B> </TD></TR>
+                    <TR bgColor=#ffffff>
+                     <TD width="35%">Temperature</TD>
+                      <TD><B>38</B>&nbsp;°F / <B>3</B>&nbsp;°C </TD></TR>
+                    <TR bgColor=#ddeeff>
+                      <TD>Windchill</TD>
+                      <TD><B>34</B>&nbsp;°F / <B>1</B>&nbsp;°C </TD></TR>
+                    <TR bgColor=#ffffff>
+                      <TD>Humidity</TD>
+                      <TD><B>45%</B></TD></TR>
+                    <TR bgColor=#ddeeff>
+                      <TD>Dew Point</TD>
+                      <TD><B>18</B>&nbsp;°F / <B>-8</B>&nbsp;°C </TD></TR>
+                    <TR bgColor=#ffffff>
+                      <TD>Wind</TD>
+                      <TD><B>West</B> at <B>5</B>&nbsp;mph / 
+                        <B>8.0</B>&nbsp;km/h </TD></TR>
+                    <TR bgColor=#ddeeff>
+                      <TD>Wind Gust</TD>
+                      <TD>- </TD></TR>
+                    <TR bgColor=#ffffff>
+                      <TD>Pressure</TD>
+                      <TD><B>30.57</B>&nbsp;in / <B>1035</B>&nbsp;hPa 
+                        <B>(Steady)</B> </TD></TR>
+                    <TR bgColor=#ddeeff>
+                      <TD>Conditions</TD>
+                      <TD><B>Partly Cloudy</B></TD></TR>
+                    <TR bgColor=#ffffff>
+                      <TD>Visibility</TD>
+                      <TD><B>10</B>&nbsp;miles / <B>16</B>&nbsp;kilometers 
+                    </TD></TR>
+                    <TR bgColor=#ddeeff>
+                      <TD>Clouds <BR><SPAN class=smalltable><I>(Above Ground 
+                        Level)</I></SPAN></TD>
+                      <TD>(FEW) : <B>12000</B>&nbsp;ft / <B>3659</B>&nbsp;m 
+                        <BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%" bgColor=#d3d3d3 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE class=smalltable cellSpacing=1 cellPadding=2 
+                  width="100%" bgColor=#d3d3d3 border=0>
+                    <TBODY>
+                    <TR bgColor=#000080>
+                      <TD align=middle colSpan=3><FONT 
+                        color=#ffffff><B>History &amp; Almanac</B></FONT></TD></TR>
+                    <TR bgColor=#ffffff>
+                      <TD>Normal </TD>
+                      <TD><B>46</B>&nbsp;°F / <B>8</B>&nbsp;°C </TD>
+                      <TD><B>27</B>&nbsp;°F / <B>-3</B>&nbsp;°C </TD></TR>
+                    <TR bgColor=#ddeeff>
+                      <TD>Record </TD>
+                      <TD><B>72</B>&nbsp;°F / <B>22</B>&nbsp;°C (1917)</TD>
+                      <TD><B>5</B>&nbsp;°F / <B>-15</B>&nbsp;°C (1895)</TD></TR>
+                    <TR bgColor=#ffffff>
+                      <TD>Detailed History</TD>
+                      <TD colSpan=2>
+                        <TABLE cellSpacing=0 cellPadding=0 border=0 
+                        valign="center">
+                          <FORM action=/cgi-bin/findweather/getForecast><INPUT 
+                          type=hidden value=KCOU name=code> <INPUT type=hidden 
+                          value=airport name=airportorwmo> <INPUT type=hidden 
+                          value=DailyHistory name=historytype> <INPUT 
+                          type=hidden value=KCOU name=FULLALMANAC> 
+                          <TBODY>
+                          <TR>
+                            <TD bgColor=#ffffff><SELECT name=month> <OPTION 
+                                value=1>January</OPTION> <OPTION 
+                                value=2>February</OPTION> <OPTION 
+                                value=3>March</OPTION> <OPTION 
+                                value=4>April</OPTION> <OPTION 
+                                value=5>May</OPTION> <OPTION 
+                                value=6>June</OPTION> <OPTION 
+                                value=7>July</OPTION> <OPTION 
+                                value=8>August</OPTION> <OPTION 
+                                value=9>September</OPTION> <OPTION 
+                                value=10>October</OPTION> <OPTION 
+                                value=11>November</OPTION> <OPTION value=12 
+                                selected>December</OPTION></SELECT></TD>
+                            <TD bgColor=#ffffff><SELECT name=day> 
+                                <OPTION>1</OPTION> <OPTION selected>2</OPTION> 
+                                <OPTION>3</OPTION> <OPTION>4</OPTION> 
+                                <OPTION>5</OPTION> <OPTION>6</OPTION> 
+                                <OPTION>7</OPTION> <OPTION>8</OPTION> 
+                                <OPTION>9</OPTION> <OPTION>10</OPTION> 
+                                <OPTION>11</OPTION> <OPTION>12</OPTION> 
+                                <OPTION>13</OPTION> <OPTION>14</OPTION> 
+                                <OPTION>15</OPTION> <OPTION>16</OPTION> 
+                                <OPTION>17</OPTION> <OPTION>18</OPTION> 
+                                <OPTION>19</OPTION> <OPTION>20</OPTION> 
+                                <OPTION>21</OPTION> <OPTION>22</OPTION> 
+                                <OPTION>23</OPTION> <OPTION>24</OPTION> 
+                                <OPTION>25</OPTION> <OPTION>26</OPTION> 
+                                <OPTION>27</OPTION> <OPTION>28</OPTION> 
+                                <OPTION>29</OPTION> <OPTION>30</OPTION> 
+                                <OPTION>31</OPTION></SELECT></TD>
+                            <TD bgColor=#ffffff><SELECT name=year> <OPTION 
+                                selected>2003</OPTION> <OPTION>2002</OPTION> 
+                                <OPTION>2001</OPTION> <OPTION>2000</OPTION> 
+                                <OPTION>1999</OPTION> <OPTION>1998</OPTION> 
+                                <OPTION>1997</OPTION> <OPTION>1996</OPTION> 
+                                <OPTION>1995</OPTION> 
+                              <OPTION>1994</OPTION></SELECT></TD>
+                            <TD bgColor=#ffffff><INPUT type=submit value=Go> 
+                            </TD></TR></FORM></TBODY></TABLE></TD></TR>
+                    <TR bgColor=#ffffff>
+                      <TD colSpan=3><A 
+                        href="http://www.wunderground.com/US/MO/KCOU.html?almanac=1">Yesterday's 
+                        Weather and Almanac</A> &nbsp;|&nbsp; <A 
+                        href="http://www.wunderground.com/NORMS/DisplayNORMS.asp?AirportCode=KCOU&amp;SafeCityName=Columbia&amp;StateCode=MO&amp;Units=none&amp;IATA=COU&amp;FULLALMANAC=KCOU">Seasonal 
+                        Weather Averages</A> 
+            </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%" bgColor=#d3d3d3 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE class=smalltable cellSpacing=1 cellPadding=2 
+                  width="100%" bgColor=#d3d3d3 border=0>
+                    <TBODY>
+                    <TR bgColor=#000080>
+                      <TD align=middle colSpan=2><FONT 
+                        color=#ffffff><B>Conditions Nearby</B></FONT> </TD></TR>
+                    <TR bgColor=#eeeeee>
+                      <TD align=middle colSpan=2>
+                        <TABLE class=smalltable cellSpacing=1 cellPadding=2 
+                        width="100%" bgColor=#eeeeee border=0>
+                          <TBODY>
+                          <TR class=smalltableheader bgColor=#eeeeee>
+                            <TH></TH>
+                            <TH>City</TH>
+                            <TH>Temp</TH>
+                            <TH>Conditions</TH>
+                            <TH>Updated</TH></TR>
+                          <TR bgColor=#ffffff>
+                            <TD bgColor=#eeeeee><FONT 
+size=3><B>»</B></FONT></TD>
+                            <TD><B><A 
+                              href="http://www.wunderground.com/US/MO/Columbia/KCOU.html">Columbia</A></B></TD>
+                            <TD><B>38</B>&nbsp;°F / <B>3</B>&nbsp;°C </TD>
+                            <TD><B>Partly Cloudy</B></TD>
+                            <TD><B>12:54 AM CST</B></TD></TR>
+                          <TR bgColor=#ffffff>
+                            <TD bgColor=#eeeeee></TD>
+                            <TD><B><A 
+                              href="http://www.wunderground.com/US/MO/Columbia/KJEF.html">Jefferson 
+                              City</A></B></TD>
+                            <TD><B>37</B>&nbsp;°F / <B>3</B>&nbsp;°C </TD>
+                            <TD><B>Mostly Cloudy</B></TD>
+                            <TD><B>12:53 AM CST</B></TD></TR>
+                          <TR bgColor=#ffffff>
+                            <TD bgColor=#eeeeee></TD>
+                            <TD><B><A 
+                              href="http://www.wunderground.com/US/MO/Columbia/KDMO.html">Sedalia</A></B></TD>
+                            <TD><B>39</B>&nbsp;°F / <B>4</B>&nbsp;°C </TD>
+                            <TD><B>Overcast</B></TD>
+                            <TD><B>12:53 AM CST</B></TD></TR>
+                          <TR bgColor=#ffffff>
+                            <TD bgColor=#eeeeee></TD>
+                            <TD><B><A 
+                              href="http://www.wunderground.com/US/MO/Columbia/KAIZ.html">Kaiser</A></B></TD>
+                            <TD><B>37</B>&nbsp;°F / <B>3</B>&nbsp;°C </TD>
+                            <TD><B>Overcast</B></TD>
+                            <TD><B>12:55 AM 
+                    CST</B></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><BR>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%" bgColor=#d3d3d3 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE class=smalltable cellSpacing=1 cellPadding=3 
+                  width="100%" bgColor=#c8c8c8 border=0>
+                    <TBODY>
+                    <TR vAlign=top align=middle bgColor=#000080>
+                      <TD class=smalltableheader width="100%" colSpan=3><FONT 
+                        color=#ffffff><B>Astronomy</B></FONT></TD></TR>
+                    <TR bgColor=#d3d3d3>
+                      <TD align=middle colSpan=3><FONT size=-1>[<A 
+                        href="http://www.wunderground.com/cgi-bin/findweather/getForecast?query=65201&amp;extendedsun=sunon">Extended 
+                        View</A>]&nbsp;&nbsp; [Normal View]&nbsp;&nbsp; [<A 
+                        href="http://www.wunderground.com/about/faq/twilights.asp">Help 
+                        Me</A>] </FONT></TD></TR>
+                    <TR class=smalltableheader bgColor=#eeeeee>
+                      <TH vAlign=bottom>December 2, 2003 </TH>
+                      <TH>Sun Rise</TH>
+                      <TH>Sun Set</TH></TR>
+                    <TR bgColor=#ffffff>
+                      <TD>Actual Time</TD>
+                      <TD align=right><B>7:09 AM CST</B></TD>
+                      <TD align=right><B>4:47 PM CST</B></TD></TR>
+                    <TR bgColor=#ddeeff>
+                      <TD>Civil Twilight</TD>
+                      <TD align=right><B>6:39 AM CST</B></TD>
+                      <TD align=right><B>5:16 PM CST</B></TD></TR>
+                    <TR bgColor=#ffffff>
+                      <TD>Nautical Twilight</TD>
+                      <TD align=right><B>6:06 AM CST</B></TD>
+                      <TD align=right><B>5:49 PM CST</B></TD></TR>
+                    <TR bgColor=#ddeeff>
+                      <TD>Astronomical Twilight</TD>
+                      <TD align=right><B>5:34 AM CST</B></TD>
+                      <TD align=right><B>6:21 PM CST</B></TD></TR>
+                    <TR bgColor=#ffffff>
+                      <TD>Moon</TD>
+                      <TD align=right><B>1:53 PM CST</B></TD>
+                      <TD align=right><B>1:10 AM CST</B></TD></TR>
+                    <TR bgColor=#ddeeff>
+                      <TD align=middle colSpan=3>Length of Day: <B>9h 
+                      38m</B></TD></TR>
+                    <TR bgColor=#ffffff>
+                      <TD align=middle colSpan=3>Length Of Visible Light: 
+                        <B>10h 37m</B></TD></TR>
+                    <TR>
+                      <TD bgColor=#ddeeff colSpan=3>Moon Phase 
+                        <TABLE cellSpacing=0 cellPadding=0 width="100%" 
+                        bgColor=#ffffff border=0>
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE class=smalltable borderColor=#ffffff 
+                              width="100%" bgColor=#ffffff>
+                                <TBODY>
+                                <TR>
+                                <TD align=middle><IMG height=48 
+                                src="Weather Underground Columbia, Missouri Forecast_files/moon9.gif" 
+                                width=48 border=no></TD>
+                                <TD align=middle><IMG height=48 
+                                src="Weather Underground Columbia, Missouri Forecast_files/moon16.gif" 
+                                width=48 border=no></TD>
+                                <TD align=middle><IMG height=48 
+                                src="Weather Underground Columbia, Missouri Forecast_files/moon23.gif" 
+                                width=48 border=no></TD>
+                                <TD align=middle><IMG height=48 
+                                src="Weather Underground Columbia, Missouri Forecast_files/moon1.gif" 
+                                width=48 border=no></TD>
+                                <TD align=middle><IMG height=48 
+                                src="Weather Underground Columbia, Missouri Forecast_files/moon8.gif" 
+                                width=48 border=no></TD>
+                                <TD align=middle><A 
+                                href="http://www.wunderground.com/sky/ShowSky.asp?TheLat=38.89643860&amp;TheLon=-92.24627686&amp;TimeZoneName=America/Chicago"><IMG 
+                                height=31 
+                                src="Weather Underground Columbia, Missouri Forecast_files/Astro.gif" 
+                                width=30 border=0><BR>Star Chart</A> </TD></TR>
+                                <TR vAlign=top>
+                                <TD align=middle><B>Today </B></TD>
+                                <TD align=middle>Dec 8 </TD>
+                                <TD align=middle>Dec 16 </TD>
+                                <TD align=middle>Dec 23 </TD>
+                                <TD align=middle>Dec 30 </TD></TR>
+                                <TR>
+                                <TD></TD>
+                                <TD align=middle>
+                                <DIV class=tinytext><FONT 
+                                size=-2>Full</FONT></DIV></TD>
+                                <TD align=middle>
+                                <DIV class=tinytext><FONT size=-2>Last 
+                                Quarter</FONT></DIV></TD>
+                                <TD align=middle>
+                                <DIV class=tinytext><FONT 
+                                size=-2>New</FONT></DIV></TD>
+                                <TD align=middle>
+                                <DIV class=tinytext><FONT size=-2>First 
+                                Quarter</FONT></DIV></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><BR>
+            <TABLE class=smalltableheader id=Table16>
+              <TBODY>
+              <TR>
+                <TD><A 
+                  href="http://www.wunderground.com/members/signup.php"><IMG 
+                  height=20 
+                  src="Weather Underground Columbia, Missouri Forecast_files/email.gif" 
+                  width=40 border=0></A><BR><A 
+                  href="http://www.wunderground.com/members/signup.php">Click 
+                  here</A> to sign up to have special and severe weather 
+                  statements emailed to you. </TD>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=0 bgColor=#d3d3d3 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD>
+                        <TABLE class=smalltableheader cellSpacing=1 
+                        cellPadding=2 width=250 bgColor=#d3d3d3 border=0>
+                          <TBODY>
+                          <TR>
+                            <TD align=middle bgColor=#eeeeee colSpan=2><A 
+                              href="http://www.wunderground.com/wximage/viewimages.html"><B>Wunder 
+                              Photos</B></A></TD></TR>
+                          <TR>
+                            <TD bgColor=#eeeeee><A 
+                              href="http://www.wunderground.com/wximage/viewsingleimage.html?mode=singleimage&amp;handle=OPALSAUSTRALIA&amp;number=27&amp;thumbstart=0&amp;gallery=CURRWEATHER"><IMG 
+                              height=80 
+                              src="Weather Underground Columbia, Missouri Forecast_files/27-thumb.jpg" 
+                              width=107 border=0></A></TD>
+                            <TD bgColor=#ffffff>Find Wunder Photos for <A 
+                              href="http://www.wunderground.com/wximage/imagesearch.html?citybox=on&amp;city=Columbia&amp;statebox=on&amp;state=MO&amp;submit=go">Columbia</A>, 
+                              <A 
+                              href="http://www.wunderground.com/wximage/imagesearch.html?statebox=on&amp;state=MO&amp;submit=go">Missouri</A> 
+                              or <A 
+                              href="http://www.wunderground.com/wximage/about.asp">upload</A> 
+                              your own! 
+                </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD vAlign=top bgColor=#ffffff>
+            <TABLE class=smalltable cellSpacing=1 cellPadding=2 width="100%" 
+            bgColor=#d3d3d3 border=0>
+              <TBODY>
+              <TR vAlign=top align=middle bgColor=#000080>
+                <TD class=smalltableheader colSpan=5><FONT color=#ffffff><B>5 
+                  Day Forecast for ZIP Code 65201</B></FONT></TD>
+              <TR>
+                <TH class=smalltable vAlign=center width="20%" 
+                  bgColor=#dddddd>Tue</TH>
+                <TH class=smalltable vAlign=center width="20%" 
+                  bgColor=#dddddd>Wed</TH>
+                <TH class=smalltable vAlign=center width="20%" 
+                  bgColor=#dddddd>Thu</TH>
+                <TH class=smalltable vAlign=center width="20%" 
+                  bgColor=#dddddd>Fri</TH>
+                <TH class=smalltable vAlign=center width="20%" 
+                  bgColor=#dddddd>Sat</TH></TR>
+              <TR bgColor=#ffffff>
+                <TD vAlign=top align=middle><IMG height=44 alt=Overcast 
+                  src="Weather Underground Columbia, Missouri Forecast_files/cloudy.gif" 
+                  width=44 border=0><BR><NOBR><B><FONT color=#990000>46°</FONT> 
+                  | <FONT color=#000099>29°</NOBR></B></FONT></TD>
+                <TD vAlign=top align=middle><IMG height=44 alt=Snow 
+                  src="Weather Underground Columbia, Missouri Forecast_files/snow.gif" 
+                  width=44 border=0><BR><NOBR><B><FONT color=#990000>39°</FONT> 
+                  | <FONT color=#000099>28°</NOBR></B></FONT></TD>
+                <TD vAlign=top align=middle><IMG height=44 
+                  alt="Chance of Snow" 
+                  src="Weather Underground Columbia, Missouri Forecast_files/snow.gif" 
+                  width=44 border=0><BR><NOBR><B><FONT color=#990000>41°</FONT> 
+                  | <FONT color=#000099>24°</NOBR></B></FONT></TD>
+                <TD vAlign=top align=middle><IMG height=44 alt=Snow 
+                  src="Weather Underground Columbia, Missouri Forecast_files/snow.gif" 
+                  width=44 border=0><BR><NOBR><B><FONT color=#990000>36°</FONT> 
+                  | <FONT color=#000099>23°</NOBR></B></FONT></TD>
+                <TD vAlign=top align=middle><IMG height=44 alt="Partly Cloudy" 
+                  src="Weather Underground Columbia, Missouri Forecast_files/partlycloudy.gif" 
+                  width=44 border=0><BR><NOBR><B><FONT color=#990000>42°</FONT> 
+                  | <FONT color=#000099>27°</NOBR></B></FONT></TD></TR>
+              <TR bgColor=#ffffff>
+                <TD class=smalltable vAlign=top align=middle>Overcast</TD>
+                <TD class=smalltable vAlign=top align=middle>Snow</TD>
+                <TD class=smalltable vAlign=top align=middle>Chance of Snow</TD>
+                <TD class=smalltable vAlign=top align=middle>Snow</TD>
+                <TD class=smalltable vAlign=top align=middle>Partly 
+              Cloudy</TD></TR>
+              <TR>
+                <TH class=smalltable vAlign=top bgColor=#f6f6f6><A 
+                  href="http://www.wunderground.com/cgi-bin/findweather/getForecast?query=65201&amp;hourly=1&amp;yday=335&amp;weekday=Tuesday">Detail</A></FONT></TH>
+                <TH class=smalltable vAlign=top bgColor=#f6f6f6><A 
+                  href="http://www.wunderground.com/cgi-bin/findweather/getForecast?query=65201&amp;hourly=1&amp;yday=336&amp;weekday=Wednesday">Detail</A></FONT></TH>
+                <TH class=smalltable vAlign=top bgColor=#f6f6f6><A 
+                  href="http://www.wunderground.com/cgi-bin/findweather/getForecast?query=65201&amp;hourly=1&amp;yday=337&amp;weekday=Thursday">Detail</A></FONT></TH>
+                <TH class=smalltable vAlign=top bgColor=#f6f6f6><A 
+                  href="http://www.wunderground.com/cgi-bin/findweather/getForecast?query=65201&amp;hourly=1&amp;yday=338&amp;weekday=Friday">Detail</A></FONT></TH>
+                <TH class=smalltable vAlign=top bgColor=#f6f6f6><A 
+                  href="http://www.wunderground.com/cgi-bin/findweather/getForecast?query=65201&amp;hourly=1&amp;yday=339&amp;weekday=Saturday">Detail</A></FONT></TH></TR>
+              <TR bgColor=#f6f6f6>
+                <TD colSpan=5>Click <B>Detail</B> for hourly wind, 
+                  temperature, humidity and UV forecasts.</TD></TR>
+              <TR bgColor=#ffffff>
+                <TD colSpan=5>Alternate Computer Forecast: <A 
+                  href="http://www.wunderground.com/MOS/DisplayMOS.asp?AirportCode=KCOU&amp;SafeCityName=Columbia&amp;StateCode=MO">AVN 
+                  MOS Weather Graph</A></TD></TR></TBODY></TABLE><BR><!-- End 5-day forecast -->
+            <TABLE cellSpacing=0 cellPadding=0 bgColor=#d3d3d3 border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE class=smalltable cellSpacing=1 cellPadding=2 
+                  width="100%" bgColor=#c8c8c8 border=0>
+                    <TBODY>
+                    <TR bgColor=#000080>
+                      <TD class=smalltableheader colSpan=2><FONT 
+color=#ffffff>
+                        <CENTER><B>Forecast for Boone County</B> 
+                      </FONT></CENTER></TD></TR>
+                    <TR>
+                      <TD bgColor=#eeeeee colSpan=2>
+                        <CENTER><B>Updated: 9:35 PM CST on December 1, 2003</B> 
+                        </CENTER></TD></TR>
+                    <TR bgColor=#ffffff>
+                      <TD align=right><IMG height=42 
+                        src="Weather Underground Columbia, Missouri Forecast_files/nt_cloudy.gif" 
+                        width=42 border=1></TD>
+                      <TD align=left><B>Tonight</B><

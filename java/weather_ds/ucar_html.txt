@@ -1,0 +1,21 @@
+NCAR-RAP Real-Time Weather Data
+Output produced by METARs form (24 November 2003  04:27 UTC)
+found at http://www.rap.ucar.edu/weather/surface/
+ 
+ 
+Conditions at:  KSUS observed 24 November 2003  03:54 UTC  
+Temperature:  -0.6°C (31°F)  
+Dewpoint:  -6.1°C (21°F) [RH = 66%]  
+Pressure (altimeter):  29.92 inches Hg (1013.3 mb)
+[Sea-level pressure: 1013.4 mb]  
+Winds:  from the WNW (300 degrees) at 23 MPH (20 knots; 10.4 m/s)
+gusting to 30 MPH (26 knots; 13.5 m/s)  
+Visibility:  10 or more miles (16+ km)  
+Ceiling:  2700 feet AGL  
+Clouds:  overcast cloud deck at 2700 feet AGL  
+Present Weather:  no significant weather observed at this time  
+KSUS 240354Z 30020G26KT 10SM OVC027 M01/M06 A2992 RMK AO2 PK WND 30028/0336 SLP134 T10061061
+ 
+
+--------------------------------------------------------------------------------
+ 

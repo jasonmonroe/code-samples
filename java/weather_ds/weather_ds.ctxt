@@ -1,0 +1,25 @@
+#BlueJ class context
+comment0.target=class\ ucar
+comment0.text=public\n
+comment1.params=filename
+comment1.target=weather_ds\ process(String)
+comment10.target=winds
+comment11.target=dayLow
+comment12.target=windChill
+comment13.target=dayCond
+comment14.target=cond
+comment15.target=curTemp
+comment16.target=dewPt
+comment2.params=filename
+comment2.target=weather_ds\ process(String)
+comment3.params=filename
+comment3.target=weather_ds\ process(String)
+comment4.target=class\ weather_ds
+comment5.target=barometer
+comment6.target=pressure
+comment7.target=dayHigh
+comment8.target=humidity
+comment9.params=args
+comment9.target=void\ main(String[])
+comment9.text=MAIN\ ****************\n
+numComments=17

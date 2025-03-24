@@ -1,0 +1,24 @@
+#BlueJ package file
+dependency1.from=weather_ds
+dependency1.to=weather_ds
+dependency1.type=UsesDependency
+package.editor.height=300
+package.editor.width=420
+package.editor.x=327
+package.editor.y=145
+package.numDependencies=1
+package.numTargets=2
+target1.height=50
+target1.modifiers=0
+target1.name=Form1
+target1.type=ClassTarget
+target1.width=80
+target1.x=250
+target1.y=60
+target2.height=50
+target2.modifiers=0
+target2.name=weather_ds
+target2.type=ClassTarget
+target2.width=90
+target2.x=60
+target2.y=10
