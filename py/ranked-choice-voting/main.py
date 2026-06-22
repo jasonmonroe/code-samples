@@ -16,15 +16,12 @@ from src.election import ElectionSys
 from src.utils import get_run_id, show_banner, show_timer, start_timer
 
 def run_main_pipeline():
-    print('run_main_pipeline()')
-
     
+    print('run_main_pipeline()')
 
 
     # Validate input: 
-    candidate_cnt = 0
-    voter_cnt = 0
-    candidates = []
+
 
     # Define electoral process: Select candidate count, declare candidacy
     election = ElectionSys()
@@ -79,13 +76,9 @@ if __name__ == "__main__":
 
     args = _parse_args(sys.argv[1:])
     print(f'args = {args}')
-
-    
-    
     
     # --- Start --- #
     run_main_pipeline()
-
 
     show_timer(start_time) 
     print(f'\n==== {I_BOT} END   RUN ID: {run_id} {I_BOT} ====\n')

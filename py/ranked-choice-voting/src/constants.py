@@ -34,7 +34,9 @@ MAX_CANDIDATES = 10 #128
 
 NO_VOTE_VAL = ''
 NO_VOTE_PCT_THRESHOLD = 3
-
+CANDIDATE_CONTRIBUTION_MIN = 20.00
+CANDIDATE_CONTRIBUTION_MAX = 3500.00
+ELECTION_DURATION = 306
 PERCENTILE = 100
 MSEC = 1000
 SECS_IN_MIN = 60 # secs in min
@@ -47,6 +49,109 @@ MAX_LINE_LEN = PEP8_LINE_LEN - OPEN_CLOSE_LEN
 
 LOG_FILE = "outputs/log.txt"
 RESULTS_FILE = "outputs/results.txt"
+
+CANDIDATE_NAME_POOL = {
+    'first': [
+        'Alexander',
+        'Aïsha',
+        'Amelia',
+        'Anaïs',
+        'Aries',
+        'Ava',
+        'Benjamin',
+        'Charlotte',
+        'Chloë',
+        'Dmitri',
+        'Elijah',
+        'Elizabeth',
+        'Emma',
+        'Ella',
+        'Fatima',
+        'Harper',
+        'Henry',
+        'Isabella',
+        'James',
+        'Jürgen',
+        'León',
+        'Lars',
+        'Liam',
+        'Lucas',
+        'Matthew',
+        'Michael',
+        'Mia',
+        'Ming',
+        'Noah',
+        'Oliver',
+        'Olga',
+        'Omar',
+        'Samuel',
+        'Scarlett',
+        'Sophia',
+        'Sofia',
+        'Thaddeus',
+        'William',
+        'Yuki',
+        'Zhang'
+    ],
+    'last': [
+        'Abdullah',
+        'Anderson',
+        'Ben-Ali',
+        'Brown',
+        'Clark',
+        'Davis',
+        'Dupont',
+        'Dubois',
+        'Fernández',
+        'Garcia',
+        'García',
+        'Gonzalez',
+        'Harris',
+        'Hussein',
+        'Hernandez',
+        'Johnson',
+        'Johansson',
+        'Jackson',
+        'King',
+        'Lee',
+        'Lewis',
+        'Lopez',
+        'Martin',
+        'Martinez',
+        'Miller',
+        'Moore',
+        'Ramírez',
+        'Ramirez',
+        'Rodriguez',
+        'Schmidt',
+        'Sanchez',
+        'Sharma',
+        'Silva',
+        'Smith',
+        'Taylor',
+        'Thomas',
+        'Thompson',
+        'Takahashi',
+        'Ivanov',
+        'Walker',
+        'Wilson',
+        'Wright',
+        'Young',
+        'Zhang',
+        'Zimmerman'
+    ]
+}
+
+POLITICAL_PARTIES = [
+            'Constitution',
+            'Democrat',
+            'Green',
+            'Libertarian',
+            'No-Party Affiliation',
+            'Progressive',
+            'Reform',
+            'Republican'
+        ]
 
 
 # Icons

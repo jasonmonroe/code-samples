@@ -13,6 +13,7 @@ import textwrap
 import time
 import uuid
 
+from src.candidate import Candidate
 from src.constants import (I_TIMER, MAX_LINE_LEN, MSEC, PEP8_LINE_LEN, RUN_MAX_ID, RUN_MIN_ID, SECS_IN_MIN)
 
 def get_run_id() -> str:
@@ -20,9 +21,14 @@ def get_run_id() -> str:
     return str(random.randint(RUN_MIN_ID, RUN_MAX_ID))
 
 
-def gen_uuid() -> str:
-    return uuid.uuid4().hex.lower()
+def gen_uuid(len:int | None) -> str:
 
+    uid = uuid.uuid4().hex.lower()
+    if len is None:
+        return uid
+
+    return uid[0: len]
+    
 
 def start_timer() -> float:
     """
@@ -97,12 +103,16 @@ def _create_subtitle_banner(text: str | list, center_text: bool=False) -> None:
 
     if isinstance(text, list):
         wrapped_lines = text
+   
 
     elif isinstance(text, str):
         wrapped_lines = textwrap.wrap(text, width=max_line_len)
 
     # Now that the data is a list format it for display.
     for line in wrapped_lines:
+        if "\n" in line:
+            line = ""
+
         line_len = len(line)
     
         padding_len = max_line_len - line_len
@@ -130,8 +140,11 @@ def show_banner(title: str, subtitle: str | list | None="", center_title_text: b
         _create_subtitle_banner(subtitle, center_subtitle_text)
 
 
-def get_index(array: [], uid: str) -> int | None:
-    return next((arr for arr in array if arr["uid"] == uid), None)
+def get_index_by_uid(candidates: list, uid: str) -> int | None:
+    #print(f'array = {candidates}')
+    return next((i for i, candidate in enumerate(candidates) if candidate.uid == uid), None)
+
+    return next((arr for arr in array if arr.get("uid") == uid), None)
 
 
 def placement(place: int, mode: str) -> str:
@@ -149,3 +162,4 @@ def placement(place: int, mode: str) -> str:
         attrs = ['1st Place', '2nd Place', '3rd Place', '4th Place']
 
     return attrs[place]
+
