@@ -11,17 +11,27 @@ import os
 import sys
 
 # Local Libraries
-from src.constants import( ARG_PARAMS, I_BOT, I_WARNING)
-from src.election 
+from src.constants import( ARG_PARAMS, DEFAULT_CANDIDATE_COUNT, DEFAULT_VOTER_COUNT, I_BOT, I_WARNING, MAX_CANDIDATES, MIN_CANDIDATES)
+from src.election import ElectionSys
 from src.utils import get_run_id, show_banner, show_timer, start_timer
 
 def run_main_pipeline():
+    print('run_main_pipeline()')
+
+    
+
 
     # Validate input: 
     candidate_cnt = 0
+    voter_cnt = 0
     candidates = []
 
     # Define electoral process: Select candidate count, declare candidacy
+    election = ElectionSys()
+    voter_cnt = election.register()
+    election.vote(voter_cnt)
+    election.tally()
+    
 
     # Declare candidacies
     # Register to vote
@@ -38,30 +48,7 @@ def run_main_pipeline():
     pass
 
 
-def _validate_input(message: str, str_flag: bool=False):
-    """
-    Only accept integers or blank space that will generate a random value.
 
-    :param string message: Message to display to the user.
-    :param bool str_flag: Is the input a string or not?
-
-    :returns: None
-
-    :raises: ValueError: If the input is not an integer or string.
-    """
-    while True:
-        user_input = input(message)
-
-        if user_input == '':
-            return user_input
-
-        try:
-            if str_flag:
-                return str(user_input).lower()
-            else:
-                return int(user_input)
-        except ValueError:
-            print('Invalid input. Please enter an integer or press enter for a random value to be used.')
 
 def _parse_args(command_line_args: list[str]) -> dict:
     """
@@ -78,7 +65,13 @@ def _parse_args(command_line_args: list[str]) -> dict:
 
 if __name__ == "__main__":
     start_time = start_timer()
+
     logger = logging.getLogger(__name__)
+    logging.basicConfig() 
+    logger.setLevel(logging.DEBUG)
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    
+
     run_id = get_run_id()
     print(f'\n==== {I_BOT} START RUN ID: {run_id} {I_BOT} ====\n')
 
@@ -86,6 +79,9 @@ if __name__ == "__main__":
 
     args = _parse_args(sys.argv[1:])
     print(f'args = {args}')
+
+    
+    
     
     # --- Start --- #
     run_main_pipeline()

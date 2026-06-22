@@ -122,8 +122,30 @@ def _create_subtitle_banner(text: str | list, center_text: bool=False) -> None:
 
     return None
 
+
 def show_banner(title: str, subtitle: str | list | None="", center_title_text: bool=True, center_subtitle_text: bool=False) -> None:
     _create_title_banner(title, center_title_text)
 
     if subtitle:
         _create_subtitle_banner(subtitle, center_subtitle_text)
+
+
+def get_index(array: [], uid: str) -> int | None:
+    return next((arr for arr in array if arr["uid"] == uid), None)
+
+
+def placement(place: int, mode: str) -> str:
+    """
+    Get the placement string for a candidate.
+
+    :param int place: What order of placement.
+    :param string mode: What type of placement string to output.
+
+    :return: string attrs[place]: String of the placement.
+    """
+    if mode == 'a':
+        attrs = ['first', 'second', 'third', 'fourth']
+    else:
+        attrs = ['1st Place', '2nd Place', '3rd Place', '4th Place']
+
+    return attrs[place]

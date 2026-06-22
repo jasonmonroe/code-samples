@@ -18,7 +18,9 @@ ARG_PARAMS = [
     '--start'      # Starts voting
     ]
 
- 
+MAX_CHOICES = 4
+DEFAULT_CANDIDATE_COUNT = 4
+DEFAULT_VOTER_COUNT = 16
 
 FIRST_CHOICE_INDEX = 0
 MAX_CHOICES = 4
