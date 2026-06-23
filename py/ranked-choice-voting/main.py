@@ -11,32 +11,23 @@ import os
 import sys
 
 # Local Libraries
-from src.constants import( ARG_PARAMS, DEFAULT_CANDIDATE_COUNT, DEFAULT_VOTER_COUNT, I_BOT, I_WARNING, MAX_CANDIDATES, MIN_CANDIDATES)
+from src.constants import( ARG_PARAMS, I_BOT, I_WARNING)
 from src.election import ElectionSys
 from src.utils import get_run_id, show_banner, show_timer, start_timer
 
 def run_main_pipeline():
-    
+
     print('run_main_pipeline()')
 
-
-    # Validate input: 
 
 
     # Define electoral process: Select candidate count, declare candidacy
     election = ElectionSys()
     voter_cnt = election.register()
+    election.contribute(voter_cnt)
     election.vote(voter_cnt)
     election.tally()
     
-
-    # Declare candidacies
-    # Register to vote
-
-    # Display Candidate count, voter count
-
-    # tally and count votes
-    # save results
 
     # Now compare results to different systems
 

@@ -141,10 +141,11 @@ def show_banner(title: str, subtitle: str | list | None="", center_title_text: b
 
 
 def get_index_by_uid(candidates: list, uid: str) -> int | None:
-    #print(f'array = {candidates}')
     return next((i for i, candidate in enumerate(candidates) if candidate.uid == uid), None)
 
-    return next((arr for arr in array if arr.get("uid") == uid), None)
+
+def get_candidate_by_uid(candidates: list, uid: str):
+    return next((candidate for candidate in candidates if candidate.uid == uid), None)
 
 
 def placement(place: int, mode: str) -> str:
