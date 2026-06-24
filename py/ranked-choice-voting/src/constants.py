@@ -50,6 +50,8 @@ MAX_LINE_LEN = PEP8_LINE_LEN - OPEN_CLOSE_LEN
 LOG_FILE = "outputs/log.txt"
 RESULTS_FILE = "outputs/results.txt"
 
+BLANK_BALLOT = ['', '', '', '']
+
 CANDIDATE_NAME_POOL = {
     'first': [
         'Alexander',

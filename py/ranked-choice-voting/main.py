@@ -14,11 +14,11 @@ import sys
 from src.constants import( ARG_PARAMS, I_BOT, I_WARNING)
 from src.election import ElectionSys
 from src.utils import get_run_id, show_banner, show_timer, start_timer
+from voting_systems.popular_sys import PopularVotingSystem
 
 def run_main_pipeline():
 
     print('run_main_pipeline()')
-
 
 
     # Define electoral process: Select candidate count, declare candidacy
@@ -27,9 +27,38 @@ def run_main_pipeline():
     election.contribute(voter_cnt)
     election.vote(voter_cnt)
     election.tally()
-    
 
-    # Now compare results to different systems
+    # Copy variables for scoring
+    candidates = election.candidates
+    ballots = election.ballots
+
+    # --- Now compare results to different systems --- #
+
+    # Popular Vote System
+    logging.info("Popular Vote System")
+    
+    #popular_candidates = candidates.copy()
+    #popular_ballots = ballots.copy()
+    popular_sys = PopularVotingSystem(candidates.copy(), ballots.copy())
+    popular_sys.score_ballots()
+    popular_sys.determine_winner()
+    popular_sys.show_results()
+
+
+    # Ranked Choice Voting System
+    ranked_choice_candidates = candidates.copy()
+    ranked_choice_ballots = ballots.copy()
+
+    # Most Points System
+
+    # Redistribution System
+
+    # Remaining Candidates System
+
+    # Weighted System
+
+
+
 
     
 
