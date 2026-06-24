@@ -14,7 +14,11 @@ import sys
 from src.constants import( ARG_PARAMS, I_BOT, I_WARNING)
 from src.election import ElectionSys
 from src.utils import get_run_id, show_banner, show_timer, start_timer
+from voting_systems.last_remaining_candidate_sys import LastRemainingCandidateSystem
 from voting_systems.popular_sys import PopularVotingSystem
+from voting_systems.ranked_choice_sys import RankChoiceVotingSystem
+from voting_systems.redistribution_sys import RedistributionSystem
+from voting_systems.weighted_sys import WeightedSystem
 
 def run_main_pipeline():
 
@@ -35,28 +39,29 @@ def run_main_pipeline():
     # --- Now compare results to different systems --- #
 
     # Popular Vote System
+    print("Running Popular Vote System...")
     logging.info("Popular Vote System")
     
-    #popular_candidates = candidates.copy()
-    #popular_ballots = ballots.copy()
     popular_sys = PopularVotingSystem(candidates.copy(), ballots.copy())
-    popular_sys.score_ballots()
-    popular_sys.determine_winner()
+    popular_sys.calc_totals()
+    popular_sys.determine_winner_fast()
     popular_sys.show_results()
 
 
     # Ranked Choice Voting System
-    ranked_choice_candidates = candidates.copy()
-    ranked_choice_ballots = ballots.copy()
+    #print("Running Ranked")
+    #ranked_choice_sys = RankChoiceVotingSystem(candidates.copy(), ballots.copy())
+     
 
-    # Most Points System
-
+    
     # Redistribution System
+    #redistribution_sys = RedistributionSystem(candidates.copy(), ballots.copy())
 
     # Remaining Candidates System
+    #last_remaining_sys = LastRemainingCandidateSystem(candidates.copy(), ballots.copy())
 
     # Weighted System
-
+    #weighted_sys = WeightedSystem(candidates.copy(), ballots.copy())
 
 
 

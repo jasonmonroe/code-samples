@@ -13,8 +13,7 @@ import textwrap
 import time
 import uuid
 
-from src.candidate import Candidate
-from src.constants import (I_TIMER, MAX_LINE_LEN, MSEC, PEP8_LINE_LEN, RUN_MAX_ID, RUN_MIN_ID, SECS_IN_MIN)
+from src.constants import (I_TIMER, MAX_LINE_LEN, MSEC, PEP8_LINE_LEN, PERCENTILE, RUN_MAX_ID, RUN_MIN_ID, SECS_IN_MIN)
 
 def get_run_id() -> str:
     """ Generates a unique ID for the current run. """
@@ -148,7 +147,7 @@ def get_candidate_by_uid(candidates: list, uid: str):
     return next((candidate for candidate in candidates if candidate.uid == uid), None)
 
 
-def placement(place: int, mode: str) -> str:
+def placement(place: int, mode: str="") -> str:
     """
     Get the placement string for a candidate.
 
@@ -164,3 +163,26 @@ def placement(place: int, mode: str) -> str:
 
     return attrs[place]
 
+
+def calc_pct_change(old, new) -> float:
+    round(((old - new) / new) * PERCENTILE, 1)
+
+"""
+# Finds the index of the first object where name is "Bob"
+bob_index = next((i for i, u in enumerate(users) if u.name == "Bob"), None)
+
+print(bob_index)
+
+
+Remove by uid
+
+# 1. Find the index of the unique name (returns None if not found)
+idx = next((i for i, u in enumerate(users) if u.name == "Bob"), None)
+
+# 2. Remove it if it exists
+if idx is not None:
+    removed_user = users.pop(idx)  # Optional: 'removed_user' now holds the deleted object
+
+users[:] = [u for u in users if u.name != "Bob"]
+arr[:] = [a for a in arr if a.key != "___"]
+"""
