@@ -134,18 +134,6 @@ class BaseVotingSystem(ABC):
 
         
 
-         
-    #@abstractmethod
-    def tally_ballots_orig(self, choice: int=0):
-        candidates = self.candidate_pool.pool()
-        for idx in range(0, self.ballot_cnt):
-            ballot = self.ballots[idx]
-            print(f'idx = {idx}, ballot = {ballot}')
-            candidate_idx = get_index_by_uid(candidates, ballot[choice])
-            print(f'candidate[{candidate_idx}].total incremented.')
-            candidates[candidate_idx].total += 1
-
-        self.candidate_pool.update(candidates)
 
     @abstractmethod
     def determine_loser():
@@ -162,8 +150,6 @@ class BaseVotingSystem(ABC):
     @abstractmethod
     def break_tie():
         pass
-
-   
 
     @abstractmethod
     def show_results():

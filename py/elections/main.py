@@ -41,10 +41,11 @@ def run_main_pipeline():
     # Popular Vote System
     print("Running Popular Vote System...")
     logging.info("Popular Vote System")
+    # Note: Always create copies of the candidates and ballots!
     
     popular_sys = PopularVotingSystem(candidates.copy(), ballots.copy())
     popular_sys.calc_totals()
-    popular_sys.determine_winner_fast()
+    popular_sys.determine_winner()
     popular_sys.show_results()
 
 
