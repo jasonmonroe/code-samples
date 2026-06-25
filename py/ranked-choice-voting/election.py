@@ -303,12 +303,12 @@ class Election:
 
         # The odds are 10% that a voter does not choose a candidate otherwise vote
         if no_vote_odds >= NO_VOTE_PCT_THRESHOLD:
-            return self.choose_candidate()
+            return self.candidate_chooser()
 
         else:
             return NO_VOTE_VAL
 
-    def choose_candidate (self):
+    def candidate_chooser (self):
         """
         Chooses a candidate that has yet to be chosen.
         Note: We can expand this with more thorough logic in choosing a candidate.  For now, just pick at random.

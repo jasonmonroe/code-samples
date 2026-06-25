@@ -73,20 +73,15 @@ class PopularVotingSystem(BaseVotingSystem):
             self.winner = candidates[0]
             winner_idx = get_index_by_uid(self.winner.uid)
             self.candidates[winner_idx].is_winner = True
-            #self.candidate_pool = []
+ 
             return True
         else:
             # We have multiple leaders so lets go to second round.  Update the candidates by the "pool of winners."
             logging.info(f"No winner after {placement(choice, 'a')} round.  Limiting pool to {candidates}.")
             return False
 
-    
-   
-
     def determine_loser():
         pass
-
-         
 
     # Note: This method works but want to make it cleaner
     def determine_winner_orig(self):

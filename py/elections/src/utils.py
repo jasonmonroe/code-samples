@@ -8,12 +8,16 @@
 """
 
 # Python Libraries
+import logging
 import random
 import textwrap
 import time
 import uuid
 
 from src.constants import (I_TIMER, MAX_LINE_LEN, MSEC, PEP8_LINE_LEN, PERCENTILE, RUN_MAX_ID, RUN_MIN_ID, SECS_IN_MIN)
+#from voting_systems.ranked_choice_sys import results_logger
+
+results_logger = logging.getLogger("results_logger")
 
 def get_run_id() -> str:
     """ Generates a unique ID for the current run. """
@@ -23,7 +27,7 @@ def get_run_id() -> str:
 def gen_uuid(len:int | None) -> str:
 
     uid = uuid.uuid4().hex.lower()
-    if len is None:
+    if not len:
         return uid
 
     return uid[0: len]
@@ -88,11 +92,15 @@ def _create_title_banner(text: str, center_text: bool=True) -> None:
     print(title_line)
     print(top_btm_line)
 
+    results_logger.info(top_btm_line)
+    results_logger.info(title_line)
+    results_logger.info(top_btm_line)
+
 
 def _create_subtitle_banner(text: str | list, center_text: bool=False) -> None:
     # Reconstructs the guard to safely catch wrong types OR empty values
     if not isinstance(text, (str, list)) or not text:
-        print('return None')
+        logging.error('Text is not a string or list.  Invalid type.')
         return None
         
     open_close_len = 4 # open close of char `+` or `|` plus space
@@ -127,6 +135,7 @@ def _create_subtitle_banner(text: str | list, center_text: bool=False) -> None:
     # Close the subtitle
     if len(wrapped_lines) > 0:
         print(_make_top_btm_line())
+        results_logger.info(_make_top_btm_line())
 
     return None
 
@@ -164,10 +173,8 @@ def placement(place: int, mode: str="") -> str:
 
 
 def calc_pct_change(start: float, final: float) -> float:
-    print(f"start={start}, final={final}")
-    #print(f"round = {round(((old - new) / new) * PERCENTILE, 1)}")
     return round(((final - start) / start) * PERCENTILE, 1)
-    #return round(((old - new) / new) * PERCENTILE, 1)
+  
 
 """
 # Finds the index of the first object where name is "Bob"

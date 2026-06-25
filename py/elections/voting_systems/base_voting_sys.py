@@ -38,55 +38,17 @@ class BaseVotingSystem(ABC):
         #self.all_candidates = candidates.copy() # Treat as original
         self.candidates = candidates # Treat as a candidate pool
         self.candidate_pool = candidates.copy()
-        self.pool = [] # @todo - delete
-        #self.candidate_pool = []
-        #self.candidate_pool = CandidatePool(self.candidates)
-        #self.pool = self.candidate_pool.clear()
         self.ballots = ballots
         self.ballot_cnt = len(self.ballots)
         self.title = " System Results"
-        #self.candidate_pool = []
         self.winner_uid = None
         self.winner = None
         self.majority = self._get_majority_cnt()
-        #self.choice_vals = []
-        #self.vote_cnts = []
-        #self.round = 0
+
 
     def _get_majority_cnt(self) -> int:
         return (self.ballot_cnt // 2) + 1
 
-    #@todo - delete
-    def _get_candidate_pool(self) -> list:
-        #pool = CandidatePool(self.candidate_pool)
-        #pool.reset()
-        #return pool.pool()
-        return []
-    #@todo - delete
-    def clear_candidate_pool(self) -> None:
-        self.candidate_pool = []
-
-    #@todo - delete
-    def reset_candidate_pool(self) -> None:
-        logging.info('Resetting candidate pool.')
-        print("Resetting candidate pool...")
-        #pool = []
-        #for _ in range(len(self.candidates)):
-        #    pool.append(self.candidates)
-        # Update candidate pool with a copy of candidates.
-        self.candidate_pool = []
-        self.candidate_pool = self.candidates.copy()
-
-    #@todo - delete
-    def add_to_candidate_pool(self, candidate: Candidate):
-        self.candidate_pool.append(candidate)
-
-    #@todo - delete
-    def remove_loser(self, candidate):
-        self.candidate_pool.remove(candidate)
-
-    #def remove_from_candidate_pool(self, candidate: Candidate):
-    #    self.candidate_pool.pop(candidate)
 
     def _clear_totals(self, candidates: list) -> list:
         for candidate in candidates:
@@ -108,7 +70,7 @@ class BaseVotingSystem(ABC):
             'clear_totals': clear_totals,
             'use_pool': use_pool,
         }
-        print(f"DBG: tally_totals() - {attrs}")
+        logging.debug(f"DBG: tally_totals() - {attrs}")
         
         # Get candidates
         candidates = self.candidate_pool if use_pool else self.candidates
@@ -157,16 +119,3 @@ class BaseVotingSystem(ABC):
     @abstractmethod
     def determine_loser():
         pass
-
-    
-    #@abstractmethod
-    #def check_tie():
-    #    pass
-    
-    #@abstractmethod
-    #def break_tie():
-    #    pass
-
-    #@abstractmethod
-    #def show_results():
-    #    pass

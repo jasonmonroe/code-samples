@@ -8,20 +8,13 @@
 """
 
 ARG_PARAMS = [
+    "--noise",
     "--popular",
     "--rank",
     "--redist",
     "--remaining",
     "--weighted",
-
-    "--noise",
-    
-    #'--build',     # Build AI Agent
-    #'--data',      # Create and confiirm vectorized data
-    #'--deploy',    # Deploy code to Huggingface
-    #'--log',       # Logs information in the output (terminal)
-    #'--log.debug', # Logs additional information
-    #'--refresh',   # Forces chroma to create fresh vectorized data
+   
     #'--run',       # Starts version of app
     #'--start'      # Starts voting
     ]
@@ -174,8 +167,8 @@ MAX_VOTERS = 15 #168000000
 
 
 # --- Output Files --- #
-LOG_FILE = "outputs/log.txt"
-RESULTS_FILE = "outputs/results.txt"
+#OUTPUT_LOG_FILE = "logs/output.log"
+#RESULTS_LOG_FILE = "logs/results.log"
 
 # --- Icons --- #
 I_ANGRY = '😠'

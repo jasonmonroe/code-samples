@@ -34,6 +34,8 @@ from src.utils import get_index_by_uid, placement, show_banner
 from voting_systems.base_voting_sys import BaseVotingSystem
 
 
+ 
+
 class RankChoiceVotingSystem(BaseVotingSystem):
     def __init__(self, candidates: list, ballots: list):
         super().__init__(candidates, ballots) 
@@ -44,7 +46,7 @@ class RankChoiceVotingSystem(BaseVotingSystem):
         #choice = FIRST_CHOICE
 
         for round in range(0, MAX_CHOICES):
-            print(f"choice={round}, {placement(round, 'a')} round...")
+            logging.debug(f"choice={round}, {placement(round, 'a')} round...")
 
             # Important: Always count the first choice regardless of round
             # because the loser will have their names removed from the ballots!
@@ -52,7 +54,7 @@ class RankChoiceVotingSystem(BaseVotingSystem):
 
             # Any candidate have a majority?
             for candidate in self.candidate_pool:
-                print(f"line 55: determine if {candidate.uid} is the  winner...")
+                logging.debug(f"line 55: determine if {candidate.uid} is the  winner...")
                 if self.determine_winner(candidate):
                     break
                 
@@ -60,7 +62,7 @@ class RankChoiceVotingSystem(BaseVotingSystem):
                 break
 
             # If no winner, remove lowest performing candidate
-            print(f"No winner in round: {placement(round, 'a')}.")
+            logging.debug(f"No winner in round: {placement(round, 'a')}.")
 
             # Remove lowest candidate
             loser_candidate = self.determine_loser(round)
@@ -74,7 +76,7 @@ class RankChoiceVotingSystem(BaseVotingSystem):
                 
 
         # Break full loop
-        print("LOOP BREAK...")
+        logging.debug("LOOP BREAK...")
 
 
 
@@ -101,7 +103,7 @@ class RankChoiceVotingSystem(BaseVotingSystem):
 
     def determine_winner(self, candidate: Candidate) -> bool:
         logging.debug(f"determine_winner() - CHECKING: if {candidate.total} >= {self.majority} ?")
-        print(f"determine_winner() - CHECKING: if {candidate.total} >= {self.majority} ?")
+        #print(f"determine_winner() - CHECKING: if {candidate.total} >= {self.majority} ?")
         
         if candidate.total >= self.majority:
             self.winner = candidate
@@ -112,7 +114,7 @@ class RankChoiceVotingSystem(BaseVotingSystem):
         
     def determine_loser(self, choice: int=FIRST_CHOICE) -> Candidate | None:
         # Let's assume that the loser has less than a majority
-        print("determine_loser()")
+        #print("determine_loser()")
         lowest = []
         lowest_total = self.majority - 1
         loser_pool = self.candidate_pool.copy()
@@ -137,7 +139,7 @@ class RankChoiceVotingSystem(BaseVotingSystem):
             if len(lowest) > 1:
                 msg = f"We have {len(lowest)} candidates tied at {lowest_total} for lowest votes."
                 logging.info(msg)
-                print(msg)
+                #print(msg)
                 # What if the losing candidates tie for last place? Who gets removed?
                 loser_pool = lowest
                 
@@ -145,16 +147,15 @@ class RankChoiceVotingSystem(BaseVotingSystem):
 
         msg = f"Did not have a losing candidate."
         logging.warning(msg)
-        print(msg)
-
+      
         return None
 
 
                    
     def shift_ballots(self, loser_uid: str) -> None:
-        print("shift_ballots()")
+        logging.debug("shift_ballots()")
      
-        print(f"Loser UID: {loser_uid}")
+        logging.debug(f"Loser UID: {loser_uid}")
 
         for ballot in self.ballots:
             #print(f"Ballot = {ballot}")
