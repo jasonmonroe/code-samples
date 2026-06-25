@@ -6,14 +6,16 @@ import random
 import sys
 
 # Local Libraries
-from src.constants import CANDIDATE_LIKELYNESS_PICK_ODDS, ELECTION_DURATION, POLITICAL_PARTIES
+from src.constants import PERCENTILE, VOTER_LIKELYNESS_PICK_ODDS, ELECTION_DURATION, POLITICAL_PARTIES
 from src.utils import get_candidate_by_uid, get_index_by_uid
 
 class ChooseCandidate:
-    def __init__(self, candidates: list, 
+    def __init__(self, 
+    candidates: list, 
     #pool: list, 
-    total_contributions: float, mean_name_len: int):
-        
+    total_contributions: float, 
+    mean_name_len: int
+    ):
         self.candidates = candidates
         #self.pool = pool
         self.total_contributions = round(total_contributions, 2)
@@ -23,36 +25,77 @@ class ChooseCandidate:
         self.party_counts = self._count_parties()
 
         # Build likeliness once at the beginning to get the odds.
-        self.likeliness = self.get_likeliness()
+        self.likeliness_orig = self.get_likeliness()
+        self.likeliness = self.likeliness_orig.copy()
+        
+        print(f"likeliness count = {len(self.likeliness)}")
         #random.shuffle(self.likeliness)
         #print(f"likeliness={self.likeliness}")
         #sys.exit(0)
+
+    
+     
   
-    def pick(self) -> str:
+    def pick(self, candidate_pool: list) -> str:
         # Logic to pick candidate from candidate pool
         # Pick the likeliness that a voter will just pick a random candidate out of fatigue or a lack of information
         # Then pick a random number.  If that number is less than the likelness pick a random candidate from the candidate pool.
         # Otherwise, use voter logic to determine who they're most likely to pick
-        pick_random_candidate_likeliness = random.randint(0, CANDIDATE_LIKELYNESS_PICK_ODDS)
+        self.candidates = candidate_pool
+        #print("pick()")
+        for c in self.candidates:
+            print(f"pick() c.uid = {c.uid}")
+        #print(f"pick() chosen: {chosen}")
+
+        pick_random_candidate_likeliness = random.randint(0, VOTER_LIKELYNESS_PICK_ODDS)
         random_pick = random.randint(0, 100)
 
         logging.debug(f'Random candidate likeliness: {pick_random_candidate_likeliness}, random_pick:{random_pick}')
 
+       
         if random_pick <= pick_random_candidate_likeliness:
             #print('\tPicking random candidate')
             logging.info('Picking random candidate...')
+            print("picking random candidate")
             random_candidate = random.choice(self.candidates)
-            return random_candidate.uid
+            random_uid = random_candidate.uid
+            #chosen_candidate = random_candidate.uid
+            #self._refresh_likeliness(random_candidate.uid)
+            #return random_candidate.uid
+        else:
 
-        # Either pick max score OR create a list of 100 with number of indices based on the score, the higher the score the candidaete, the higher
-        # the representation of indices.  Then pick a random number
-        #likeness_list = self.get_likeliness()
-        #print('Picking candidate by logic...')
-        logging.info('Picking candidate by logic...')
-        return random.choice(self.likeliness)
+            # Either pick max score OR create a list of 100 with number of indices based on the score, the higher the score the candidaete, the higher
+            # the representation of indices.  Then pick a random number
+            #likeness_list = self.get_likeliness()
+            #print('Picking candidate by logic...')
+            logging.info('Picking candidate by logic...')
+            #if len(chosen) > 0:
+                #self._refresh_likeliness(chosen)
+
+            random_uid = random.choice(self.likeliness)
+            #self._refresh_likeliness(random_uid)
+            #return random_candidate_uid
+
+        self._refresh_likeliness(random_uid)
+        return random_uid
 
         # Note: For now just randomly pick one
         
+    def reset_likeliness(self) -> None:
+        self.likeliness = self.likeliness_orig.copy()
+
+
+    def _refresh_likeliness(self, chosen: list) -> None:
+        # remove chosen candidates from 
+        print(f"DBG: Before -> likeliness count = {len(self.likeliness)}")
+        #print(self.likeliness)
+        
+        print(f"Removing all {chosen} from likeliness.")
+        filtered = [item for item in self.likeliness if item != chosen]
+        self.likeliness = filtered
+
+        print(f"DBG: After -> likeliness count = {len(self.likeliness)}")
+
 
     # Logic to pick a candidate
     """
@@ -65,6 +108,7 @@ class ChooseCandidate:
 
         #for uid in self.pool:
         #for uid in self.candidates:
+        print(len(self.candidates))
         for candidate in self.candidates:
             #candidate = get_candidate_by_uid(self.candidates, uid)
 
@@ -120,7 +164,6 @@ class ChooseCandidate:
 
     def get_likeliness(self) -> list:
         likeliness = self._calc_likeliness()
-        #print(f'likeliness = {likeliness}')
         return self._convert_to_list(likeliness)
 
 
@@ -130,6 +173,7 @@ class ChooseCandidate:
         # If Democrat 48/100, Republican 48/100, Green 4/100, Constitution 1/100m Libertarian 2/100, Progressive 1/100m , Reform 0.5/100
         if party in ['Democrat', 'Republican']:
             points = (((48 + random.uniform(0, 0.9)) / party_cnt) / 100)
+            #Apoints = self._format_rank((48 + random.uniform(0, 0.9)), party_cnt)
         elif party == 'Green':
             points = (((4 + random.uniform(0, 0.9)) / party_cnt) / 100) 
         elif party == 'Libertarian':
@@ -138,6 +182,9 @@ class ChooseCandidate:
             points = (((random.uniform(0.33, 1)) /  party_cnt) / 100) 
         #print(f'party = {party}, points = {points}')
         return points, weight
+
+    #def _format_rank(self, points: float, party_cnt) -> float:
+    #    return (points / party_cnt) * PERCENTILE
          
     def _rank_duration(self, duration: int) -> tuple(float, int):  # 4pts # Longer the duration the higher the contribution, media attention
         weight = 4

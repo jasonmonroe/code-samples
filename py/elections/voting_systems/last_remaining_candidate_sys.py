@@ -20,3 +20,13 @@ class LastRemainingCandidateSystem(BaseVotingSystem):
         super().__init__(candidates, ballots) 
         
         self.title = f"Weighted Voting" + self.title
+
+
+    def results() -> None:
+        pass
+
+    def determine_winner():
+        pass
+
+    def determine_loser():
+        pass

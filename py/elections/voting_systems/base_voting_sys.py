@@ -16,8 +16,8 @@ from abc import ABC, abstractmethod
 # Local Libraries
 from src.candidate import Candidate
 #from src.candidate_pool import CandidatePool
-from src.constants import FIRST_CHOICE
-from src.utils import get_index_by_uid
+from src.constants import FIRST_CHOICE, I_RIBBON
+from src.utils import get_index_by_uid, show_banner
 
 class BaseVotingSystem(ABC):
 
@@ -49,17 +49,12 @@ class BaseVotingSystem(ABC):
         self.winner_uid = None
         self.winner = None
         self.majority = self._get_majority_cnt()
-        self.choice_vals = []
-        self.vote_cnts = []
-        self.round = 0
+        #self.choice_vals = []
+        #self.vote_cnts = []
+        #self.round = 0
 
     def _get_majority_cnt(self) -> int:
-        half = round(self.ballot_cnt / 2)
-
-        if self.ballot_cnt % 2 == 0:
-            return half + 1
-
-        return half
+        return (self.ballot_cnt // 2) + 1
 
     #@todo - delete
     def _get_candidate_pool(self) -> list:
@@ -93,64 +88,85 @@ class BaseVotingSystem(ABC):
     #def remove_from_candidate_pool(self, candidate: Candidate):
     #    self.candidate_pool.pop(candidate)
 
-    def _clear_totals(self, use_pool: bool=True) -> None:
-        if use_pool:
-            for candidate in self.candidate_pool:
+    def _clear_totals(self, candidates: list) -> list:
+        for candidate in candidates:
                 candidate.total = 0
-        else:
-            for candidate in self.candidates:
-                candidate.total = 0
+
+        return candidates
 
     def _sync_pool(self):
         self.candidate_pool = self.candidates
 
-    def calc_totals(self, 
+    def tally_totals(self, 
         choice: int=FIRST_CHOICE, # Which round are we voting on.  Default = 0
         clear_totals: bool=False, # Whether we set total = 0
         use_pool: bool=True # Use candidate_pool instead of candidates
         ) -> None:
 
+        attrs = {
+            'choice': choice,
+            'clear_totals': clear_totals,
+            'use_pool': use_pool,
+        }
+        print(f"DBG: tally_totals() - {attrs}")
+        
         # Get candidates
         candidates = self.candidate_pool if use_pool else self.candidates
         
         if clear_totals:
-            self._clear_totals(candidates, use_pool)
+            candidates = self._clear_totals(candidates)
         
         for ballot in self.ballots:
+            #print(f"ballot={ballot}")
             idx = get_index_by_uid(candidates, ballot[choice])
+            #print(f"tally_totals() idx={idx}, ballot_uid={ballot[choice]}")
             candidates[idx].total += 1
 
-        # Update both if initializing.  This is so  the candidates and candidate pools have the updated totals
         if not clear_totals and not use_pool:
-            print("DBG: Assuming its on intialization. Updating candidates and pool.")
             self.candidates = candidates
             self._sync_pool()
+        elif use_pool:
+            self.candidate_pool = candidates
         else:
+            self.candidates = candidates
 
-            if use_pool:
-                self.candidate_pool = candidates
-            else:
-                self.candidates = candidates
+    def show_results(self) -> None:
+        if self.winner:
+            subtitles = []
+            for candidate in self.candidates:
+                line = f"Candidate: {candidate.name} | Total: {candidate.total}"
+                subtitles.append(line)
 
+            show_banner(self.title, subtitles)
+            print(f"\nWinner: {I_RIBBON} {self.winner.name} ({self.winner.party})\n")
         
-
+        else:
+            logging.warning("No winner!")
+            show_banner(self.title, "No winner!")
+            
+        self.candidate_pool = []
 
     @abstractmethod
-    def determine_loser():
+    def results():
         pass
-
+    
     @abstractmethod
     def determine_winner():
         pass
 
     @abstractmethod
-    def check_tie():
-        pass
-    
-    @abstractmethod
-    def break_tie():
+    def determine_loser():
         pass
 
-    @abstractmethod
-    def show_results():
-        pass
+    
+    #@abstractmethod
+    #def check_tie():
+    #    pass
+    
+    #@abstractmethod
+    #def break_tie():
+    #    pass
+
+    #@abstractmethod
+    #def show_results():
+    #    pass

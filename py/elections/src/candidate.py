@@ -17,20 +17,19 @@ from src.utils import gen_uuid
 
 
 class Candidate:
-    def __init__(self, add_noise:bool=False):
+    def __init__(self, add_noise: bool=False):
         self.add_noise = add_noise
         self.uid = gen_uuid(6)
         self.name = self._get_name()
         self.party = self._get_party()
         self.duration = self._get_duration()
         self.contributions = self.get_contributions()
-
         self.is_winner = None # False = removed from pool, True = winner, None = still in pool
         self.votes = [0, 0, 0, 0]
         self.total = 0
-        self.points = 0
-        self.score = 0
-        self.sys_totals = 0 # system totals
+        #self.points = 0
+        #self.score = 0
+        #self.sys_totals = 0 # system totals
 
 
     def _get_name(self) -> str:

@@ -22,8 +22,8 @@ ARG_PARAMS = [
     #'--log',       # Logs information in the output (terminal)
     #'--log.debug', # Logs additional information
     #'--refresh',   # Forces chroma to create fresh vectorized data
-    '--run',       # Starts version of app
-    '--start'      # Starts voting
+    #'--run',       # Starts version of app
+    #'--start'      # Starts voting
     ]
 
 
@@ -41,15 +41,14 @@ SECS_IN_MIN = 60 # secs in min
 # --- Elections --- #
 ELECTION_DURATION = 365
 
-
 # --- Candidates --- #
 CANDIDATE_CONTRIBUTION_MIN = 20.00
 CANDIDATE_CONTRIBUTION_MAX = 3500.00
 CANDIDATE_DEFAULT_COUNT = 4
-MIN_CANDIDATES = 2
+#MIN_CANDIDATES = 2
 MEDIAN_CANDIDATES = 8
 MAX_CANDIDATES = 10 #128
-CANDIDATE_LIKELYNESS_PICK_ODDS = 12 # The odds of a voter just randomly picking a candidate.
+
 
 
 CANDIDATE_NAME_POOL = {
@@ -167,6 +166,7 @@ NO_VOTE_VAL = ''
 NO_VOTE_PCT_THRESHOLD = 15 # Odds of registered voter not voting
 NO_CHOICE_PCT_THRESHOLD = 10 # Odds of a voter not picking a candidate
 
+VOTER_LIKELYNESS_PICK_ODDS = 12 # The odds of a voter just randomly picking a candidate.
 #FIRST_CHOICE_INDEX = 0
  
 MIN_VOTERS = 9 #25
@@ -180,22 +180,22 @@ RESULTS_FILE = "outputs/results.txt"
 # --- Icons --- #
 I_ANGRY = '😠'
 I_BOT = '🤖'
-I_BOOK = '📚'
-I_BROOM = '🧹'
+#I_BOOK = '📚'
+#I_BROOM = '🧹'
 I_CHECKMARK = '✅'
 I_CLOCK = '⏰'
 I_CONFUSED = '😕'
 I_CROSSMARK = '❌'
-I_DB = '📊'
-I_DIR = '📂'
+#I_DB = '📊'
+#I_DIR = '📂'
 I_DEAD = '😵'
-I_DISK = '💾'
+#I_DISK = '💾'
 I_DOCUMENT = '📄'
 I_EXCLAMATION = '❗'
 I_FIRE = '🔥'
 I_FLAG = '🚩'
 I_FROWN = '😦'
-I_GEAR = '⚙️'
+#I_GEAR = '⚙️'
 I_GHOST = '👻'
 I_HANDSHAKE = '🤝🏾'
 I_INFO = 'ℹ️'
@@ -212,9 +212,17 @@ I_STAR = '⭐'
 I_SURPRISED = '😲'
 I_TIMER = '⏱'
 I_THINKING = '🤔'
-I_THUMBS_DOWN = '👎'
-I_THUMBS_UP = '👍'
+#I_THUMBS_DOWN = '👎'
+#I_THUMBS_UP = '👍'
 I_WARNING = '⚠️'
 I_WATCH = '⌚'
 
+I_BALLOT = '🗳️'
 I_RIBBON = '🎗️'
+I_TROPHY = '🏆'
+ 
+I_REP = '🐘'
+I_DEM = '🫏'
+I_LIB = ''
+I_PROG = ''
+I_GREEN = '💚'

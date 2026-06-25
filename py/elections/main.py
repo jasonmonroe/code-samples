@@ -24,10 +24,11 @@ def run_main_pipeline():
 
     print('run_main_pipeline()')
 
-
     # Define electoral process: Select candidate count, declare candidacy
     election = ElectionSys()
+
     voter_cnt = election.register()
+    #print(f"vote_cnt = {voter_cnt}")
     election.contribute(voter_cnt)
     election.vote(voter_cnt)
     election.tally()
@@ -38,20 +39,27 @@ def run_main_pipeline():
 
     # --- Now compare results to different systems --- #
 
+    # Note: Always create copies of the candidates and ballots!
+
+    """
     # Popular Vote System
     print("Running Popular Vote System...")
     logging.info("Popular Vote System")
-    # Note: Always create copies of the candidates and ballots!
-    
+
     popular_sys = PopularVotingSystem(candidates.copy(), ballots.copy())
-    popular_sys.calc_totals()
-    popular_sys.determine_winner()
+    #popular_sys.tally_totals()
+    #popular_sys.determine_winner()
+    popular_sys.results()
     popular_sys.show_results()
+    """
 
 
     # Ranked Choice Voting System
-    #print("Running Ranked")
-    #ranked_choice_sys = RankChoiceVotingSystem(candidates.copy(), ballots.copy())
+    print("Running Ranked")
+    ranked_choice_sys = RankChoiceVotingSystem(candidates.copy(), ballots.copy())
+    logging.info("Running " + ranked_choice_sys.title)
+    ranked_choice_sys.results()
+    ranked_choice_sys.show_results()
      
 
     
@@ -67,8 +75,8 @@ def run_main_pipeline():
 
 
     
-
-    pass
+    # Final Results
+    subtitles = election.results
 
 
 

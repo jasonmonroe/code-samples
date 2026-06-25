@@ -84,7 +84,6 @@ def _create_title_banner(text: str, center_text: bool=True) -> None:
     top_btm_line = _make_top_btm_line()
 
     # Print title banner
-    print("\n")
     print(top_btm_line)
     print(title_line)
     print(top_btm_line)
@@ -164,8 +163,11 @@ def placement(place: int, mode: str="") -> str:
     return attrs[place]
 
 
-def calc_pct_change(old, new) -> float:
-    round(((old - new) / new) * PERCENTILE, 1)
+def calc_pct_change(start: float, final: float) -> float:
+    print(f"start={start}, final={final}")
+    #print(f"round = {round(((old - new) / new) * PERCENTILE, 1)}")
+    return round(((final - start) / start) * PERCENTILE, 1)
+    #return round(((old - new) / new) * PERCENTILE, 1)
 
 """
 # Finds the index of the first object where name is "Bob"
@@ -185,4 +187,9 @@ if idx is not None:
 
 users[:] = [u for u in users if u.name != "Bob"]
 arr[:] = [a for a in arr if a.key != "___"]
+
+
+# Get highest voted 
+return [max(candidates, key=lambda c: c.total)]
+return [max(candidates, key=lambda c: c.votes[choice])]
 """
