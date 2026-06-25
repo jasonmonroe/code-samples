@@ -1,0 +1,8 @@
+# .gitignore
+
+.idea
+.venv
+
+venv
+
+logs/

@@ -18,7 +18,8 @@ from src.candidate_chooser import CandidateChooser
 from src.constants import (
     BLANK_BALLOT, 
     CANDIDATE_DEFAULT_COUNT, 
-    DEFAULT_VOTER_COUNT, 
+    DEFAULT_VOTER_COUNT,
+    I_QUES, 
     MAX_CANDIDATES, 
     MAX_CHOICES, 
     #MIN_CANDIDATES, 
@@ -67,7 +68,7 @@ class ElectionSys:
 
     def _query_candidate_count(self) -> int:
         # Query number of candidates.
-        query_candidates = f"\nHow many candidates ({CANDIDATE_DEFAULT_COUNT} to {MAX_CANDIDATES}) will register for this election? "
+        query_candidates = f"\nHow many candidates ({CANDIDATE_DEFAULT_COUNT} to {MAX_CANDIDATES}) will register for this election{I_QUES} "
         q_candidate_cnt = self._validate_input(query_candidates)
 
         if q_candidate_cnt == '':
@@ -95,11 +96,10 @@ class ElectionSys:
 
     def _query_voter_count(self) -> int:
         # Query number of voters.
-        query_voters = f"\nHow many voters will participate in this election? "
+        query_voters = f"\nHow many voters will participate in this election{I_QUES} "
         q_voters_cnt = self._validate_input(query_voters)
 
         if q_voters_cnt == '':
-            #q_voters_cnt = random.randint(DEFAULT_VOTER_COUNT, (DEFAULT_VOTER_COUNT * 8))
             q_voters_cnt = random.randint(DEFAULT_VOTER_COUNT, 20)
         if q_voters_cnt < DEFAULT_VOTER_COUNT:
             q_voters_cnt = DEFAULT_VOTER_COUNT
@@ -131,7 +131,6 @@ class ElectionSys:
             except ValueError:
                 print('Invalid input. Please enter an integer or press enter for a random value to be used.')
 
-  
     def reset_candidate_pool(self) -> None:
         logging.debug('Resetting candidate pool.') 
 
@@ -151,12 +150,12 @@ class ElectionSys:
             self.candidates[i].contributions += amt
         
         # Add to total contributions
-        # Total candidate contributions
         self.total_contributions = self._sum_contributions()
         pct_change = calc_pct_change(total_contributions, self.total_contributions)
+        msg = f'🤝🏾 Wow! Your total contributions went from ${total_contributions} (pre-election) to ${self.total_contributions}.'
+        msg += f'\nA {pct_change}% increase.'
 
-        print(f'Wow, total contributions went from $ {total_contributions} (pre-election) to $ {self.total_contributions}. A {pct_change}% increase.')
-        logging.info(f'Wow, total contributions went from $ {total_contributions} (pre-election) to $ {self.total_contributions}. A {pct_change}% increase.')
+        logging.info(msg)
 
     def vote(self, voter_cnt: int=0) -> None:
         if voter_cnt == 0:
@@ -166,7 +165,6 @@ class ElectionSys:
         self.reset_candidate_pool()
         
         self.vote_selector = CandidateChooser(
-            #self.candidates, # pass in the pool as candidate
             self.candidate_pool,
             self.total_contributions,
             Candidate.mean_name_len()
@@ -180,7 +178,7 @@ class ElectionSys:
 
         # Every voter casts a ballot, # Every voter has up to 4 choices
         for idx in range(voter_cnt):
-            logging.info(f"\n\nvoter {idx} is voting...")
+            logging.info(f"voter {idx} is voting...")
             self.ballots.append([])
 
             # Reset candidate pool before picking unique candidates
@@ -201,7 +199,7 @@ class ElectionSys:
 
             choice = 0
             while choice < choice_cnt:
-                logging.debug(f"\nchoice= {choice}.")
+                logging.debug(f"choice= {choice}.")
 
                 candidate_chosen = self._candidate_chooser()
                 msg = f"Candidate chosen: {candidate_chosen}"
@@ -243,6 +241,3 @@ class ElectionSys:
             subtitles.append(f"{self.candidates[i].votes}  | {self.candidates[i].uid} - ({self.candidates[i].party[0:3].upper()}) {self.candidates[i].name}")
 
         show_banner('BALLOT TALLIES', subtitles)
-
-    def show_results() -> None:
-        pass

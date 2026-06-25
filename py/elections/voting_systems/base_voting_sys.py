@@ -1,5 +1,4 @@
 # voting_systems/base_voting_sys.py
-
 """
 +----------------------------------------------------------------------------
 | BASE VOTING SYSTEM
@@ -14,8 +13,6 @@ import logging
 from abc import ABC, abstractmethod
 
 # Local Libraries
-from src.candidate import Candidate
-#from src.candidate_pool import CandidatePool
 from src.constants import FIRST_CHOICE, I_RIBBON
 from src.utils import get_index_by_uid, show_banner
 
@@ -35,7 +32,6 @@ class BaseVotingSystem(ABC):
     """
 
     def __init__(self, candidates: list, ballots: list):
-        #self.all_candidates = candidates.copy() # Treat as original
         self.candidates = candidates # Treat as a candidate pool
         self.candidate_pool = candidates.copy()
         self.ballots = ballots
@@ -49,11 +45,10 @@ class BaseVotingSystem(ABC):
     def _get_majority_cnt(self) -> int:
         return (self.ballot_cnt // 2) + 1
 
-
     def _clear_totals(self, candidates: list) -> list:
         for candidate in candidates:
                 candidate.total = 0
-
+                
         return candidates
 
     def _sync_pool(self):
@@ -62,7 +57,7 @@ class BaseVotingSystem(ABC):
     def tally_totals(self, 
         choice: int=FIRST_CHOICE, # Which round are we voting on.  Default = 0
         clear_totals: bool=False, # Whether we set total = 0
-        use_pool: bool=True # Use candidate_pool instead of candidates
+        use_pool: bool=True       # Use candidate_pool instead of candidates
         ) -> None:
 
         attrs = {
@@ -79,9 +74,7 @@ class BaseVotingSystem(ABC):
             candidates = self._clear_totals(candidates)
         
         for ballot in self.ballots:
-            #print(f"ballot={ballot}")
             idx = get_index_by_uid(candidates, ballot[choice])
-            #print(f"tally_totals() idx={idx}, ballot_uid={ballot[choice]}")
             candidates[idx].total += 1
 
         if not clear_totals and not use_pool:
@@ -100,7 +93,9 @@ class BaseVotingSystem(ABC):
                 subtitles.append(line)
 
             show_banner(self.title, subtitles)
-            print(f"\nWinner: {I_RIBBON} {self.winner.name} ({self.winner.party})\n")
+            msg = f"\nWinner: {I_RIBBON} {self.winner.name} ({self.winner.party})\n"
+            print(msg)
+            logging.info(msg)
         
         else:
             logging.warning("No winner!")

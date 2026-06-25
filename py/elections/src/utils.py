@@ -1,5 +1,4 @@
 # src/utils.py
-
 """
 +----------------------------------------------------------------------------
 | Utilities
@@ -9,13 +8,14 @@
 
 # Python Libraries
 import logging
+from pathlib import Path
 import random
 import textwrap
 import time
 import uuid
 
+from src.class_name_filter import ClassNameFilter
 from src.constants import (I_TIMER, MAX_LINE_LEN, MSEC, PEP8_LINE_LEN, PERCENTILE, RUN_MAX_ID, RUN_MIN_ID, SECS_IN_MIN)
-#from voting_systems.ranked_choice_sys import results_logger
 
 results_logger = logging.getLogger("results_logger")
 
@@ -55,20 +55,18 @@ def get_time(start_time_float: float, end_time_float: float | None = None) -> st
 
 
 def show_timer(start_time_int: float) -> None:
-    print(f"{I_TIMER} Run Time: {get_time(start_time_int)}")
+    msg = f"{I_TIMER} Run Time: {get_time(start_time_int)}"
+    print(msg)
+    logging.info(msg)
 
 
-def _make_top_btm_line() -> str:
-    #open_close_len = 2 # open close of char `+` or `|`
-    #max_line_len = PEP8_LINE_LEN - open_close_len
-
+def _draw_line() -> str:
     return '+' + ('-' * (PEP8_LINE_LEN - 2)) + '+'
 
 
 def _create_title_banner(text: str, center_text: bool=True) -> None:
     open_close_len = 4 # open close of char `+` or `|`
-    #max_line_len = PEP8_LINE_LEN - open_close_len
-
+    
     # Trim off any chars after limit plus two spaces for blanks
     text = text[0: MAX_LINE_LEN - open_close_len]
     text_len = len(text)
@@ -85,9 +83,10 @@ def _create_title_banner(text: str, center_text: bool=True) -> None:
         # Remove last two characters to account for open/close spacing
         title_line = "| " + text + (' ' * padding_len) + " |"
         
-    top_btm_line = _make_top_btm_line()
+    top_btm_line = _draw_line()
 
     # Print title banner
+    print("")
     print(top_btm_line)
     print(title_line)
     print(top_btm_line)
@@ -131,11 +130,12 @@ def _create_subtitle_banner(text: str | list, center_text: bool=False) -> None:
             padded_line = "| " + line + (' ' * padding_len) + " |"
   
         print(padded_line)
+        results_logger.info(padded_line)
        
     # Close the subtitle
     if len(wrapped_lines) > 0:
-        print(_make_top_btm_line())
-        results_logger.info(_make_top_btm_line())
+        print(_draw_line())
+        results_logger.info(_draw_line())
 
     return None
 
@@ -174,6 +174,58 @@ def placement(place: int, mode: str="") -> str:
 
 def calc_pct_change(start: float, final: float) -> float:
     return round(((final - start) / start) * PERCENTILE, 1)
+
+
+def init_logger(run_id: str) -> logging:
+    print("# --- Setting logger --- #")
+
+    project_dir = Path(__file__).resolve().parent
+    log_dir = project_dir / "logs"
+    
+    # Safely creates folder if it doesn't exist (no IF check needed)
+    log_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Define shared formatter
+    formatter = logging.Formatter('%(asctime)s - %(classname)s.%(funcName)s - %(levelname)s - %(message)s')
+    
+    # SETUP MAIN/ROOT LOGGER (output-{run_id}.log)
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.DEBUG)
+    
+    if root_logger.hasHandlers():
+        root_logger.handlers.clear()
+        
+    output_file_path = log_dir / f"output-{run_id}.log"
+    output_handler = logging.FileHandler(filename=str(output_file_path), mode='a')
+    output_handler.setLevel(logging.DEBUG)
+    output_handler.setFormatter(formatter)
+    root_logger.addHandler(output_handler)
+
+    # SETUP TOPIC LOGGER (results-{run_id}.log)
+    results_log = logging.getLogger("results_logger")
+    results_log.setLevel(logging.INFO)
+    results_log.propagate = False  # Prevents results logs from leaking into output.log
+    results_formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+    
+    if results_log.hasHandlers():
+        results_log.handlers.clear()
+
+    results_file_path = log_dir / f"results-{run_id}.log"
+    results_handler = logging.FileHandler(filename=str(results_file_path), mode='a')
+    results_handler.setLevel(logging.INFO)
+    results_handler.setFormatter(results_formatter)
+    #results_log.addHandler(results_handler)
+    root_logger.addHandler(results_handler)
+
+    # 3. ATTACH FILTERS GLOBALLY
+    if not any(isinstance(f, ClassNameFilter) for f in root_logger.filters):
+        root_logger.addFilter(ClassNameFilter())
+        
+    if not any(isinstance(f, ClassNameFilter) for f in results_log.filters):
+        results_log.addFilter(ClassNameFilter())
+    print(f"type -> logging.getLogger(__name__)={type(logging.getLogger(__name__))}")
+    return logging.getLogger(__name__)
+
   
 
 """
