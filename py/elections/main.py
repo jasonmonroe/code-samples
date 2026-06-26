@@ -12,7 +12,7 @@ from pathlib import Path
 import sys
 
 # Local Libraries
-from src.class_name_filter import ClassNameFilter
+#from src.class_name_filter import ClassNameFilter
 from src.constants import( ARG_PARAMS, I_BOT, I_WARNING)
 from src.election import ElectionSys
 from src.utils import get_run_id, init_logger, show_banner, show_timer, start_timer
@@ -29,8 +29,8 @@ def run_main_pipeline(args: dict):
 
     # Define electoral process: Select candidate count, declare candidacy
     election = ElectionSys(args.get('noise'))
-
     voter_cnt = election.register()
+
     election.contribute(voter_cnt)
     election.vote(voter_cnt)
     election.tally()

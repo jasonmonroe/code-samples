@@ -19,13 +19,15 @@ from src.constants import (
     BLANK_BALLOT, 
     CANDIDATE_DEFAULT_COUNT, 
     DEFAULT_VOTER_COUNT,
+    FIRST_CHOICE,
     I_QUES, 
     MAX_CANDIDATES, 
     MAX_CHOICES, 
     #MIN_CANDIDATES, 
     NO_CHOICE_PCT_THRESHOLD,
     NO_VOTE_PCT_THRESHOLD, 
-    NO_VOTE_VAL
+    NO_VOTE_VAL,
+    PERCENTILE
     )
 from src.utils import (
     calc_pct_change,
@@ -52,12 +54,13 @@ class ElectionSys:
     
 
     def register(self) -> int:
-       q_candidate_cnt = self._query_candidate_count()
+        # @todo - uncomment q_candidate_cnt = self._query_candidate_count()
+        q_candidate_cnt = 4
 
-       # Declare candidacy
-       self._declare_candidacy(q_candidate_cnt)
-   
-       return self._query_voter_count()
+        # Declare candidacy
+        self._declare_candidacy(q_candidate_cnt)
+        return 14
+        # @todo - uncomment return self._query_voter_count()
 
     def _sum_contributions(self) -> float:
         sum_val = 0
@@ -100,10 +103,8 @@ class ElectionSys:
         q_voters_cnt = self._validate_input(query_voters)
 
         if q_voters_cnt == '':
-            q_voters_cnt = random.randint(DEFAULT_VOTER_COUNT, 20)
-        if q_voters_cnt < DEFAULT_VOTER_COUNT:
             q_voters_cnt = DEFAULT_VOTER_COUNT
-
+        
         return q_voters_cnt
 
     def _validate_input(self, message: str, str_flag: bool=False) -> str | int:
@@ -142,9 +143,9 @@ class ElectionSys:
 
     def contribute(self, votor_cnt: int):
         # Donate to candidate
-        logging.info('Getting more campaign contributions...')
+        logging.info('🤝🏾 Getting more campaign contributions 🤝🏾')
         total_contributions = self.total_contributions
-
+        
         for i in range(0, len(self.candidates)):
             amt = self.candidates[i].get_contributions(votor_cnt)
             self.candidates[i].contributions += amt
@@ -152,12 +153,12 @@ class ElectionSys:
         # Add to total contributions
         self.total_contributions = self._sum_contributions()
         pct_change = calc_pct_change(total_contributions, self.total_contributions)
-        msg = f'🤝🏾 Wow! Your total contributions went from ${total_contributions} (pre-election) to ${self.total_contributions}.'
+        msg = f'Wow! Your total contributions went from ${total_contributions} (pre-election) to ${self.total_contributions}.'
         msg += f'\nA {pct_change}% increase.'
 
         logging.info(msg)
 
-    def vote(self, voter_cnt: int=0) -> None:
+    def vote(self, voter_cnt: int=FIRST_CHOICE) -> None:
         if voter_cnt == 0:
             voter_cnt = self._query_voter_count()
 
@@ -167,7 +168,8 @@ class ElectionSys:
         self.vote_selector = CandidateChooser(
             self.candidate_pool,
             self.total_contributions,
-            Candidate.mean_name_len()
+            Candidate.mean_name_len(),
+            self.add_noise,
             )
 
         show_banner('VOTERS', f'There are {voter_cnt} registered voters for this election.', True, True)
@@ -186,7 +188,7 @@ class ElectionSys:
             self.vote_selector.reset_likeliness()
 
             if self.add_noise:
-                no_vote_odds = random.randint(0, 100)
+                no_vote_odds = random.randint(0, PERCENTILE)
                 if no_vote_odds < NO_VOTE_PCT_THRESHOLD:
                     logging.warning(f"Voter {voter_cnt} did not cast a ballot.")
                     self.ballots[idx] = BLANK_BALLOT
@@ -197,27 +199,34 @@ class ElectionSys:
             for c in self.candidate_pool:
                 logging.debug(f"pool uid = {c.uid}")
 
-            choice = 0
+            choice = FIRST_CHOICE
             while choice < choice_cnt:
-                logging.debug(f"choice= {choice}.")
+                logging.debug(f"\nchoice= {choice}.")
 
                 candidate_chosen = self._candidate_chooser()
                 msg = f"Candidate chosen: {candidate_chosen}"
                 logging.debug(msg)
         
                 self.ballots[idx].append(candidate_chosen)  
+
+                self.__output_pool()
          
                 # Remove chosen candidate from pool
                 candidate_idx = get_index_by_uid(self.candidate_pool, candidate_chosen)
+                logging.debug(f"pop candidate_idx={candidate_idx} from pool.")
 
                 self.candidate_pool.pop(candidate_idx)
                 choice += 1
+
+    def __output_pool(self):
+        for idx, candidate in enumerate(self.candidate_pool):
+            logging.debug(f"candidate = {vars(candidate)}")
 
     def _candidate_chooser(self) -> str:
         # Add some noise to the voting experience for realism.
         # The odds of a voter doesn't vote for a candidate by choice is no more than 1%.
         if self.add_noise:
-            random_choice_odds = random.randint(0, 100)
+            random_choice_odds = random.randint(0, PERCENTILE)
             if random_choice_odds <= NO_CHOICE_PCT_THRESHOLD:
                 return NO_VOTE_VAL
 

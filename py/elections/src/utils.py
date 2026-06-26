@@ -176,11 +176,14 @@ def calc_pct_change(start: float, final: float) -> float:
     return round(((final - start) / start) * PERCENTILE, 1)
 
 
-def init_logger(run_id: str) -> logging:
-    print("# --- Setting logger --- #")
+def init_logger(run_id: str) -> logging.Logger:
+    print("init logger")
+    logging.debug("# --- Setting logger --- #")
 
-    project_dir = Path(__file__).resolve().parent
+    project_dir = Path(__file__).resolve().parent.parent
+    print(f"project_dir={project_dir}")
     log_dir = project_dir / "logs"
+    print(f"log_dir={log_dir}")
     
     # Safely creates folder if it doesn't exist (no IF check needed)
     log_dir.mkdir(parents=True, exist_ok=True)
@@ -214,8 +217,8 @@ def init_logger(run_id: str) -> logging:
     results_handler = logging.FileHandler(filename=str(results_file_path), mode='a')
     results_handler.setLevel(logging.INFO)
     results_handler.setFormatter(results_formatter)
-    #results_log.addHandler(results_handler)
-    root_logger.addHandler(results_handler)
+    results_log.addHandler(results_handler)
+    #root_logger.addHandler(results_handler)
 
     # 3. ATTACH FILTERS GLOBALLY
     if not any(isinstance(f, ClassNameFilter) for f in root_logger.filters):
@@ -223,7 +226,7 @@ def init_logger(run_id: str) -> logging:
         
     if not any(isinstance(f, ClassNameFilter) for f in results_log.filters):
         results_log.addFilter(ClassNameFilter())
-    print(f"type -> logging.getLogger(__name__)={type(logging.getLogger(__name__))}")
+  
     return logging.getLogger(__name__)
 
   

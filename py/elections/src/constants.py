@@ -15,9 +15,6 @@ ARG_PARAMS = [
     "--redist",
     "--remaining",
     "--weighted",
-   
-    #'--run',       # Starts version of app
-    #'--start'      # Starts voting
     ]
 
 # --- Generic Constants --- #
@@ -145,6 +142,10 @@ POLITICAL_PARTIES = [
     'Republican'
 ]
 
+PARTY_TOP_TIER = 48
+PARTY_MID_TIER = 4
+PARTY_BTM_TIER = 2
+
 # --- Voters --- #
 FIRST_CHOICE = 0
 MAX_CHOICES = 4
@@ -159,8 +160,13 @@ VOTER_LIKELYNESS_PICK_ODDS = 12 # The odds of a voter just randomly picking a ca
 
  
 MIN_VOTERS = 9 #25
-MAX_VOTERS = 15 #168000000
+MAX_VOTERS = 15 #168000000 
 
+# 49.8% of popular vote Rep
+# 48.3% of popular vote Dem
+
+# Dems: 45.1 million registered voters.
+# Reps: 35.7 million registered voters.
 #MAX_VOTER_CANDIDATE_SCORE = 20
 
 # --- Output Files --- #
@@ -193,7 +199,7 @@ I_MINUS = '➖'
 I_PEN = '🖊️'
 I_PLUS = '➕'
 I_QUES = '❓'
-I_RUNNING = '🏃'
+#I_RUNNING = '🏃'
 #I_SAD = '😢'
 I_SKULL = '💀'
 I_SLEEPING = '😴'
