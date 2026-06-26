@@ -1,7 +1,7 @@
 # Election Class
 import random
-from helpers import uid, ridx, place_str, map_id_to_candidate_index, MIN_CANDIDATES, MAX_CANDIDATES, Candidate, \
-    MIN_VOTERS, MAX_VOTERS, MAX_CHOICES, PERCENTILE, NO_VOTE_PCT_THRESHOLD, NO_VOTE_VAL, show_output, sort_candidates, \
+from helpers import uid, ridx, place_str, map_id_to_candidate_index, CANDIDATE_COUNT_MIN, CANDIDATE_COUNT_MAX, Candidate, \
+    VOTER_MIN_COUNT, VOTER_MAX_COUNT, MAX_CHOICES, PERCENTILE, VOTE_BLANK_PCT_THRESH, VOTE_BLANK, show_output, sort_candidates, \
     FIRST_CHOICE_INDEX
 from datetime import date
 
@@ -194,18 +194,18 @@ class Election:
             #global show_output
             show_output = True
 
-        candidate_cnt = self.validate_input(f'How many candidates ({MIN_CANDIDATES} to {MAX_CANDIDATES}) will register for the election?')
+        candidate_cnt = self.validate_input(f'How many candidates ({CANDIDATE_COUNT_MIN} to {CANDIDATE_COUNT_MAX}) will register for the election?')
 
         if candidate_cnt == '':
-            candidate_cnt = 4 #random.randint(MIN_CANDIDATES, MAX_CANDIDATES)
+            candidate_cnt = 4 #random.randint(CANDIDATE_COUNT_MIN, CANDIDATE_COUNT_MAX)
 
         else:
             # Set candidate count within range.
-            if candidate_cnt < MIN_CANDIDATES:
-                candidate_cnt = MIN_CANDIDATES
+            if candidate_cnt < CANDIDATE_COUNT_MIN:
+                candidate_cnt = CANDIDATE_COUNT_MIN
 
-            if candidate_cnt > MAX_CANDIDATES:
-                candidate_cnt = MAX_CANDIDATES
+            if candidate_cnt > CANDIDATE_COUNT_MAX:
+                candidate_cnt = CANDIDATE_COUNT_MAX
 
         print(f'There are {candidate_cnt} candidates for this election.')
 
@@ -249,13 +249,13 @@ class Election:
         voter_cnt = self.validate_input('\nHow many voters are there?')
 
         if voter_cnt == '':
-            voter_cnt = random.randint(MIN_VOTERS, MAX_VOTERS)  # should be MAX_VOTERS
+            voter_cnt = random.randint(VOTER_MIN_COUNT, VOTER_MAX_COUNT)  # should be VOTER_MAX_COUNT
         else:
-            if voter_cnt < MIN_VOTERS:
-                voter_cnt = MIN_VOTERS
+            if voter_cnt < VOTER_MIN_COUNT:
+                voter_cnt = VOTER_MIN_COUNT
 
-            elif voter_cnt > MAX_VOTERS:
-                voter_cnt = MAX_VOTERS
+            elif voter_cnt > VOTER_MAX_COUNT:
+                voter_cnt = VOTER_MAX_COUNT
 
         print(f'{voter_cnt} voters will vote in this election.')
 
@@ -302,11 +302,11 @@ class Election:
         no_vote_odds = random.randint(0, PERCENTILE)
 
         # The odds are 10% that a voter does not choose a candidate otherwise vote
-        if no_vote_odds >= NO_VOTE_PCT_THRESHOLD:
+        if no_vote_odds >= VOTE_BLANK_PCT_THRESH:
             return self.candidate_chooser()
 
         else:
-            return NO_VOTE_VAL
+            return VOTE_BLANK
 
     def candidate_chooser (self):
         """
@@ -341,7 +341,7 @@ class Election:
                 #    print(f'Ballot {i} choice {vote_choice} for candidate {voted_id}')
 
                 # Update the corresponding place attribute based on vote_choice.
-                if voted_id != NO_VOTE_VAL:
+                if voted_id != VOTE_BLANK:
                     index = map_id_to_candidate_index(voted_id, self.candidates)
                     self.candidates[index].votes[vote_choice] += 1
 

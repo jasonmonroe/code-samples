@@ -24,18 +24,18 @@ class BaseVotingSystem(ABC):
     Attributes:
         title (str): The title of the voting system.
         candidates (list): A list of candidates in the election.
-        ballots (list): A list of ballots cast in the election.
-        winner_id (int): The ID of the winning candidate.
+        voters (list): A list of voters that cast ballots in the election.
+        winner_uid (int): The ID of the winning candidate.
         majority (int): The majority vote needed to win the election.
         voter_cnt (int): The number of voters in the election.
         choice_vals (list): Weighted choice values for each place.
     """
 
-    def __init__(self, candidates: list, ballots: list):
+    def __init__(self, candidates: list, voters: list):
         self.candidates = candidates # Treat as a candidate pool
         self.candidate_pool = candidates.copy()
-        self.ballots = ballots
-        self.ballot_cnt = len(self.ballots)
+        self.voters = voters
+        #self.voter_cnt = len(self.voters)
         self.title = " System Results"
         self.winner_uid = None
         self.winner = None
@@ -43,7 +43,7 @@ class BaseVotingSystem(ABC):
 
 
     def _get_majority_cnt(self) -> int:
-        return (self.ballot_cnt // 2) + 1
+        return (len(self.voters) // 2) + 1
 
     def _clear_totals(self, candidates: list) -> list:
         for candidate in candidates:
@@ -69,13 +69,17 @@ class BaseVotingSystem(ABC):
         
         # Get candidates
         candidates = self.candidate_pool if use_pool else self.candidates
-        
+        logging.debug(f"candidates={candidates}")
         if clear_totals:
             candidates = self._clear_totals(candidates)
         
-        for ballot in self.ballots:
-            idx = get_index_by_uid(candidates, ballot[choice])
-            candidates[idx].total += 1
+        for voter in self.voters:
+            logging.debug(f"voter={voter.__dict__}")
+            for voter_candidate_uid in voter.ballot:
+                #voter_candidate_uid = ballot_choice
+                logging.debug(f"voter_candidate_uid={voter_candidate_uid}")
+                idx = get_index_by_uid(candidates, voter_candidate_uid)
+                candidates[idx].total += 1
 
         if not clear_totals and not use_pool:
             self.candidates = candidates

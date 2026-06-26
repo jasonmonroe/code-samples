@@ -10,6 +10,7 @@ import inspect
 import logging
 from pathlib import Path
 import sys
+import json
 
 # Local Libraries
 #from src.class_name_filter import ClassNameFilter
@@ -22,22 +23,31 @@ from voting_systems.ranked_choice_sys import RankChoiceVotingSystem
 from voting_systems.redistribution_sys import RedistributionSystem
 from voting_systems.weighted_sys import WeightedSystem
 
-
+### DONT FORGET TO REMOVE ALL @TODO'S
 def run_main_pipeline(args: dict):
 
     print(f'run_main_pipeline({args})')
 
     # Define electoral process: Select candidate count, declare candidacy
     election = ElectionSys(args.get('noise'))
-    voter_cnt = election.register()
+    logging_flag = election.register()
+     
+    # 🚩 Turn off logs if participation is too high!
+    if logging_flag:
+        logging.critical(f"Candidates: {len(election.candidates)}, Voters: {len(election.voters)} is too high.\n # --- 🚩 Turning off logs. 🚩 --- #")
+        logging.getLogger("results_logger").setLevel(logging.CRITICAL + 1)
 
-    election.contribute(voter_cnt)
-    election.vote(voter_cnt)
+
+    # --- Start the election season --- #
+    election.campaign()
+    election.vote()
     election.tally()
 
     # Copy variables for scoring
     candidates = election.candidates
     ballots = election.ballots
+    voters = election.voters
+
 
     # --- Now compare results to different systems --- #
 
@@ -48,16 +58,17 @@ def run_main_pipeline(args: dict):
     print("Running Popular Vote System...")
     logging.info("Popular Vote System")
 
-    popular_sys = PopularVotingSystem(candidates.copy(), ballots.copy())
+    popular_sys = PopularVotingSystem(candidates.copy(), voters.copy())
     #popular_sys.tally_totals()
     #popular_sys.determine_winner()
     popular_sys.results()
     popular_sys.show_results()
     """
 
-
+    logging.debug(json.dumps([u.__dict__ for u in voters], indent=4))
+    sys.exit(0)
     # Ranked Choice Voting System
-    ranked_choice_sys = RankChoiceVotingSystem(candidates.copy(), ballots.copy())
+    ranked_choice_sys = RankChoiceVotingSystem(candidates.copy(), voters.copy())
     logging.info("Running " + ranked_choice_sys.title)
     ranked_choice_sys.results()
     ranked_choice_sys.show_results()
@@ -65,13 +76,13 @@ def run_main_pipeline(args: dict):
 
     
     # Redistribution System
-    #redistribution_sys = RedistributionSystem(candidates.copy(), ballots.copy())
+    #redistribution_sys = RedistributionSystem(candidates.copy(), voters.copy())
 
     # Remaining Candidates System
-    #last_remaining_sys = LastRemainingCandidateSystem(candidates.copy(), ballots.copy())
+    #last_remaining_sys = LastRemainingCandidateSystem(candidates.copy(), voters.copy())
 
     # Weighted System
-    #weighted_sys = WeightedSystem(candidates.copy(), ballots.copy())
+    #weighted_sys = WeightedSystem(candidates.copy(), voters.copy())
 
 
 

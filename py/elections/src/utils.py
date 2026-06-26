@@ -8,13 +8,14 @@
 
 # Python Libraries
 from datetime import datetime
-import logging
 from pathlib import Path
+import logging
 import random
 import textwrap
 import time
 import uuid
 
+# Local Libraries
 from src.class_name_filter import ClassNameFilter
 from src.constants import (I_TIMER, MAX_LINE_LEN, MSEC, PEP8_LINE_LEN, PERCENTILE, RUN_MAX_ID, RUN_MIN_ID, SECS_IN_MIN)
 
@@ -176,9 +177,7 @@ def placement(place: int, mode: str="") -> str:
 def calc_pct_change(start: float, final: float) -> float:
     return round(((final - start) / start) * PERCENTILE, 1)
 
-from datetime import datetime
-import logging
-from pathlib import Path
+
 
 def init_logger(run_id: str) -> logging.Logger:
     print("init logger")
@@ -197,7 +196,7 @@ def init_logger(run_id: str) -> logging.Logger:
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     
     # Updated: Added line number with 3-space right-alignment padding directly before classname
-    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(classname)s.%(funcName)s (%(lineno)3d) - %(message)s')
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(classname)s.%(funcName)s - %(lineno)3d - %(message)s')
     
     # SETUP MAIN/ROOT LOGGER
     root_logger = logging.getLogger()
@@ -238,7 +237,7 @@ def init_logger(run_id: str) -> logging.Logger:
     return logging.getLogger(__name__)
 
 
-# @todo - fiix
+# @TODO - fiix
 def init_logger_orig(run_id: str) -> logging.Logger:
     print("init logger")
     logging.debug("# --- Setting logger --- #")

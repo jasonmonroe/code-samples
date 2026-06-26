@@ -1,12 +1,15 @@
 # src/candidate.py
 
 # Python Libraries
+import logging
 import random
 from statistics import mean
 
+# Local Libraries
 from src.constants import (
-    CANDIDATE_CONTRIBUTION_MAX, 
-    CANDIDATE_CONTRIBUTION_MIN, 
+    BALLOT_FRESH,
+    CANDIDATE_DONATION_MAX, 
+    CANDIDATE_DONATION_MIN, 
     CANDIDATE_NAME_POOL, 
     CANDIDATE_DEFAULT_COUNT, 
     DEFAULT_VOTER_COUNT, 
@@ -23,9 +26,9 @@ class Candidate:
         self.name = self._get_name()
         self.party = self._get_party()
         self.duration = self._get_duration()
-        self.contributions = self.get_contributions()
+        self.donations = self.campaign()
         self.is_winner = None # False = removed from pool, True = winner, None = still in pool
-        self.votes = [0, 0, 0, 0]
+        self.votes = BALLOT_FRESH
         self.total = 0
         #self.points = 0
         #self.score = 0
@@ -42,7 +45,7 @@ class Candidate:
     def _get_party(self) -> str:
         return random.choice(POLITICAL_PARTIES)
     
-    # @todo -defunct
+    # @TODO -defunct
     @staticmethod
     def get_names() -> tuple(list, list):
         """
@@ -53,7 +56,7 @@ class Candidate:
 
         return CANDIDATE_NAME_POOL["first"], CANDIDATE_NAME_POOL["last"]
 
-    # @todo -defunct
+    # @TODO -defunct
     @staticmethod
     def get_parties():
         """
@@ -63,15 +66,21 @@ class Candidate:
 
         return POLITICAL_PARTIES
 
-    def get_contributions(self, donor_cnt: int=None) -> float:
-        # Initial contributions before campaign starts
+
+    # @todo this is where ElectionSys.contribute() will be
+    #def campaign(self):
+    #    pass
+
+    # Campaign!
+    def campaign(self, donor_cnt: int=None) -> float:
+        # Initial donations before campaign starts
 
         donors = random.randint(CANDIDATE_DEFAULT_COUNT, DEFAULT_VOTER_COUNT * 3) if donor_cnt is None else donor_cnt
     
-        # determine party, then determine likelyness of party contributions
+        # determine party, then determine likelyness of party donations
         amount = 0.0
         for _ in range(0, donors):
-            min_contr, max_contr = self._contributition_limits()
+            min_contr, max_contr = self._donation_limits()
             amount += random.uniform(min_contr, max_contr) 
             #print(f'amt={amt}')
 
@@ -81,18 +90,18 @@ class Candidate:
         start = random.randint(1, 45)
         return random.randint(start, ELECTION_DURATION)
 
-    def _contributition_limits(self) -> tuple:
-        min_value = CANDIDATE_CONTRIBUTION_MIN 
+    def _donation_limits(self) -> tuple:
+        min_value = CANDIDATE_DONATION_MIN 
         
         if self.party in ['Democrat', 'Republican']:
             min_value = 100
-            max_value = CANDIDATE_CONTRIBUTION_MAX
+            max_value = CANDIDATE_DONATION_MAX
         elif self.party in ['Green', 'Libertarian']:
-            max_value = CANDIDATE_CONTRIBUTION_MAX / 2
+            max_value = CANDIDATE_DONATION_MAX / 2
         elif self.party in ['Progressive']:
-            max_value = CANDIDATE_CONTRIBUTION_MAX / 2.5
+            max_value = CANDIDATE_DONATION_MAX / 2.5
         else:
-            max_value = CANDIDATE_CONTRIBUTION_MAX / 4
+            max_value = CANDIDATE_DONATION_MAX / 4
 
         return min_value, max_value
 
@@ -106,6 +115,6 @@ class Candidate:
         for i in range(0, len(first_names)):
             for j in range(0, len(last_names)):
                 name_lens.append(len(first_names[i] + ' ' + last_names[j]))
-
-        return mean(name_lens)
+      
+        return int(mean(name_lens))
                 

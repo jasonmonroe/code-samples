@@ -22,7 +22,7 @@
 | @link https://www.youtube.com/watch?v=oHRPMJmzBBw
 """
 
-from helpers import MAX_CHOICES, NO_VOTE_VAL, FIRST_CHOICE_INDEX, map_id_to_candidate_index, sort_candidates, place_str
+from helpers import MAX_CHOICES, VOTE_BLANK, FIRST_CHOICE_INDEX, map_id_to_candidate_index, sort_candidates, place_str
 from voting_sys import VotingSystem
 
 class RemainingCandidatesSystem(VotingSystem):
@@ -52,7 +52,7 @@ class RemainingCandidatesSystem(VotingSystem):
             # Note: since we're removing the loser from the ballot, we only need to count the top row.
             voted_id = ballot[FIRST_CHOICE_INDEX]
 
-            if voted_id != NO_VOTE_VAL:
+            if voted_id != VOTE_BLANK:
                 index = map_id_to_candidate_index(voted_id, self.candidates)
                 self.candidates[index].total += 1
                 #print('Round:', round_num, 'Voted ID:', voted_id, 'Total:', self.candidates[index].total)

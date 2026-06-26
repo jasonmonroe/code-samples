@@ -8,7 +8,7 @@
 """
 
 # Import Libraries
-from helpers import show_output, MAX_CHOICES, NO_VOTE_VAL, FIRST_CHOICE_INDEX, map_id_to_candidate_index, sort_candidates
+from helpers import show_output, MAX_CHOICES, VOTE_BLANK, FIRST_CHOICE_INDEX, map_id_to_candidate_index, sort_candidates
 
 class VotingSystem:
     """

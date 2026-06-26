@@ -9,7 +9,7 @@
 | to determine the winner.
 """
 
-from helpers import map_id_to_candidate_index, sort_candidates, place_str, MAX_CHOICES, NO_VOTE_VAL, FIRST_CHOICE_INDEX
+from helpers import map_id_to_candidate_index, sort_candidates, place_str, MAX_CHOICES, VOTE_BLANK, FIRST_CHOICE_INDEX
 from voting_sys import VotingSystem
 
 class RedistributionSystem(VotingSystem):
@@ -96,7 +96,7 @@ class RedistributionSystem(VotingSystem):
                     next_choice_voted_id = self.ballots[i][next_choice]
                     #print('   Next choice is candidate ID:', next_choice_voted_id)
 
-                    if next_choice_voted_id != NO_VOTE_VAL:
+                    if next_choice_voted_id != VOTE_BLANK:
                         next_choice_index = map_id_to_candidate_index(next_choice_voted_id, self.candidates)
 
                         # Only apply losing votes to candidates that are still in the pool
