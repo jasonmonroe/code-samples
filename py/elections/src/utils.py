@@ -7,6 +7,7 @@
 """
 
 # Python Libraries
+from datetime import datetime
 import logging
 from pathlib import Path
 import random
@@ -175,8 +176,70 @@ def placement(place: int, mode: str="") -> str:
 def calc_pct_change(start: float, final: float) -> float:
     return round(((final - start) / start) * PERCENTILE, 1)
 
+from datetime import datetime
+import logging
+from pathlib import Path
 
 def init_logger(run_id: str) -> logging.Logger:
+    print("init logger")
+    logging.debug("# --- Setting logger --- #")
+    
+    project_dir = Path(__file__).resolve().parent.parent
+    print(f"project_dir={project_dir}")
+    
+    log_dir = project_dir / "logs"
+    print(f"log_dir={log_dir}")
+    
+    # Safely creates folder if it doesn't exist
+    log_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Generate the safe datetime string (e.g., "2026-06-25_23-18-18")
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    
+    # Updated: Added line number with 3-space right-alignment padding directly before classname
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(classname)s.%(funcName)s (%(lineno)3d) - %(message)s')
+    
+    # SETUP MAIN/ROOT LOGGER
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.DEBUG)
+    
+    if root_logger.hasHandlers():
+        root_logger.handlers.clear()
+        
+    output_file_path = log_dir / f"{timestamp}_output.log"
+    output_handler = logging.FileHandler(filename=str(output_file_path), mode='a')
+    output_handler.setLevel(logging.DEBUG)
+    output_handler.setFormatter(formatter)
+    root_logger.addHandler(output_handler)
+    
+    # SETUP TOPIC LOGGER
+    results_log = logging.getLogger("results_logger")
+    results_log.setLevel(logging.INFO)
+    results_log.propagate = False 
+    
+    results_formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+    
+    if results_log.hasHandlers():
+        results_log.handlers.clear()
+        
+    results_file_path = log_dir / f"{timestamp}_results.log"
+    results_handler = logging.FileHandler(filename=str(results_file_path), mode='a')
+    results_handler.setLevel(logging.INFO)
+    results_handler.setFormatter(results_formatter)
+    results_log.addHandler(results_handler)
+    
+    # ATTACH FILTERS GLOBALLY
+    if not any(isinstance(f, ClassNameFilter) for f in root_logger.filters):
+        root_logger.addFilter(ClassNameFilter())
+        
+    if not any(isinstance(f, ClassNameFilter) for f in results_log.filters):
+        results_log.addFilter(ClassNameFilter())
+        
+    return logging.getLogger(__name__)
+
+
+# @todo - fiix
+def init_logger_orig(run_id: str) -> logging.Logger:
     print("init logger")
     logging.debug("# --- Setting logger --- #")
 

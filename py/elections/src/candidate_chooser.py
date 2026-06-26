@@ -6,6 +6,7 @@ import random
 import sys
 
 # Local Libraries
+from src.candidate import Candidate
 from src.constants import (
     ELECTION_DURATION,
     FIRST_CHOICE,
@@ -44,14 +45,22 @@ class CandidateChooser:
         # Pick the likeliness that a voter will just pick a random candidate out of fatigue or a lack of information
         # Then pick a random number.  If that number is less than the likelness pick a random candidate from the candidate pool.
         # Otherwise, use voter logic to determine who they're most likely to pick
-        self.candidates = candidate_pool
+        self.candidates = candidate_pool.copy()
+
+        # Sync likeability candidates
+        self._sync_likeliness()
+
+        #logging.debug("pick()")
+        #logging.debug(f"pick() Current Candidate Pool")
+        #for c in self.candidates:
+        #    logging.debug(f"candidate = {vars(c)}")
 
         # --- DO WE WANT TO PICK (random guess) OR CHOOSE (methodolical decision) A CANDIDATE? --- #
 
         pick_random_candidate_likeliness = random.randint(0, VOTER_LIKELYNESS_PICK_ODDS)
         random_pick = random.randint(0, PERCENTILE)
         
-        logging.debug(f'Random candidate likeliness: {pick_random_candidate_likeliness}, random_pick:{random_pick}')
+        logging.debug(f'Random candidate likeliness: {pick_random_candidate_likeliness}, random_pick: {random_pick}')
         random_pick = 99
         if random_pick <= pick_random_candidate_likeliness:
             random_candidate = random.choice(self.candidates)
@@ -69,65 +78,109 @@ class CandidateChooser:
         return candidate_uid
 
     def get_likeliness(self) -> list:
-        return self._calc_likeliness()
         logging.debug('get_likeliness()')
-        #logging.debug(f"likeliness={likeliness}")
-
-        
-
-        #return self._convert_to_list(likeliness)
+        return self._calc_likeliness()
 
     def reset_likeliness(self) -> None:
         self.likeliness = self.likeliness_orig.copy()
 
-    def _refresh_likeliness(self, candidate_chosen: str) -> None:
+    def _sync_likeliness(self) -> None:
+        logging.debug("Syncing likeliness...")
+        synced = []
+        current = self.likeliness.copy()
+        
+        for curr in current:
+            #logging.debug(f"curr: {curr}")
+            for candidate in self.candidates:
+                #logging.debug(f"candidate: {candidate}")
+                if candidate.uid == curr.get("uid"):
+                    synced.append(curr)
+        logging.debug(f"likeliness synced: {synced}")
+        self.likeliness = synced
+
+    def _refresh_likeliness_orig(self, candidate_chosen: str) -> None:
         # remove chosen candidates from 
         logging.debug(f"Before -> likeliness count = {len(self.likeliness)}")
         logging.debug(f"Removing all {candidate_chosen} from likeliness.")
 
         filtered = [candidate for candidate in self.likeliness if candidate["uid"] != candidate_chosen]
         self.likeliness = filtered
-        #random.shuffle(self.likeliness)
-
+      
         logging.debug(f"After -> likeliness count = {len(self.likeliness)}")
+
+    def _rank_candidate(self, candidate: Candidate) -> dict:
+        party_val, party_weight = self._rank_party(candidate.party, self.party_counts[candidate.party])
+        duration_val, duration_weight = self._rank_duration(candidate.duration)
+        contribution_val, contribution_weight = self._rank_contributions(candidate.contributions)
+        ballot_placement_val, ballot_placement_weight = self._rank_placement_on_ballot(candidate.uid)
+        name_val, name_weight = self._rank_name(candidate.name)
+
+        likeliness_data = {
+            "party": party_val * party_weight,
+            "duration": duration_val * duration_weight,
+            "contribution": contribution_val * contribution_weight,
+            "ballot_placement": ballot_placement_val * ballot_placement_weight,
+            "name": name_val * name_weight
+        }
+
+        likeliness_data["score"] = self._get_likeliness_score(likeliness_data)
+
+        return likeliness_data
 
     def _calc_likeliness(self) -> dict:
         # Logic to pick a candidate.  Party, Gender name, placement on the ballot, campaign contributions, 
         # duration of candidacy
         likeliness = []
-        score_sum = 0
-
+        thresh = 0
         for candidate in self.candidates:
             logging.debug("\n")
+            likeliness_data = self._rank_candidate(candidate)
+
+            """
             party_val, party_weight = self._rank_party(candidate.party, self.party_counts[candidate.party])
             duration_val, duration_weight = self._rank_duration(candidate.duration)
             contribution_val, contribution_weight = self._rank_contributions(candidate.contributions)
             ballot_placement_val, ballot_placement_weight = self._rank_placement_on_ballot(candidate.uid)
             name_val, name_weight = self._rank_name(candidate.name)
 
-            likeliness_scores = {
+            likeliness_data = {
                 'party': party_val * party_weight,
                 'duration': duration_val * duration_weight,
                 'contribution': contribution_val * contribution_weight,
                 'ballot_placement': ballot_placement_val * ballot_placement_weight,
                 'name': name_val * name_weight
             }
+            """
 
-            # Calculate score
-            score = 0
-            for key in likeliness_scores:
-                score += likeliness_scores[key]
-                logging.debug(f"key={key}, new score = {score}")
-                
-            likeliness_scores["score"] = score
-            score_sum += score
+            #score = self._get_likeliness_score(likeliness_data)
+            thresh = thresh + int(round(likeliness_data["score"], 0))
+            #likeliness_data["score"] = score
+            likeliness_data["thresh"] = thresh
+
+            # below
+
+            #likeliness_data["score"] = self._get_likeliness_score(likeliness_data)
+            #thresh = thresh + likeliness_data["score"]
+            #likeliness_data["thresh"] = thresh
+            #score_sum += score
   
-            logging.debug(f'uid={candidate.uid}, likeliness_scores={likeliness_scores}')
-            logging.debug(f'Score: {score}')
-            likeliness.append({'uid': candidate.uid, 'score': score})
+            likeliness_dict = {
+                "uid": candidate.uid,
+                "score": likeliness_data["score"],
+                "thresh": likeliness_data["thresh"]
+            }
+
+            logging.debug(f"likeliness_dict = {likeliness_dict}")
+            likeliness.append(likeliness_dict)
         
-        logging.debug(f"Score sum: {score_sum}")
         return likeliness
+
+    def _get_likeliness_score(self, likeliness_data: dict) -> int:
+        score = 0
+        for key in likeliness_data:
+            score += likeliness_data[key]
+            logging.debug(f"key={key}, new score = {score}")
+        return score
 
     def _choose_by_likeability(self) -> str:
         logging.debug("_choose_by_likeability()")
@@ -140,33 +193,31 @@ class CandidateChooser:
 
 
     def _choose_by_heuristic(self) -> str | None:
+        from operator import itemgetter, attrgetter
+
         logging.debug("_choose_by_heuristic()")
         # Option 2: Take score aka percentages, stack the percentages and pick a random number to determine which 
         # stack to choose from (more intuitive).
 
         # To choose by heuristic, you apply a mental shortcut or "rule of thumb" to make a decision quickly without 
         # needing to analyze every piece of data. It provides a "good enough" answer in a fraction of the time.
-        """
-        [
-            {'uid': '9263fc', 'score': 29.01686237689195}, 
-            {'uid': '8e9abc', 'score': 35.31426369506968}, 
-            {'uid': '8a2f98', 'score': 20.91119189760808}, 
-            {'uid': 'cda5ef', 'score': 26.111128993734233}
-        ]
-        """
-
+        
         candidate_chosen = None
-        choose_threshold = random.randint(0, PERCENTILE)
+        max_thresh_dict = max(self.likeliness, key=lambda x: x["thresh"])
+        max_threshold = max_thresh_dict.get("thresh")
+        #max(self.likeliness, key=lambda x: x["thresh"])
+        logging.debug(f"max_threshold={max_threshold}")
+        choose_threshold = random.randint(0, max_threshold - 1)
         logging.debug(f"choose_threshold = {choose_threshold}")
 
-        thresh = 0 
+        #thresh = 0 
         for idx, candidate in enumerate(self.likeliness):
-            thresh = thresh + int(round(candidate["score"], 0))
-            logging.debug(f"idx={idx}, uid={candidate['uid']}, score={candidate['score']}")
-            candidate["thresh"] = thresh
-            logging.debug(f"if {choose_threshold} <= {thresh}: ")
-            if choose_threshold <= thresh:
-                candidate_chosen = candidate["uid"]
+            #thresh = thresh + int(round(candidate["score"], 0))
+            #logging.debug(f"idx={idx}, uid={candidate['uid']}, score={candidate['score']}")
+            #candidate["thresh"] = thresh
+            #logging.debug(f"if {choose_threshold} <= {thresh}: ")
+            if choose_threshold <= candidate.get("thresh"):
+                candidate_chosen = candidate.get("uid") #candidate["uid"]
                 logging.info(f"Choosing {candidate_chosen} by a heuristic approach.")
                 break
         logging.debug(f"self.likeliness={self.likeliness}")

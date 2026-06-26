@@ -5,6 +5,8 @@
 | ELECTION
 +----------------------------------------------------------------------------
 | Data for elections.
+| Electioneers can have candidates registered as well as voters.
++----------------------------------------------------------------------------
 """
 
 # Python Libraries
@@ -12,6 +14,7 @@ import logging
 import random
 import sys
 
+# Local Libraries
 #from src import candidate
 from src.candidate import Candidate
 from src.candidate_chooser import CandidateChooser
@@ -45,13 +48,8 @@ class ElectionSys:
         self.candidates = []
         self.candidate_pool = []  # pool of candidates to vote on
         self.results = [] # Election results
-        
         self.total_contributions = 0.0
         self.vote_selector = None
-        self.chosen = ""
-
-        #self.reset_candidate_pool()
-    
 
     def register(self) -> int:
         # @todo - uncomment q_candidate_cnt = self._query_candidate_count()
@@ -196,12 +194,10 @@ class ElectionSys:
             
             logging.debug(f"BEFORE pool len: {len(self.candidate_pool)}")
 
-            for c in self.candidate_pool:
-                logging.debug(f"pool uid = {c.uid}")
-
             choice = FIRST_CHOICE
             while choice < choice_cnt:
-                logging.debug(f"\nchoice= {choice}.")
+                logging.debug(f"\n\n# --- Choice: {choice} --- #")
+                self.__output_pool()
 
                 candidate_chosen = self._candidate_chooser()
                 msg = f"Candidate chosen: {candidate_chosen}"
@@ -209,16 +205,19 @@ class ElectionSys:
         
                 self.ballots[idx].append(candidate_chosen)  
 
-                self.__output_pool()
-         
                 # Remove chosen candidate from pool
                 candidate_idx = get_index_by_uid(self.candidate_pool, candidate_chosen)
-                logging.debug(f"pop candidate_idx={candidate_idx} from pool.")
-
-                self.candidate_pool.pop(candidate_idx)
+                logging.debug(f"pop candidate_idx={candidate_idx}, uid={candidate_chosen} from pool.")
+                if candidate_idx is not None:
+                    self.candidate_pool.pop(candidate_idx)
+                else:
+                    logging.warning("Candidate index was not found! Moving onto next.")
                 choice += 1
 
+            logging.debug(f"Vote {idx} of {voter_cnt} casted.")
+
     def __output_pool(self):
+        logging.debug(f"# --- Candidate Pool ({len(self.candidate_pool)})--- #")
         for idx, candidate in enumerate(self.candidate_pool):
             logging.debug(f"candidate = {vars(candidate)}")
 
@@ -233,6 +232,7 @@ class ElectionSys:
         return self.vote_selector.pick(self.candidate_pool)
 
     def tally(self) -> None:
+        logging.info("# --- Tallying ballots --- #")
         # This counts all the votes per candidate by each choice
         for i in range(0, len(self.ballots)):
             for vote_choice in range(0, len(self.ballots[i])): # always 4 
