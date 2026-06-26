@@ -65,7 +65,7 @@ def run_main_pipeline(args: dict):
     popular_sys.show_results()
     """
 
-    logging.debug(json.dumps([u.__dict__ for u in voters], indent=4))
+    #logging.debug(json.dumps([u.__dict__ for u in voters], indent=4))
     sys.exit(0)
     # Ranked Choice Voting System
     ranked_choice_sys = RankChoiceVotingSystem(candidates.copy(), voters.copy())

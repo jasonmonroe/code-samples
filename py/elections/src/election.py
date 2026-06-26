@@ -234,18 +234,18 @@ class ElectionSys:
                 self._show_pool()
 
                 # Update class with current candidate pool
-                logging.debug("Refreshing candidate_chooser.candidates from pool...")
+                ##logging.debug("Refreshing candidate_chooser.candidates from pool...")
 
-                logging.debug("DBG: BEFORE self._candidate_chooser.candidates refresh")
-                for candidate_chooser_candidate in self._candidate_chooser.candidates:
-                    logging.debug(f"chooser.candidate = {vars(candidate_chooser_candidate)}")
+                #logging.debug("DBG: BEFORE self._candidate_chooser.candidates refresh")
+                #for candidate_chooser_candidate in self._candidate_chooser.candidates:
+                #    logging.debug(f"chooser.candidate = {vars(candidate_chooser_candidate)}")
                 
-                self._candidate_chooser.candidates = self.candidate_pool
-                logging.debug(f"DBG: REFRESHED self._candidate_chooser.candidates!")
+                #self._candidate_chooser.candidates = self.candidate_pool
+                #logging.debug(f"DBG: REFRESHED self._candidate_chooser.candidates!")
                 
-                logging.debug("DBG: AFTER self._candidate_chooser.candidates refresh")
-                for candidate_chooser_candidate in self._candidate_chooser.candidates:
-                    logging.debug(f"chooser.candidate = {vars(candidate_chooser_candidate)}")
+                #logging.debug("DBG: AFTER self._candidate_chooser.candidates refresh")
+                #for candidate_chooser_candidate in self._candidate_chooser.candidates:
+                #    logging.debug(f"chooser.candidate = {vars(candidate_chooser_candidate)}")
                 
 
                 #candidate_chosen = self._candidate_chooser.decision()
@@ -273,6 +273,8 @@ class ElectionSys:
                 choice += 1
                 
             logging.debug(f"Vote {idx} of {voter_cnt} casted.")
+            import json
+            logging.debug(json.dumps([u.__dict__ for u in self.voters], indent=4))
 
     def tally(self) -> None:
         logging.info(f"\n# --- {I_BALLOT} Tallying ballots {I_BALLOT} --- #")
