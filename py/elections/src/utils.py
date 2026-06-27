@@ -235,6 +235,11 @@ def init_logger(run_id: str) -> logging.Logger:
         results_log.addFilter(ClassNameFilter())
         
     return logging.getLogger(__name__)
+    
+
+def mute_logger(candidate_cnt: int, voter_cnt:int):
+    logging.critical(f"Candidates: {candidate_cnt}, Voters: {voter_cnt} is too high.\n # --- 🚩 Turning off logs. 🚩 --- #")
+    logging.getLogger("results_logger").setLevel(logging.CRITICAL + 1)
 
 
 # @TODO - fiix

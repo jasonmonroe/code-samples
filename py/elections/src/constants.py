@@ -39,6 +39,8 @@ CANDIDATE_DEFAULT_COUNT = 4
 CANDIDATE_COUNT_MIN = 2
 CANDIDATE_COUNT_MAX = 10 #128
 
+CANDIDATE_DURATION_MAX_OFFSET = 45
+
 CANDIDATE_NAME_POOL = {
     'first': [
         'Alexander',
@@ -179,7 +181,6 @@ VOTER_ELEGIBLE = 0   # 18 years or older and citizen
 VOTER_REGISTERED = 0 # Eligible voter that has actually registered
 VOTER_VOTED = 0      # Registered voter than participated 63.7%.
 
-
 FIRST_CHOICE = 0
 MAX_CHOICES = 4
 
@@ -204,7 +205,7 @@ VOTER_MAX_COUNT = 16 #168000000
 
 # Dems: 45.1 million registered voters.
 # Reps: 35.7 million registered voters.
-#MAX_VOTER_CANDIDATE_SCORE = 20
+
 
 # --- Doners --- #
 # https://www.opensecrets.org/elections-overview/donor-demographics
@@ -216,47 +217,36 @@ DONOR_COUNT_MIN = 100
 DONOR_COUNT_MAX = 1000  
 
 
-# --- Output Files --- #
-#OUTPUT_LOG_FILE = "logs/output.log"
-#RESULTS_LOG_FILE = "logs/results.log"
-
 # --- Icons --- #
-#I_ANGRY = '😠'
+
 I_BOT = '🤖'
-#I_BOOK = '📚'
-#I_BROOM = '🧹'
+
 I_CHECKMARK = '✅'
 I_CLOCK = '⏰'
-#I_CONFUSED = '😕'
+
 I_CROSSMARK = '❌'
-#I_DB = '📊'
-#I_DIR = '📂'
+
 I_DEAD = '😵'
-#I_DISK = '💾'
-#I_DOCUMENT = '📄'
+
 I_EXCLAMATION = '❗'
-#I_FIRE = '🔥'
+
 I_FLAG = '🚩'
 I_FROWN = '😦'
-#I_GEAR = '⚙️'
-#I_GHOST = '👻'
+
 I_HANDSHAKE = '🤝🏾'
 I_INFO = 'ℹ️'
 I_MINUS = '➖'
 I_PEN = '🖊️'
 I_PLUS = '➕'
 I_QUES = '❓'
-#I_RUNNING = '🏃'
-#I_SAD = '😢'
+
 I_SKULL = '💀'
 I_SLEEPING = '😴'
 I_SMILING = '😊'
 I_STAR = '⭐'
-#I_SURPRISED = '😲'
+
 I_TIMER = '⏱'
-#I_THINKING = '🤔'
-#I_THUMBS_DOWN = '👎'
-#I_THUMBS_UP = '👍'
+
 I_WARNING = '⚠️'
 I_WATCH = '⌚'
 

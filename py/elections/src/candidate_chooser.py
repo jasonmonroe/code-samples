@@ -16,7 +16,7 @@ from src.constants import (
     PARTY_TOP_TIER, 
     #MAX_VOTER_CANDIDATE_SCORE, 
     PERCENTILE, 
-    POLITICAL_PARTIES,
+    #POLITICAL_PARTIES,
     VOTE_BLANK,
     VOTE_BLANK_PCT_THRESH,
     VOTE_BY_LIKELYNESS_ODDS,
@@ -41,16 +41,23 @@ class CandidateChooser:
         self.party_counts = party_counts
         self.total_donations = round(total_donations, 2)
 
-        # Build likeliness once at the beginning to get the odds.
-        self.likeliness_orig = self.get_likeliness()
-        self.likeliness = self.likeliness_orig.copy()
+        # Build favorables once at the beginning to get the odds.
+        self.favorables_orig = self.get_favorables()
+        self.favorables = self.favorables_orig.copy()
         
-        logging.debug(f"likeliness count = {len(self.likeliness)}")
+        logging.debug(f"favorables count = {len(self.favorables)}")
+
+        if len(self.favorables) == 0:
+            logging.critical("No favorables found.  Debug!")
+            logging.critical("Checking for candidates")
+            logging.critical(f"candidates = {self.candidates}")
+            logging.critical("sys.exit(0)")
+            sys.exit(0)
   
     # --- Voter decision --- #
 
     def decision(self) -> str | None:
-        # Three options: No vote, if there is a vote a random vote, if a methodical vote either likeability or heuristic
+        # Three options: No vote, if there is a vote a random vote, if a methodical vote either favorability or heuristic
         candidate_uid = None
         decision_odds = random.randint(0, PERCENTILE)
         logging.debug(f"decision odds: {decision_odds}")
@@ -63,7 +70,7 @@ class CandidateChooser:
                 # Voter is just going to vote randomly due to unfamiliarity or apathy.
                 candidate_uid = self._choose_anyone()
             else: # 88% odds
-                candidate_uid = self._choose_likeable(decision_odds)
+                candidate_uid = self._choose_favorable(decision_odds)
 
             # log error
             if candidate_uid is None:
@@ -80,8 +87,8 @@ class CandidateChooser:
         candidate = random.choice(self.candidates)
         return candidate.uid
 
-    def _choose_likeable(self, decision_odds: int) -> str:
-        logging.debug("_choose_likeable()")
+    def _choose_favorable(self, decision_odds: int) -> str:
+        logging.debug("_choose_favorable()")
         methodical_odds = VOTE_METHODICAL_ODDS
                  
         # Add 10% decision complexity for realism
@@ -92,22 +99,22 @@ class CandidateChooser:
             
         # Starts at 50/50
         if decision_odds < methodical_odds: # 50% odds (with noise 40-60%)
-            candidate_uid = self._choose_by_likeability()
+            candidate_uid = self._choose_by_favorability()
         else:
             candidate_uid = self._choose_by_heuristic()
 
         return candidate_uid
 
-    def _choose_by_likeability(self) -> str:
-        logging.debug("_choose_by_likeability()")
-        # Option 1: Treat as likeability: Take scoress of all candidates, sort by highest as choose order.
+    def _choose_by_favorability(self) -> str:
+        logging.debug("_choose_by_favorability()")
+        # Option 1: Treat as favorability: Take scoress of all candidates, sort by highest as choose order.
         # Sort by score.
 
-        if len(self.likeliness):
-            sorted_likeliness = sorted(self.likeliness, key=lambda x: x["score"], reverse=True)
-            logging.info(f"Sorted likeliness: {sorted_likeliness}")
-            #logging.info(f"Choosing {sorted_likeliness[0].get("uid")} by likeability.")
-            return sorted_likeliness[FIRST_CHOICE].get("uid") 
+        if len(self.favorables):
+            sorted_favorables = sorted(self.favorables, key=lambda x: x["score"], reverse=True)
+            logging.info(f"Sorted favorables: {sorted_favorables}")
+            #logging.info(f"Choosing {sorted_favorables[0].get("uid")} by favorability.")
+            return sorted_favorables[FIRST_CHOICE].get("uid") 
         else:
             logging.error("There are no candidates in pool!")
             return None
@@ -120,26 +127,22 @@ class CandidateChooser:
 
         # To choose by heuristic, you apply a mental shortcut or "rule of thumb" to make a decision quickly without 
         # needing to analyze every piece of data. It provides a "good enough" answer in a fraction of the time.
-        
+        logging.debug(f"check `thresh` in self.favorables: {(self.favorables)}")
         candidate_chosen = None
-        max_thresh_dict = max(self.likeliness, key=lambda x: x["thresh"])
+        max_thresh_dict = max(self.favorables, key=lambda x: x["thresh"])
         max_threshold = max_thresh_dict.get("thresh")
-        #max(self.likeliness, key=lambda x: x["thresh"])
+        #max(self.favorables, key=lambda x: x["thresh"])
         logging.debug(f"max_threshold={max_threshold}")
         choose_threshold = random.randint(0, max_threshold)
         logging.debug(f"choose_threshold = {choose_threshold}")
 
-        #thresh = 0 
-        for idx, candidate in enumerate(self.likeliness):
-            #thresh = thresh + int(round(candidate["score"], 0))
-            #logging.debug(f"idx={idx}, uid={candidate['uid']}, score={candidate['score']}")
-            #candidate["thresh"] = thresh
-            #logging.debug(f"if {choose_threshold} <= {thresh}: ")
+
+        for idx, candidate in enumerate(self.favorables):
             if choose_threshold <= candidate.get("thresh"):
                 candidate_chosen = candidate.get("uid") #candidate["uid"]
                 logging.info(f"Choosing {candidate_chosen} by a heuristic approach.")
                 break
-        logging.debug(f"self.likeliness={self.likeliness}")
+    
         if candidate_chosen is None:
             logging.error("No candidate chosen!")
 
@@ -147,63 +150,61 @@ class CandidateChooser:
 
     # --- Likelihood --- #
    
-    def get_likeliness(self) -> list:
-        logging.debug('get_likeliness()')
-        return self._calc_likeliness()
+    def get_favorables(self) -> list:
+        logging.debug('get_favorables()')
+        return self._calc_favorables()
 
-    def _calc_likeliness(self) -> dict:
+    def _calc_favorables(self) -> dict:
+        logging.debug('_calc_favorables()')
         # Logic to pick a candidate.  Party, Gender name, placement on the ballot, campaign donations, 
         # duration of candidacy
-        likeliness = []
+        logging.error(f"Error! {self.candidates}")
+        favorables = []
         thresh = 0
         for candidate in self.candidates:
             logging.debug("\n")
-            likeliness_data = self._rank_candidate(candidate)
-            thresh = thresh + int(round(likeliness_data["score"], 0))
-            likeliness_data["thresh"] = thresh
+            favorables_data = self._rank_candidate(candidate)
+            thresh = thresh + int(round(favorables_data["score"], 0))
+            favorables_data["thresh"] = thresh
   
-            likeliness_dict = {
+            favorables_dict = {
                 "uid": candidate.uid,
-                "score": likeliness_data["score"],
-                "thresh": likeliness_data["thresh"]
+                "score": favorables_data["score"],
+                "thresh": favorables_data["thresh"]
             }
 
-            logging.debug(f"likeliness_dict = {likeliness_dict}")
-            likeliness.append(likeliness_dict)
-        
-        return likeliness
+            logging.debug(f"favorables_dict = {favorables_dict}")
+            favorables.append(favorables_dict)
+        logging.debug(f"favorables = {favorables}")
+        return favorables
 
-    def _get_likeliness_score(self, likeliness_data: dict) -> int:
+    def _get_favorables_score(self, favorables_data: dict) -> int:
         score = 0
-        for key in likeliness_data:
-            score += likeliness_data[key]
-            logging.debug(f"key={key}, new score = {score}")
+        for key in favorables_data:
+            score += round(favorables_data[key], 2)
+            #logging.debug(f"key={key}, new score = {score}")
         return score
 
-    def sync_likeliness(self) -> None:
-        logging.debug("Syncing likeliness...")
-        # Whatever candidates are left in the pool need to match the likeable choices
+    def sync_favorables(self) -> None:
+        logging.debug("sync_favorables()")
+        # Whatever candidates are left in the pool need to match the favorable choices
         synced = []
-
-        current = self.likeliness
+        current = self.favorables
 
         for curr in current:
             for candidate in self.candidates:
                 if candidate.uid == curr.get("uid"):
                     synced.append(curr)
 
-        logging.debug(f"likeliness synced: {synced}")
-        self.likeliness = synced
+        logging.debug(f"favorables synced: {synced}")
+        self.favorables = synced
 
+    def reset_favorables(self) -> None:
+        logging.debug("reset_favorables() self.likeness is a copy of self.likeness_orig!")
+        logging.debug(f"orig: {self.favorables_orig.copy()}")
+        self.favorables = self.favorables_orig.copy()
 
-    
-
-    def reset_likeliness(self) -> None:
-        logging.debug("reset_likeliness() self.likeness is a copy of self.likeness_orig!")
-        logging.debug(f"orig: {self.likeliness_orig.copy()}")
-        self.likeliness = self.likeliness_orig.copy()
-
-    # Ranking Functions 
+    # --- Ranking Functions --- #
 
     def _rank_candidate(self, candidate: Candidate) -> dict:
         party_val, party_weight = self._rank_party(candidate.party, self.party_counts[candidate.party])
@@ -212,7 +213,7 @@ class CandidateChooser:
         ballot_placement_val, ballot_placement_weight = self._rank_placement_on_ballot(candidate.uid)
         name_val, name_weight = self._rank_name(candidate.name)
 
-        likeliness_data = {
+        favorables_data = {
             "party": party_val * party_weight,
             "duration": duration_val * duration_weight,
             "donation": donation_val * donation_weight,
@@ -220,9 +221,9 @@ class CandidateChooser:
             "name": name_val * name_weight
         }
 
-        likeliness_data["score"] = self._get_likeliness_score(likeliness_data)
+        favorables_data["score"] = self._get_favorables_score(favorables_data)
 
-        return likeliness_data
+        return favorables_data
 
     def _rank_party(self, party: str, party_cnt: int=1) -> tuple(float, int): 
         # If Democrat 48/100, Republican 48/100, Green 4/100, Constitution 1/100m 
