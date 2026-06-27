@@ -81,6 +81,7 @@ class CandidateChooser:
         return candidate.uid
 
     def _choose_likeable(self, decision_odds: int) -> str:
+        logging.debug("_choose_likeable()")
         methodical_odds = VOTE_METHODICAL_ODDS
                  
         # Add 10% decision complexity for realism
@@ -113,6 +114,7 @@ class CandidateChooser:
         
     def _choose_by_heuristic(self) -> str:
         logging.debug("_choose_by_heuristic()")
+
         # Option 2: Take score aka percentages, stack the percentages and pick a random number to determine which 
         # stack to choose from (more intuitive).
 
@@ -124,7 +126,7 @@ class CandidateChooser:
         max_threshold = max_thresh_dict.get("thresh")
         #max(self.likeliness, key=lambda x: x["thresh"])
         logging.debug(f"max_threshold={max_threshold}")
-        choose_threshold = random.randint(0, max_threshold - 1)
+        choose_threshold = random.randint(0, max_threshold)
         logging.debug(f"choose_threshold = {choose_threshold}")
 
         #thresh = 0 
@@ -157,34 +159,8 @@ class CandidateChooser:
         for candidate in self.candidates:
             logging.debug("\n")
             likeliness_data = self._rank_candidate(candidate)
-
-            """
-            party_val, party_weight = self._rank_party(candidate.party, self.party_counts[candidate.party])
-            duration_val, duration_weight = self._rank_duration(candidate.duration)
-            donation_val, donation_weight = self._rank_donations(candidate.donations)
-            ballot_placement_val, ballot_placement_weight = self._rank_placement_on_ballot(candidate.uid)
-            name_val, name_weight = self._rank_name(candidate.name)
-
-            likeliness_data = {
-                'party': party_val * party_weight,
-                'duration': duration_val * duration_weight,
-                'donation': donation_val * donation_weight,
-                'ballot_placement': ballot_placement_val * ballot_placement_weight,
-                'name': name_val * name_weight
-            }
-            """
-
-            #score = self._get_likeliness_score(likeliness_data)
             thresh = thresh + int(round(likeliness_data["score"], 0))
-            #likeliness_data["score"] = score
             likeliness_data["thresh"] = thresh
-
-            # below
-
-            #likeliness_data["score"] = self._get_likeliness_score(likeliness_data)
-            #thresh = thresh + likeliness_data["score"]
-            #likeliness_data["thresh"] = thresh
-            #score_sum += score
   
             likeliness_dict = {
                 "uid": candidate.uid,
@@ -204,19 +180,23 @@ class CandidateChooser:
             logging.debug(f"key={key}, new score = {score}")
         return score
 
-    def _sync_likeliness(self) -> None:
+    def sync_likeliness(self) -> None:
         logging.debug("Syncing likeliness...")
+        # Whatever candidates are left in the pool need to match the likeable choices
         synced = []
-        current = self.likeliness.copy()
-        
+
+        current = self.likeliness
+
         for curr in current:
-            #logging.debug(f"curr: {curr}")
             for candidate in self.candidates:
-                #logging.debug(f"candidate: {candidate}")
                 if candidate.uid == curr.get("uid"):
                     synced.append(curr)
+
         logging.debug(f"likeliness synced: {synced}")
         self.likeliness = synced
+
+
+    
 
     def reset_likeliness(self) -> None:
         logging.debug("reset_likeliness() self.likeness is a copy of self.likeness_orig!")
@@ -286,7 +266,6 @@ class CandidateChooser:
         # Calculate percentile aka rank
         weight = 10
         index = get_index_by_uid(self.candidates, uid)
-        logging.debug(f"index={index}, uid={uid}")
         place = index + 1
         percentile_formula = (1 - (place - 1) / (len(self.candidates) - 1)) 
 
@@ -304,7 +283,7 @@ class CandidateChooser:
         logging.debug(f"_rank_name():  1, weight={weight}")
         return 1, weight
 
-
+    """
 
     # @TODO - defunct
     def _refresh_likeliness_orig(self, candidate_chosen: str) -> None:
@@ -331,6 +310,20 @@ class CandidateChooser:
    
         return party_cnts
 
+    #@todo - old
+    def _sync_likeliness(self) -> None:
+        logging.debug("Syncing likeliness...")
+        synced = []
+        current = self.likeliness.copy()
+        
+        for curr in current:
+            #logging.debug(f"curr: {curr}")
+            for candidate in self.candidates:
+                #logging.debug(f"candidate: {candidate}")
+                if candidate.uid == curr.get("uid"):
+                    synced.append(curr)
+        logging.debug(f"likeliness synced: {synced}")
+        self.likeliness = synced
 
     # @TODO - legacy function
     def pick_orig(self, candidate_pool: list) -> str:
@@ -375,3 +368,5 @@ class CandidateChooser:
 
         return candidate_uid
 
+
+    """

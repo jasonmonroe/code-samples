@@ -14,6 +14,7 @@ from datetime import datetime, timedelta
 import logging
 import random
 import sys
+import json
 
 # Local Libraries
 #from src import candidate
@@ -164,6 +165,18 @@ class ElectionSys:
             except ValueError:
                 print('Invalid input. Please enter an integer or press enter for a random value to be used.')
 
+    def _count_parties(self) -> dict:
+        party_counts = {}
+
+        for party in POLITICAL_PARTIES:
+            party_counts[party] = 0
+
+            for candidate in self.candidates:
+                if candidate.party == party:
+                    party_counts[party] += 1
+   
+        return party_counts
+
     def campaign(self) -> None:
         # Donate to candidate (again)
         logging.info('🤝🏾 Candidates are campaigning and getting more donors 🤝🏾')
@@ -208,20 +221,19 @@ class ElectionSys:
         
         logging.info('Voting...')
 
-        choice_cnt = min(MAX_CHOICES, len(self.candidates))
+        max_choice = min(MAX_CHOICES, len(self.candidates))
 
         # Every voter casts a ballot, # Every voter has up to 4 choices
         for idx, voter in enumerate(self.voters):
             
-
             # Reset candidate pool and candidate likeliness before picking unique candidates
             self.reset_candidate_pool()
             self._candidate_chooser.reset_likeliness()
 
-            self.ballots.append([]) # Ignore
+            #self.ballots.append([]) # Ignore
 
             if not voter.voted:
-                self.ballots[idx] = BALLOT_BLANK # Ignore
+                #self.ballots[idx] = BALLOT_BLANK # Ignore
                 continue
 
             logging.debug(f"BEFORE pool len: {len(self.candidate_pool)}")
@@ -229,18 +241,21 @@ class ElectionSys:
             logging.info(f"{idx}: Voter {voter.uid} is voting...")
 
             choice = FIRST_CHOICE
-            while choice < choice_cnt:
+            while choice < max_choice:
                 logging.debug(f"\n\n# --- Choice: {choice} --- #")
-                self._show_pool()
+                #self._show_pool()
 
                 # Update class with current candidate pool
-                ##logging.debug("Refreshing candidate_chooser.candidates from pool...")
+                logging.debug("Refreshing candidate_chooser.candidates from pool...")
 
                 #logging.debug("DBG: BEFORE self._candidate_chooser.candidates refresh")
                 #for candidate_chooser_candidate in self._candidate_chooser.candidates:
                 #    logging.debug(f"chooser.candidate = {vars(candidate_chooser_candidate)}")
                 
-                #self._candidate_chooser.candidates = self.candidate_pool
+
+                # Store the latest pool of candidates and sync with the candidates likeliness
+                self._candidate_chooser.candidates = self.candidate_pool
+                self._candidate_chooser.sync_likeliness()
                 #logging.debug(f"DBG: REFRESHED self._candidate_chooser.candidates!")
                 
                 #logging.debug("DBG: AFTER self._candidate_chooser.candidates refresh")
@@ -253,15 +268,20 @@ class ElectionSys:
 
                 # --- ✅ VOTE --- #
                 candidate_chosen = voter.execute(self._candidate_chooser, choice)
-                logging.debug(f"DBG! choice:{choice} voter[{idx}].ballot[{choice}] = {voter.ballot[choice]}")
 
-                logging.debug("Checking candidate pool manually")
-                for candidate in self.candidate_pool:
-                    logging.debug(f"candidate = {vars(candidate)}")
+                logging.debug(f"\n VOTER[{idx}] {voter.uid} chose candiate{candidate_chosen} as choice: {choice}.")
+                logging.debug(json.dumps([voter.__dict__], indent=4))
 
-                logging.debug("Checking candidate   manually")
-                for candidate in self.candidates:
-                    logging.debug(f"candidate = {vars(candidate)}")
+
+                #logging.debug(f"DBG! choice:{choice} voter[{idx}].ballot[{choice}] = {voter.ballot[choice]}")
+
+                #logging.debug("Checking candidate pool manually")
+                #for candidate in self.candidate_pool:
+                 #   logging.debug(f"candidate = {vars(candidate)}")
+
+                #logging.debug("Checking candidate   manually")
+                #for candidate in self.candidates:
+                 #   logging.debug(f"candidate = {vars(candidate)}")
                 
                 #self.ballots[idx].append(candidate_chosen)  # Ignore
                 
@@ -270,11 +290,18 @@ class ElectionSys:
                 else:
                     self.remove_candidate_from_pool(candidate_chosen)
 
+                     
+                    
+
+
+                # Confiirmation
+                
                 choice += 1
                 
-            logging.debug(f"Vote {idx} of {voter_cnt} casted.")
-            import json
-            logging.debug(json.dumps([u.__dict__ for u in self.voters], indent=4))
+            #logging.debug(f"Vote {idx} of {voter_cnt} casted.")
+            
+            logging.debug("ALL VOTES" + json.dumps([u.__dict__ for u in self.voters], indent=4))
+            sys.exit(0)
 
     def tally(self) -> None:
         logging.info(f"\n# --- {I_BALLOT} Tallying ballots {I_BALLOT} --- #")
@@ -309,14 +336,14 @@ class ElectionSys:
         logging.debug(f"remove_candidate_from_pool({candidate_chosen})")
         candidate_idx = get_index_by_uid(self.candidate_pool, candidate_chosen)
         #logging.debug(f"pop candidate_idx={candidate_idx}, uid={candidate_chosen} from pool.")
-        logging.debug(f"Before removal lets view the current candidate pool")
+        #logging.debug(f"Before removal lets view the current candidate pool")
         self._show_pool()
         if candidate_idx is not None:
             logging.debug(f"Removing candidate_idx: {candidate_idx}, candidate: {candidate_chosen} from pool!")
             self.candidate_pool.pop(candidate_idx)
         else:
             logging.warning("Candidate's index was not found! Moving onto the next.")
-        logging.debug(f"After removal lets check the latest candidate pool!")
+        #logging.debug(f"After removal lets check the latest candidate pool!")
         self._show_pool()
     
     def reset_candidate_pool(self) -> None:
@@ -324,7 +351,7 @@ class ElectionSys:
         
         pool = []
         for i in range(0, len(self.candidates)):
-            logging.debug(f"CHECK: i: {i}, self.candidates[{i}]: {vars(self.candidates[i])}")
+            #logging.debug(f"CHECK: i: {i}, self.candidates[{i}]: {vars(self.candidates[i])}")
             pool.append(self.candidates[i])
 
         self.candidate_pool = pool
@@ -335,7 +362,7 @@ class ElectionSys:
         for idx, candidate in enumerate(self.candidate_pool):
             logging.debug(f"candidate[{idx}] = {vars(candidate)}")
 
-
+    """
     # @TODO 
     def vote_orig(self) -> None:
         if voter_cnt == 0:
@@ -358,7 +385,7 @@ class ElectionSys:
         
         logging.info('Voting...')
 
-        choice_cnt = min(MAX_CHOICES, len(self.candidates))
+        max_choice = min(MAX_CHOICES, len(self.candidates))
 
         # Every voter casts a ballot, # Every voter has up to 4 choices
         for idx in range(voter_cnt):
@@ -379,7 +406,7 @@ class ElectionSys:
             logging.debug(f"BEFORE pool len: {len(self.candidate_pool)}")
 
             choice = FIRST_CHOICE
-            while choice < choice_cnt:
+            while choice < max_choice:
                 logging.debug(f"\n\n# --- Choice: {choice} --- #")
                 self._show_pool()
 
@@ -396,7 +423,7 @@ class ElectionSys:
 
                 choice += 1
                 
-                """
+                
                 # @TODO - ignore below this line
                 
 
@@ -415,7 +442,7 @@ class ElectionSys:
                     self.candidate_pool.pop(candidate_idx)
                 else:
                     logging.warning("Candidate index was not found! Moving onto next.")
-                """
+                 
                 
             logging.debug(f"Vote {idx} of {voter_cnt} casted.")
 
@@ -443,17 +470,7 @@ class ElectionSys:
 
 
     # @TODO - defunct
-    def _count_parties(self) -> dict:
-        party_counts = {}
-
-        for party in POLITICAL_PARTIES:
-            party_counts[party] = 0
-
-            for candidate in self.candidates:
-                if candidate.party == party:
-                    party_counts[party] += 1
-   
-        return party_counts
+    
 
 
     # @TODO - defunct
@@ -466,3 +483,4 @@ class ElectionSys:
                 return VOTE_BLANK
 
         return self._candidate_chooser.decision(self.candidate_pool)
+    """
