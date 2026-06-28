@@ -14,9 +14,7 @@ from src.constants import (
     PARTY_BTM_TIER,
     PARTY_MID_TIER,
     PARTY_TOP_TIER, 
-    #MAX_VOTER_CANDIDATE_SCORE, 
     PERCENTILE, 
-    #POLITICAL_PARTIES,
     VOTE_BLANK,
     VOTE_BLANK_PCT_THRESH,
     VOTE_BY_LIKELYNESS_ODDS,
@@ -127,19 +125,18 @@ class CandidateChooser:
 
         # To choose by heuristic, you apply a mental shortcut or "rule of thumb" to make a decision quickly without 
         # needing to analyze every piece of data. It provides a "good enough" answer in a fraction of the time.
+        
         logging.debug(f"check `thresh` in self.favorables: {(self.favorables)}")
+        
         candidate_chosen = None
         max_thresh_dict = max(self.favorables, key=lambda x: x["thresh"])
         max_threshold = max_thresh_dict.get("thresh")
-        #max(self.favorables, key=lambda x: x["thresh"])
-        logging.debug(f"max_threshold={max_threshold}")
         choose_threshold = random.randint(0, max_threshold)
         logging.debug(f"choose_threshold = {choose_threshold}")
 
-
-        for idx, candidate in enumerate(self.favorables):
+        for candidate in self.favorables:
             if choose_threshold <= candidate.get("thresh"):
-                candidate_chosen = candidate.get("uid") #candidate["uid"]
+                candidate_chosen = candidate.get("uid")
                 logging.info(f"Choosing {candidate_chosen} by a heuristic approach.")
                 break
     
@@ -158,11 +155,9 @@ class CandidateChooser:
         logging.debug('_calc_favorables()')
         # Logic to pick a candidate.  Party, Gender name, placement on the ballot, campaign donations, 
         # duration of candidacy
-        logging.error(f"Error! {self.candidates}")
         favorables = []
         thresh = 0
         for candidate in self.candidates:
-            logging.debug("\n")
             favorables_data = self._rank_candidate(candidate)
             thresh = thresh + int(round(favorables_data["score"], 0))
             favorables_data["thresh"] = thresh
@@ -200,13 +195,16 @@ class CandidateChooser:
         self.favorables = synced
 
     def reset_favorables(self) -> None:
-        logging.debug("reset_favorables() self.likeness is a copy of self.likeness_orig!")
-        logging.debug(f"orig: {self.favorables_orig.copy()}")
+        logging.debug("reset_favorables()")
+        if self.favorables == self.favorables_orig:
+            logging.debug("favorables === orig")
+        #logging.debug(f"orig: {self.favorables_orig.copy()}")
         self.favorables = self.favorables_orig.copy()
 
     # --- Ranking Functions --- #
 
     def _rank_candidate(self, candidate: Candidate) -> dict:
+        logging.debug(f"(Rank) Candidate: {candidate.uid}")
         party_val, party_weight = self._rank_party(candidate.party, self.party_counts[candidate.party])
         duration_val, duration_weight = self._rank_duration(candidate.duration)
         donation_val, donation_weight = self._rank_donations(candidate.donations)
@@ -221,7 +219,7 @@ class CandidateChooser:
             "name": name_val * name_weight
         }
 
-        favorables_data["score"] = self._get_favorables_score(favorables_data)
+        favorables_data["score"] = round(self._get_favorables_score(favorables_data), 2)
 
         return favorables_data
 
@@ -283,91 +281,3 @@ class CandidateChooser:
             return 0, 1
         logging.debug(f"_rank_name():  1, weight={weight}")
         return 1, weight
-
-    """
-
-    # @TODO - defunct
-    def _refresh_likeliness_orig(self, candidate_chosen: str) -> None:
-        # remove chosen candidates from 
-        logging.debug(f"Before -> likeliness count = {len(self.likeliness)}")
-        logging.debug(f"Removing all {candidate_chosen} from likeliness.")
-
-        filtered = [candidate for candidate in self.likeliness if candidate["uid"] != candidate_chosen]
-        self.likeliness = filtered
-      
-        logging.debug(f"After -> likeliness count = {len(self.likeliness)}")
-
-
-    # @TODO - moved to election system delete
-    def _count_parties(self) -> dict:
-        party_cnts = {}
-
-        for party in POLITICAL_PARTIES:
-            party_cnts[party] = 0
-
-            for candidate in self.candidates:
-                if candidate.party == party:
-                    party_cnts[party] += 1
-   
-        return party_cnts
-
-    #@todo - old
-    def _sync_likeliness(self) -> None:
-        logging.debug("Syncing likeliness...")
-        synced = []
-        current = self.likeliness.copy()
-        
-        for curr in current:
-            #logging.debug(f"curr: {curr}")
-            for candidate in self.candidates:
-                #logging.debug(f"candidate: {candidate}")
-                if candidate.uid == curr.get("uid"):
-                    synced.append(curr)
-        logging.debug(f"likeliness synced: {synced}")
-        self.likeliness = synced
-
-    # @TODO - legacy function
-    def pick_orig(self, candidate_pool: list) -> str:
-
-        
-
-
-
-        # Logic to pick candidate from candidate pool
-        # Pick the likeliness that a voter will just pick a random candidate out of fatigue or a lack of information
-        # Then pick a random number.  If that number is less than the likelness pick a random candidate from the candidate pool.
-        # Otherwise, use voter logic to determine who they're most likely to pick
-        self.candidates = candidate_pool.copy()
-
-        # Sync likeability candidates
-        self._sync_likeliness()
-
-        #logging.debug("pick()")
-        #logging.debug(f"pick() Current Candidate Pool")
-        #for c in self.candidates:
-        #    logging.debug(f"candidate = {vars(c)}")
-
-        # --- DO WE WANT TO PICK (random guess) OR CHOOSE (methodolical decision) A CANDIDATE? --- #
-
-        pick_random_candidate_likeliness = random.randint(0, VOTE_BY_LIKELYNESS_ODDS)
-        random_pick = random.randint(0, PERCENTILE)
-        
-        logging.debug(f'Random candidate likeliness: {pick_random_candidate_likeliness}, random_pick: {random_pick}')
-        random_pick = 99
-        if random_pick <= pick_random_candidate_likeliness:
-            random_candidate = random.choice(self.candidates)
-            candidate_uid = random_candidate.uid
-            logging.info(f'Picking random candidate {candidate_uid}')
-
-        else:
-            # Choose a candidate by likeability or a heuristic approach.
-            # Randomly choose 50/50 whether to use the likeability or heuristic approach.
-            candidate_uid = self._choose_by_heuristic() if random.randint(0, 1) == 1 else self._choose_by_likeability()
-            
-        # Now that we have our chosen candidate remove them from the pool and return them to the elector for counting.
-        #self._refresh_likeliness(candidate_uid)
-
-        return candidate_uid
-
-
-    """

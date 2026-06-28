@@ -3,7 +3,7 @@
 __author__ = "Jason Monroe (jason@jasonmonroe.com)"
 __copyright__ = "Copyright Election Systems"
 __date__ = "2025-01-24"
-__version__ = "1.0.0"
+__version__ = "2.0.0"
 
 # Python Libraries
 import inspect
@@ -14,9 +14,11 @@ import json
 
 # Local Libraries
 #from src.class_name_filter import ClassNameFilter
-from src.constants import( ARG_PARAMS, I_BOT, I_WARNING)
+
+from src.constants import(ARG_PARAMS, I_BOT, I_WARNING)
 from src.election import ElectionSys
-from src.utils import get_run_id, init_logger, mute_logger, show_banner, show_timer, start_timer
+from src.utils import get_run_id, init_logger, show_timer, start_timer
+
 from voting_systems.last_remaining_candidate_sys import LastRemainingCandidateSystem
 from voting_systems.popular_sys import PopularVotingSystem
 from voting_systems.ranked_choice_sys import RankChoiceVotingSystem
@@ -25,28 +27,23 @@ from voting_systems.weighted_sys import WeightedSystem
 
 ### DONT FORGET TO REMOVE ALL @TODO'S
 def run_main_pipeline(args: dict):
-
     print(f'run_main_pipeline({args})')
 
     # Define electoral process: Select candidate count, declare candidacy
     election = ElectionSys(args.get('noise'))
     election.register()
-     
     
     # --- Start the election season --- #
     election.campaign()
     election.vote()
     election.tally()
 
+    # Note: Always create copies of the candidates and ballots!
     # Copy variables for scoring
     candidates = election.candidates
-    #ballots = election.ballots
     voters = election.voters
 
-
     # --- Now compare results to different systems --- #
-
-    # Note: Always create copies of the candidates and ballots!
 
     """
     # Popular Vote System
@@ -62,6 +59,7 @@ def run_main_pipeline(args: dict):
 
     #logging.debug(json.dumps([u.__dict__ for u in voters], indent=4))
     sys.exit(0)
+
     # Ranked Choice Voting System
     ranked_choice_sys = RankChoiceVotingSystem(candidates.copy(), voters.copy())
     logging.info("Running " + ranked_choice_sys.title)

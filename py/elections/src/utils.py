@@ -178,7 +178,6 @@ def calc_pct_change(start: float, final: float) -> float:
     return round(((final - start) / start) * PERCENTILE, 1)
 
 
-
 def init_logger(run_id: str) -> logging.Logger:
     print("init logger")
     logging.debug("# --- Setting logger --- #")
@@ -241,62 +240,6 @@ def mute_logger(candidate_cnt: int, voter_cnt:int):
     logging.critical(f"Candidates: {candidate_cnt}, Voters: {voter_cnt} is too high.\n # --- 🚩 Turning off logs. 🚩 --- #")
     logging.getLogger("results_logger").setLevel(logging.CRITICAL + 1)
 
-
-# @TODO - fiix
-def init_logger_orig(run_id: str) -> logging.Logger:
-    print("init logger")
-    logging.debug("# --- Setting logger --- #")
-
-    project_dir = Path(__file__).resolve().parent.parent
-    print(f"project_dir={project_dir}")
-    log_dir = project_dir / "logs"
-    print(f"log_dir={log_dir}")
-    
-    # Safely creates folder if it doesn't exist (no IF check needed)
-    log_dir.mkdir(parents=True, exist_ok=True)
-    
-    # Define shared formatter
-    formatter = logging.Formatter('%(asctime)s - %(classname)s.%(funcName)s - %(levelname)s - %(message)s')
-    
-    # SETUP MAIN/ROOT LOGGER (output-{run_id}.log)
-    root_logger = logging.getLogger()
-    root_logger.setLevel(logging.DEBUG)
-    
-    if root_logger.hasHandlers():
-        root_logger.handlers.clear()
-        
-    output_file_path = log_dir / f"output-{run_id}.log"
-    output_handler = logging.FileHandler(filename=str(output_file_path), mode='a')
-    output_handler.setLevel(logging.DEBUG)
-    output_handler.setFormatter(formatter)
-    root_logger.addHandler(output_handler)
-
-    # SETUP TOPIC LOGGER (results-{run_id}.log)
-    results_log = logging.getLogger("results_logger")
-    results_log.setLevel(logging.INFO)
-    results_log.propagate = False  # Prevents results logs from leaking into output.log
-    results_formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-    
-    if results_log.hasHandlers():
-        results_log.handlers.clear()
-
-    results_file_path = log_dir / f"results-{run_id}.log"
-    results_handler = logging.FileHandler(filename=str(results_file_path), mode='a')
-    results_handler.setLevel(logging.INFO)
-    results_handler.setFormatter(results_formatter)
-    results_log.addHandler(results_handler)
-    #root_logger.addHandler(results_handler)
-
-    # 3. ATTACH FILTERS GLOBALLY
-    if not any(isinstance(f, ClassNameFilter) for f in root_logger.filters):
-        root_logger.addFilter(ClassNameFilter())
-        
-    if not any(isinstance(f, ClassNameFilter) for f in results_log.filters):
-        results_log.addFilter(ClassNameFilter())
-  
-    return logging.getLogger(__name__)
-
-  
 
 """
 # Finds the index of the first object where name is "Bob"
