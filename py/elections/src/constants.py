@@ -206,7 +206,6 @@ VOTER_MAX_COUNT = 16 #168000000
 # Dems: 45.1 million registered voters.
 # Reps: 35.7 million registered voters.
 
-
 # --- Doners --- #
 # https://www.opensecrets.org/elections-overview/donor-demographics
 # https://www.opensecrets.org/elections-overview/donor-demographics?cycle=2024&display=A
@@ -216,40 +215,28 @@ VOTER_MAX_COUNT = 16 #168000000
 DONOR_COUNT_MIN = 100
 DONOR_COUNT_MAX = 1000  
 
-
 # --- Icons --- #
-
 I_BOT = '🤖'
-
 I_CHECKMARK = '✅'
 I_CLOCK = '⏰'
-
 I_CROSSMARK = '❌'
-
 I_DEAD = '😵'
-
 I_EXCLAMATION = '❗'
-
 I_FLAG = '🚩'
 I_FROWN = '😦'
-
 I_HANDSHAKE = '🤝🏾'
 I_INFO = 'ℹ️'
 I_MINUS = '➖'
 I_PEN = '🖊️'
 I_PLUS = '➕'
 I_QUES = '❓'
-
 I_SKULL = '💀'
 I_SLEEPING = '😴'
 I_SMILING = '😊'
 I_STAR = '⭐'
-
 I_TIMER = '⏱'
-
 I_WARNING = '⚠️'
 I_WATCH = '⌚'
-
 I_BALLOT = '🗳️'
 I_RIBBON = '🎗️'
 I_TROPHY = '🏆'

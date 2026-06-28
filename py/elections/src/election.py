@@ -230,14 +230,14 @@ class ElectionSys:
                 #self.ballots[idx] = BALLOT_BLANK # Ignore
                 continue
 
-            logging.info(f"=== {idx}: Voter {voter.uid} is voting. ===")
+            logging.info(f"\n=== {idx}: Voter {voter.uid} is voting. ===")
 
             choice = FIRST_CHOICE
             while choice < max_choice:
-                logging.debug(f"# --- Choice: {choice} --- #\n\n")
+                logging.debug(f"# --- Choice: {choice} --- #")
                
                 # Update class with current candidate pool
-                logging.debug("Refreshing candidate_chooser.candidates from pool...")
+                #logging.debug("Refreshing candidate_chooser.candidates from pool...")
 
                 # Store the latest pool of candidates and sync with the candidates favorables
                 self._candidate_chooser.candidates = self._pool.get()
@@ -260,17 +260,17 @@ class ElectionSys:
                 choice += 1
 
             # End choice loop
-            logging.debug(f"---END CHOICE LOOP for {voter.uid}---")
-                
-            unique_ballot = list(dict.fromkeys(voter.ballot))
-            if voter.ballot != unique_ballot:
-                logging.error(f"voter {voter.uid} ballot not unique: {voter.ballot}")
-           
-            logging.debug(f"Voter:{voter.uid} Ballot: {voter.ballot}")
+            logging.info(f"--- END | voter[{idx}]:{voter.uid} Ballot: {voter.ballot} | END ---")
+            logging.info(f"---> CONF | self.voters[{idx}]:{self.voters[idx].uid} Ballot: {self.voters[idx].ballot} | CONF <---")
             
+
+
+        logging.debug(f"random vote[0] check {self.voters[0].ballot}")
+        logging.debug(f"random vote[6] check {self.voters[6].ballot}")    
         logging.debug("\nALL VOTES" + json.dumps([u.__dict__ for u in self.voters], indent=4))
         logging.info("# --- Election Day is over.  Closing all voting polls. --- #\n\n")
 
+    
     def tally(self) -> None:
         logging.info(f"# --- {I_BALLOT} Tallying ballots {I_BALLOT} --- #")
         

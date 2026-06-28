@@ -63,6 +63,7 @@ class CandidateChooser:
         if self.add_noise and decision_odds <= VOTE_BLANK_PCT_THRESH: # 15% odds
             candidate_uid = self._choose_none()
         else: # 85% odds
+            #decision_odds = random.randint(0, PERCENTILE)
             # Voter is going to make a choice...
             if decision_odds <= VOTE_BY_LIKELYNESS_ODDS: # 12% odds
                 # Voter is just going to vote randomly due to unfamiliarity or apathy.
@@ -177,7 +178,7 @@ class CandidateChooser:
         score = 0
         for key in favorables_data:
             score += round(favorables_data[key], 2)
-            #logging.debug(f"key={key}, new score = {score}")
+          
         return score
 
     def sync_favorables(self) -> None:
@@ -197,7 +198,7 @@ class CandidateChooser:
     def reset_favorables(self) -> None:
         logging.debug("reset_favorables()")
         if self.favorables == self.favorables_orig:
-            logging.debug("favorables === orig")
+            logging.debug("favorables == orig")
         #logging.debug(f"orig: {self.favorables_orig.copy()}")
         self.favorables = self.favorables_orig.copy()
 
