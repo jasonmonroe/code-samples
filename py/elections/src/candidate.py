@@ -29,7 +29,7 @@ class Candidate:
         self.duration = self._get_duration()
         self.donations = self.campaign()
         self.is_winner = None # False = removed from pool, True = winner, None = still in pool
-        self.votes = BALLOT_FRESH
+        self.votes = BALLOT_FRESH[:]
         self.total = 0
         
 

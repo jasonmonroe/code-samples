@@ -13,7 +13,8 @@ import logging
 from abc import ABC, abstractmethod
 
 # Local Libraries
-from src.constants import FIRST_CHOICE, I_RIBBON
+from src.candidate_pool import CandidatePool
+from src.constants import FIRST_CHOICE, I_RIBBON, MAX_CHOICES, VOTE_BLANK
 from src.utils import get_index_by_uid, show_banner
 
 class BaseVotingSystem(ABC):
@@ -33,9 +34,8 @@ class BaseVotingSystem(ABC):
 
     def __init__(self, candidates: list, voters: list):
         self.candidates = candidates # Treat as a candidate pool
-        self.candidate_pool = candidates.copy()
+        self._pool = CandidatePool(candidates)
         self.voters = voters
-        #self.voter_cnt = len(self.voters)
         self.title = " System Results"
         self.winner_uid = None
         self.winner = None
@@ -47,45 +47,35 @@ class BaseVotingSystem(ABC):
 
     def _clear_totals(self, candidates: list) -> list:
         for candidate in candidates:
-                candidate.total = 0
+            candidate.total = 0
                 
         return candidates
-
-    def _sync_pool(self):
-        self.candidate_pool = self.candidates
 
     def tally_totals(self, 
         choice: int=FIRST_CHOICE, # Which round are we voting on.  Default = 0
         clear_totals: bool=False, # Whether we set total = 0
         use_pool: bool=True       # Use candidate_pool instead of candidates
         ) -> None:
-
-        attrs = {
-            'choice': choice,
-            'clear_totals': clear_totals,
-            'use_pool': use_pool,
-        }
-        logging.debug(f"DBG: tally_totals() - {attrs}")
         
         # Get candidates
-        candidates = self.candidate_pool if use_pool else self.candidates
-        logging.debug(f"candidates={candidates}")
+        candidates = self._pool.get() if use_pool else self.candidates
+         
         if clear_totals:
             candidates = self._clear_totals(candidates)
         
         for voter in self.voters:
-            logging.debug(f"voter={voter.__dict__}")
-            for voter_candidate_uid in voter.ballot:
-                #voter_candidate_uid = ballot_choice
-                logging.debug(f"voter_candidate_uid={voter_candidate_uid}")
-                idx = get_index_by_uid(candidates, voter_candidate_uid)
-                candidates[idx].total += 1
+            ballot_choice = voter.ballot[choice]
+            idx = get_index_by_uid(candidates, ballot_choice)
+            candidates[idx].total += 1
 
         if not clear_totals and not use_pool:
             self.candidates = candidates
-            self._sync_pool()
+            self._pool.reset()
+            #self._sync_pool()
         elif use_pool:
-            self.candidate_pool = candidates
+            self._pool.update(candidates)
+            #self.candidate_pool = candidates
+            #self._pool.reset()
         else:
             self.candidates = candidates
 
@@ -105,7 +95,13 @@ class BaseVotingSystem(ABC):
             logging.warning("No winner!")
             show_banner(self.title, "No winner!")
             
-        self.candidate_pool = []
+        self._pool.clear()
+
+    def _get_max_choice(self) -> int:
+        return min(MAX_CHOICES, len(self.candidates))
+
+    def _sync_pool(self):
+        self.candidate_pool = self.candidates
 
     @abstractmethod
     def results():

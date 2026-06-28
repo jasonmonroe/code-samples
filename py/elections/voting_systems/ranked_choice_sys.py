@@ -51,7 +51,7 @@ class RankChoiceVotingSystem(BaseVotingSystem):
             self.tally_totals(FIRST_CHOICE, True, True) 
 
             # Any candidate have a majority?
-            for candidate in self.candidate_pool:
+            for candidate in self._pool.get():
                 logging.debug(f"line 55: determine if {candidate.uid} is the  winner...")
                 if self.determine_winner(candidate):
                     break
@@ -67,17 +67,13 @@ class RankChoiceVotingSystem(BaseVotingSystem):
 
             # Remove loser candidate pool and ballots
             if loser_candidate is not None:
-                loser_idx = get_index_by_uid(self.candidate_pool, loser_candidate.uid)
-                self.candidate_pool.pop(loser_idx)
+                loser_idx = get_index_by_uid(self._pool.get(), loser_candidate.uid)
+                self._pool.remove(loser_idx)
+                #self.candidate_pool.pop(loser_idx)
 
                 self.shift_ballots(loser_candidate.uid)     
 
-        # Break full loop
-        logging.debug("LOOP BREAK... leaving results()")
-
     def determine_winner(self, candidate: Candidate) -> bool:
-        logging.debug(f"determine_winner() - CHECKING: if {candidate.total} >= {self.majority} ?")
-        
         if candidate.total >= self.majority:
             self.winner = candidate
             return True
@@ -88,8 +84,8 @@ class RankChoiceVotingSystem(BaseVotingSystem):
         # Let's assume that the loser has less than a majority
         lowest = []
         lowest_total = self.majority - 1
-        loser_pool = self.candidate_pool.copy()
-   
+        loser_pool = self._pool.get()
+
         while len(loser_pool) > 1 and choice < MAX_CHOICES:
             for candidate in loser_pool:
                 # Use next place vote count as threshold, NOT calculating a new total
@@ -109,8 +105,7 @@ class RankChoiceVotingSystem(BaseVotingSystem):
                 logging.info(msg)
        
                 # What if the losing candidates tie for last place? Who gets removed?
-                loser_pool = lowest
-                
+                loser_pool = lowest      
             choice += 1
 
         msg = f"Did not have a losing candidate."

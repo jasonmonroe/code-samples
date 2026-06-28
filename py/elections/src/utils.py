@@ -178,9 +178,10 @@ def calc_pct_change(start: float, final: float) -> float:
     return round(((final - start) / start) * PERCENTILE, 1)
 
 
-def init_logger(run_id: str) -> logging.Logger:
-    print("init logger")
+def init_logger(run_id: str, debug_flag: bool=False) -> logging.Logger:
     logging.debug("# --- Setting logger --- #")
+
+    logging_type = logging.DEBUG if debug_flag else logging.INFO
     
     project_dir = Path(__file__).resolve().parent.parent
     print(f"project_dir={project_dir}")
@@ -206,7 +207,7 @@ def init_logger(run_id: str) -> logging.Logger:
         
     output_file_path = log_dir / f"{timestamp}_output.log"
     output_handler = logging.FileHandler(filename=str(output_file_path), mode='a')
-    output_handler.setLevel(logging.DEBUG)
+    output_handler.setLevel(logging_type)  
     output_handler.setFormatter(formatter)
     root_logger.addHandler(output_handler)
     

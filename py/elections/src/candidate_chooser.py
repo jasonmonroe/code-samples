@@ -94,7 +94,7 @@ class CandidateChooser:
         if self.add_noise:
             noise_min_diff = ((VOTE_NOISE_ODDS * VOTE_METHODICAL_ODDS) * -1) # -10%
             noise_max_diff = VOTE_NOISE_ODDS * VOTE_METHODICAL_ODDS # +10% 
-            methodical_odds = random.randint(noise_min_diff, noise_max_diff)
+            methodical_odds = random.uniform(noise_min_diff, noise_max_diff)
             
         # Starts at 50/50
         if decision_odds < methodical_odds: # 50% odds (with noise 40-60%)
@@ -111,8 +111,7 @@ class CandidateChooser:
 
         if len(self.favorables):
             sorted_favorables = sorted(self.favorables, key=lambda x: x["score"], reverse=True)
-            logging.info(f"Sorted favorables: {sorted_favorables}")
-            #logging.info(f"Choosing {sorted_favorables[0].get("uid")} by favorability.")
+         
             return sorted_favorables[FIRST_CHOICE].get("uid") 
         else:
             logging.error("There are no candidates in pool!")
@@ -199,7 +198,7 @@ class CandidateChooser:
         logging.debug("reset_favorables()")
         if self.favorables == self.favorables_orig:
             logging.debug("favorables == orig")
-        #logging.debug(f"orig: {self.favorables_orig.copy()}")
+      
         self.favorables = self.favorables_orig.copy()
 
     # --- Ranking Functions --- #
@@ -268,7 +267,6 @@ class CandidateChooser:
         index = get_index_by_uid(self.candidates, uid)
         place = index + 1
         percentile_formula = (1 - (place - 1) / (len(self.candidates) - 1)) 
-
         logging.debug(f"_rank_placement_on_ballot({uid}): pct={percentile_formula}, weight={weight}")
 
         return round(percentile_formula, 1), weight

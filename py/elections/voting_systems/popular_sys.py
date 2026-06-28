@@ -20,8 +20,8 @@
 import logging
 
 # Local Libraries
-from src.constants import FIRST_CHOICE, I_RIBBON, MAX_CHOICES
-from src.utils import get_index_by_uid, placement, show_banner
+from src.constants import FIRST_CHOICE
+from src.utils import get_index_by_uid, placement
 from voting_systems.base_voting_sys import BaseVotingSystem
 
 
@@ -33,13 +33,13 @@ class PopularVotingSystem(BaseVotingSystem):
 
 
     def results(self) -> None:
-        self.tally_totals()
-
         candidates = self.candidate_pool
         choice = FIRST_CHOICE
+        self.tally_totals(choice)
 
-        while choice < MAX_CHOICES:
-            print(f"{placement(choice, 'a').title()} round.")
+        max_choice = self._get_max_choice()
+
+        while choice < max_choice:
             highest_total = 0
             highest = []
             
@@ -52,7 +52,7 @@ class PopularVotingSystem(BaseVotingSystem):
                     highest.append(candidate)
                 
             # Has anyone won yet?
-            if self.determine_winner(highest):
+            if self.determine_winner(highest, choice):
                 break
             else: # If no winner, return pool of highest candidates
                 candidates = highest
@@ -69,15 +69,15 @@ class PopularVotingSystem(BaseVotingSystem):
             
         elif len(candidates) == 1:
             # Winner has been determined (set) so end the loop
-            logging.info("Success! We have a winner.")
+            logging.info("Success! We have a winner!")
             self.winner = candidates[0]
-            winner_idx = get_index_by_uid(self.winner.uid)
+            winner_idx = get_index_by_uid(candidates, self.winner.uid)
             self.candidates[winner_idx].is_winner = True
  
             return True
         else:
             # We have multiple leaders so lets go to second round.  Update the candidates by the "pool of winners."
-            logging.info(f"No winner after {placement(choice, 'a')} round.  Limiting pool to {candidates}.")
+            logging.info(f"No winner after {placement(choice, 'a')} round.  Limiting pool to {vars(candidates)}.")
             return False
 
     def determine_loser():
@@ -88,7 +88,8 @@ class PopularVotingSystem(BaseVotingSystem):
         candidates = self.candidate_pool
         choice = FIRST_CHOICE
 
-        while choice < MAX_CHOICES:
+        max_choice = self._get_max_choice()
+        while choice < max_choice:
             print(f"{placement(choice, 'a').title()} round.")
             highest_total = 0
             winners = []

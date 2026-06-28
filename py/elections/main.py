@@ -6,15 +6,11 @@ __date__ = "2025-01-24"
 __version__ = "2.0.0"
 
 # Python Libraries
-import inspect
 import logging
 from pathlib import Path
 import sys
-import json
 
 # Local Libraries
-#from src.class_name_filter import ClassNameFilter
-
 from src.constants import(ARG_PARAMS, I_BOT, I_WARNING)
 from src.election import ElectionSys
 from src.utils import get_run_id, init_logger, show_timer, start_timer
@@ -27,7 +23,7 @@ from voting_systems.weighted_sys import WeightedSystem
 
 ### DONT FORGET TO REMOVE ALL @TODO'S
 def run_main_pipeline(args: dict):
-    print(f'run_main_pipeline({args})')
+    #print(f'run_main_pipeline({args})')
 
     # Define electoral process: Select candidate count, declare candidacy
     election = ElectionSys(args.get('noise'))
@@ -45,26 +41,22 @@ def run_main_pipeline(args: dict):
 
     # --- Now compare results to different systems --- #
 
-    """
     # Popular Vote System
-    print("Running Popular Vote System...")
-    logging.info("Popular Vote System")
+    logging.info("Running Popular Vote System...")
 
+    """
     popular_sys = PopularVotingSystem(candidates.copy(), voters.copy())
-    #popular_sys.tally_totals()
-    #popular_sys.determine_winner()
     popular_sys.results()
     popular_sys.show_results()
     """
-
-    #logging.debug(json.dumps([u.__dict__ for u in voters], indent=4))
-    sys.exit(0)
 
     # Ranked Choice Voting System
     ranked_choice_sys = RankChoiceVotingSystem(candidates.copy(), voters.copy())
     logging.info("Running " + ranked_choice_sys.title)
     ranked_choice_sys.results()
     ranked_choice_sys.show_results()
+
+    sys.exit(0)
      
 
     
@@ -96,15 +88,19 @@ def _parse_args(command_line_args: list[str]) -> dict:
 
 if __name__ == "__main__":
     start_time = start_timer()
-
     run_id = get_run_id()    
-    logger = init_logger(run_id)
+
+    args = _parse_args(sys.argv[1:])
+
+    logger = init_logger(run_id, args.get("debug"))
 
     print(f'\n==== {I_BOT} START RUN ID: {run_id} {I_BOT} ====')
     logging.info(f'\n==== {I_BOT} START RUN ID: {run_id} {I_BOT} ====')
 
+    for arg in args:
+        if arg is True:
+            logging.info(f"Arg {arg} set to True")
     
-    args = _parse_args(sys.argv[1:])
     
     # --- Start --- #
     run_main_pipeline(args)

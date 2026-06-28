@@ -9,6 +9,7 @@
 """
 
 ARG_PARAMS = [
+    "--debug",
     "--noise",
     "--popular",
     "--rank",
@@ -140,7 +141,7 @@ POLITICAL_PARTIES = [
     'Green',
     'Libertarian',
     'Non-Party Affiliation',
-    'Republican'
+    'Republican',
     'Socialist of America',
     'Working Families',
     'Forward',
