@@ -12,7 +12,7 @@ ARG_PARAMS = [
     "--debug",
     "--noise",
     "--popular",
-    "--rank",
+    "--ranked",
     "--redist",
     "--remaining",
     "--weighted",

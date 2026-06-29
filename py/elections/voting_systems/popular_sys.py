@@ -33,12 +33,11 @@ class PopularVotingSystem(BaseVotingSystem):
 
 
     def results(self) -> None:
-        candidates = self.candidate_pool
+        candidates = self._pool.get()
         choice = FIRST_CHOICE
         self.tally_totals(choice)
 
         max_choice = self._get_max_choice()
-
         while choice < max_choice:
             highest_total = 0
             highest = []
@@ -59,9 +58,9 @@ class PopularVotingSystem(BaseVotingSystem):
             
             # Go to next choice
             choice += 1
-            logging.debug(f"Updating round to {choice}.")
-            
+            logging.debug(f"Updating round to {choice}.")   
 
+    # Override parent class
     def determine_winner(self, candidates: list, choice: int) -> bool |  None:
         if len(candidates) == 0: # This will never hit!
             logging.error("There is no one in the lead after the first round.  Check data.")
@@ -70,9 +69,13 @@ class PopularVotingSystem(BaseVotingSystem):
         elif len(candidates) == 1:
             # Winner has been determined (set) so end the loop
             logging.info("Success! We have a winner!")
+            candidates[0].is_winner = True
             self.winner = candidates[0]
-            winner_idx = get_index_by_uid(candidates, self.winner.uid)
-            self.candidates[winner_idx].is_winner = True
+            #winner_idx = get_index_by_uid(candidates, self.winner.uid)
+            #candidates[winner_idx].is_winner = True
+            #self.winner = candidates[winner_idx]
+            self.candidates = candidates
+            #self.candidates[winner_idx].is_winner = True
  
             return True
         else:
@@ -82,43 +85,3 @@ class PopularVotingSystem(BaseVotingSystem):
 
     def determine_loser():
         pass
-
-    # Note: This method works but want to make it cleaner
-    def determine_winner_orig(self):
-        candidates = self.candidate_pool
-        choice = FIRST_CHOICE
-
-        max_choice = self._get_max_choice()
-        while choice < max_choice:
-            print(f"{placement(choice, 'a').title()} round.")
-            highest_total = 0
-            winners = []
-            
-            # Check which candidate has the highest vote
-            for candidate in candidates:
-                if candidate.votes[choice] > highest_total:
-                    highest_total = candidate.votes[choice]
-                    winners = [candidate]
-                elif candidate.votes[choice] == highest_total:
-                    winners.append(candidate)
-                else:
-                    # remove candidate
-                    pass
-
-            if len(winners) == 0:
-                logging.error("There is no one in the lead after the first round.  Check data.")
-
-            # Has anyone won?
-            if len(winners) == 1:
-                logging.info("Success! We have a winner.")
-                self.winner = winners[0]
-                break
-            else:
-                # We have multiple leaders so lets go to second round.  Update the candidates by the "pool of winners."
-                logging.info(f"No winner after {placement(choice, 'a')} round.  Limiting pool to {winners}.")
-                candidates = winners
-                
-            # Go to next choice
-            choice += 1
-            logging.debug(f"Updating round to {choice}.")
- 

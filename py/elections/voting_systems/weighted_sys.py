@@ -17,4 +17,7 @@ class WeightedSystem(BaseVotingSystem):
     def __init__(self, candidates: list, ballots: list):
         super().__init__(candidates, ballots) 
         
-        self.title = "Weighted Voting " + self.title
+        self.title = "Weighted Voting" + self.title
+
+    def results():
+        pass

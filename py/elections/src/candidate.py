@@ -43,7 +43,6 @@ class Candidate:
     def _get_party(self) -> str:
         return random.choice(POLITICAL_PARTIES)
     
-    # Campaign!
     def campaign(self, donor_cnt: int=None) -> float:
         # Initial donations before campaign starts
         donors = random.randint(CANDIDATE_DEFAULT_COUNT, DEFAULT_VOTER_COUNT * 3) if donor_cnt is None else donor_cnt
@@ -60,7 +59,7 @@ class Candidate:
         start = random.randint(1, CANDIDATE_DURATION_MAX_OFFSET)
         return random.randint(start, ELECTION_DURATION)
 
-    def _donation_limits(self) -> tuple:
+    def _donation_limits(self) -> tuple(float, float):
         min_donation = CANDIDATE_DONATION_MIN 
         
         if self.party in ["Democrat", "Republican"]:

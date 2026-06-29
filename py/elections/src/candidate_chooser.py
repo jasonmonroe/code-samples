@@ -31,7 +31,7 @@ class CandidateChooser:
     mean_name_len: int,
     add_noise: bool=False,
     ):
-        logging.debug("CandidateChooser() instantiated")
+        logging.debug("# --- CandidateChooser() instantiated --- #")
 
         self.add_noise = add_noise
         self.candidates = candidates # public
@@ -168,7 +168,7 @@ class CandidateChooser:
                 "thresh": favorables_data["thresh"]
             }
 
-            logging.debug(f"favorables_dict = {favorables_dict}")
+            #logging.debug(f"favorables_dict = {favorables_dict}")
             favorables.append(favorables_dict)
         logging.debug(f"favorables = {favorables}")
         return favorables

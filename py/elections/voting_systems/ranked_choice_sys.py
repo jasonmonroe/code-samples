@@ -20,7 +20,7 @@
 |
 | Repeat these steps in rounds until there are only two candidates and now 
 | whomever has the most votes is determined the winner.
-
+|------
 | @link https://www.elections.alaska.gov/election-information/
 | @link https://www.youtube.com/watch?v=lLU3lbrxMBI
 | @link https://www.youtube.com/watch?v=oHRPMJmzBBw
@@ -68,54 +68,12 @@ class RankChoiceVotingSystem(BaseVotingSystem):
             # Remove loser candidate pool and ballots
             if loser_candidate is not None:
                 loser_idx = get_index_by_uid(self._pool.get(), loser_candidate.uid)
+                
                 self._pool.remove(loser_idx)
-                #self.candidate_pool.pop(loser_idx)
-
                 self.shift_ballots(loser_candidate.uid)     
-
-    def determine_winner(self, candidate: Candidate) -> bool:
-        if candidate.total >= self.majority:
-            self.winner = candidate
-            return True
-        
-        return False
-        
-    def determine_loser(self, choice: int=FIRST_CHOICE) -> Candidate | None:
-        # Let's assume that the loser has less than a majority
-        lowest = []
-        lowest_total = self.majority - 1
-        loser_pool = self._pool.get()
-
-        while len(loser_pool) > 1 and choice < MAX_CHOICES:
-            for candidate in loser_pool:
-                # Use next place vote count as threshold, NOT calculating a new total
-                if candidate.votes[choice] < lowest_total:
-                    lowest_total = candidate.votes[choice]
-                    lowest = [candidate]
-            
-                elif candidate.votes[choice] == lowest:
-                    lowest.append(candidate)
-
-            if len(lowest) == 1:
-                return lowest[0]
-
-            # Tied!
-            if len(lowest) > 1:
-                msg = f"We have {len(lowest)} candidates tied at {lowest_total} for lowest votes."
-                logging.info(msg)
-       
-                # What if the losing candidates tie for last place? Who gets removed?
-                loser_pool = lowest      
-            choice += 1
-
-        msg = f"Did not have a losing candidate."
-        logging.warning(msg)
-      
-        return None
-           
+   
     def shift_ballots(self, loser_uid: str) -> None:
-        logging.debug("shift_ballots()")
-        logging.debug(f"Loser UID: {loser_uid}")
+        logging.debug(f"Shifting Loser UID: {loser_uid} from ballot.")
 
         for ballot in self.ballots:
             for candidate_choice in ballot:

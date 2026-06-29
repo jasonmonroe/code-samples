@@ -265,4 +265,14 @@ arr[:] = [a for a in arr if a.key != "___"]
 # Get highest voted 
 return [max(candidates, key=lambda c: c.total)]
 return [max(candidates, key=lambda c: c.votes[choice])]
+
++-----------------------------------------------------------------------------+
+|                               BALLOT TALLIES                                |
++-----------------------------------------------------------------------------+
+|      VOTES    | Candidate                                                   |
+| [4, 2, 3, 5] | 8f30ec - (LIB) Aries Schmidt                                 |
+| [2, 5, 5, 2] | fc8aee - (GRE) Samuel Davis                                  |
+| [6, 5, 2, 1] | 98f74c - (DEM) Ava Ivanov                                    |
+| [2, 2, 4, 6] | b4fae9 - (FOR) Lars Gonzalez                                 |
++-----------------------------------------------------------------------------+
 """

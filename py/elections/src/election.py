@@ -172,7 +172,7 @@ class ElectionSys:
         # Donate to candidate (again)
         logging.info('🤝🏾 Candidates are campaigning and getting more donors 🤝🏾')
 
-        total_donations = self.total_donations
+        total_donations = round(self.total_donations, 2)
         donor_cnt = random.randint(DONOR_COUNT_MIN, DONOR_COUNT_MAX)
         
         for i in range(0, len(self.candidates)):

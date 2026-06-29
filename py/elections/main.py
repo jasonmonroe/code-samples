@@ -23,8 +23,15 @@ from voting_systems.weighted_sys import WeightedSystem
 
 ### DONT FORGET TO REMOVE ALL @TODO'S
 def run_main_pipeline(args: dict):
-    #print(f'run_main_pipeline({args})')
+    print(f'run_main_pipeline({args})')
 
+    run_all = True
+    for arg in args:
+        if arg not in ["debug", "noise"]:
+            if not arg:
+                run_all = False
+                break
+    
     # Define electoral process: Select candidate count, declare candidacy
     election = ElectionSys(args.get('noise'))
     election.register()
@@ -41,33 +48,41 @@ def run_main_pipeline(args: dict):
 
     # --- Now compare results to different systems --- #
 
-    # Popular Vote System
-    logging.info("Running Popular Vote System...")
+    if run_all or args.get('popular'):
+        """
+        # Popular Vote System
+        popular_sys = PopularVotingSystem(candidates.copy(), voters.copy())
+        logging.info("Running " +popular_sys.title.title() )
+        popular_sys.results()
+        popular_sys.show_results()
+        """
 
-    """
-    popular_sys = PopularVotingSystem(candidates.copy(), voters.copy())
-    popular_sys.results()
-    popular_sys.show_results()
-    """
-
-    # Ranked Choice Voting System
-    ranked_choice_sys = RankChoiceVotingSystem(candidates.copy(), voters.copy())
-    logging.info("Running " + ranked_choice_sys.title)
-    ranked_choice_sys.results()
-    ranked_choice_sys.show_results()
-
-    sys.exit(0)
-     
-
+    if run_all or args.get("ranked"):
+        """
+        # Ranked Choice Voting System
+        ranked_choice_sys = RankChoiceVotingSystem(candidates.copy(), voters.copy())
+        logging.info("Running " + ranked_choice_sys.title.title())
+        ranked_choice_sys.results()
+        ranked_choice_sys.show_results()
+        """
     
-    # Redistribution System
-    #redistribution_sys = RedistributionSystem(candidates.copy(), voters.copy())
+    #sys.exit(0)
 
-    # Remaining Candidates System
-    #last_remaining_sys = LastRemainingCandidateSystem(candidates.copy(), voters.copy())
+    if run_all or args.get("redist"):
+     
+        # Redistribution System
+        redistribution_sys = RedistributionSystem(candidates.copy(), voters.copy())
+        logging.info("Running " + redistribution_sys.title.title())
+        redistribution_sys.results()
+        redistribution_sys.show_results()
 
-    # Weighted System
-    #weighted_sys = WeightedSystem(candidates.copy(), voters.copy())
+    if run_all or args.get("reminaing"):
+        # Remaining Candidates System
+        last_remaining_sys = LastRemainingCandidateSystem(candidates.copy(), voters.copy())
+
+    if run_all or args.get("weighted"):
+        # Weighted System
+        weighted_sys = WeightedSystem(candidates.copy(), voters.copy())
 
 
 
@@ -96,11 +111,6 @@ if __name__ == "__main__":
 
     print(f'\n==== {I_BOT} START RUN ID: {run_id} {I_BOT} ====')
     logging.info(f'\n==== {I_BOT} START RUN ID: {run_id} {I_BOT} ====')
-
-    for arg in args:
-        if arg is True:
-            logging.info(f"Arg {arg} set to True")
-    
     
     # --- Start --- #
     run_main_pipeline(args)
