@@ -14,8 +14,8 @@ from voting_systems.base_voting_sys import BaseVotingSystem
 
 
 class WeightedSystem(BaseVotingSystem):
-    def __init__(self, candidates: list, ballots: list):
-        super().__init__(candidates, ballots) 
+    def __init__(self, candidates: dict, voters: dict):
+        super().__init__(candidates, voters) 
         
         self.title = "Weighted Voting" + self.title
 

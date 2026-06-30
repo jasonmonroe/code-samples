@@ -26,24 +26,24 @@ from voting_systems.base_voting_sys import BaseVotingSystem
 
 
 class PopularVotingSystem(BaseVotingSystem):
-    def __init__(self, candidates: list, ballots: list):
-        super().__init__(candidates, ballots) 
+    def __init__(self, candidates: dict, voters: dict):
+        super().__init__(candidates, voters) 
         
         self.title = "Popular Vote" + self.title
 
 
     def results(self) -> None:
+        self._pool.reset()
         candidates = self._pool.get()
         choice = FIRST_CHOICE
-        self.tally_totals(choice)
+        self.tally_totals()
 
-        max_choice = self._get_max_choice()
-        while choice < max_choice:
+        while choice < self.max_choice:
             highest_total = 0
             highest = []
             
             # Check which candidate has the highest vote
-            for candidate in candidates:
+            for candidate in candidates.items():
                 if candidate.votes[choice] > highest_total:
                     highest_total = candidate.votes[choice]
                     highest = [candidate]

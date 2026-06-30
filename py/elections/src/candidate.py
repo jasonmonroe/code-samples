@@ -2,6 +2,7 @@
 
 # Python Libraries
 import logging
+from faker import Faker
 import random
 from statistics import mean
 
@@ -13,12 +14,13 @@ from src.constants import (
     CANDIDATE_DURATION_MAX_OFFSET, 
     CANDIDATE_NAME_POOL, 
     CANDIDATE_DEFAULT_COUNT, 
-    DEFAULT_VOTER_COUNT, 
+    VOTER_DEFAULT_COUNT, 
     ELECTION_DURATION, 
     POLITICAL_PARTIES
     )
 from src.utils import gen_uuid
 
+fake = Faker()
 
 class Candidate:
     def __init__(self, add_noise: bool=False):
@@ -34,6 +36,10 @@ class Candidate:
         
 
     def _get_name(self) -> str:
+        return f"{fake.first_name()} {fake.last_name()}"
+
+    # @defunct
+    def _get_name_orig(self) -> str:
         names = CANDIDATE_NAME_POOL
         first_names = names["first"]
         last_names = names["last"]
@@ -43,13 +49,13 @@ class Candidate:
     def _get_party(self) -> str:
         return random.choice(POLITICAL_PARTIES)
     
-    def campaign(self, donor_cnt: int=None) -> float:
+    def campaign(self, donor_cnt: int=0) -> float:
         # Initial donations before campaign starts
-        donors = random.randint(CANDIDATE_DEFAULT_COUNT, DEFAULT_VOTER_COUNT * 3) if donor_cnt is None else donor_cnt
+        donors = random.randint(CANDIDATE_DEFAULT_COUNT, VOTER_DEFAULT_COUNT * 3) if donor_cnt == 0 else donor_cnt
     
         # Deermine party, then determine likelyness of party donations
         amount = 0.0
-        for _ in range(0, donors):
+        for _ in range(donors):
             min_contr, max_contr = self._donation_limits()
             amount += random.uniform(min_contr, max_contr) 
         
@@ -75,15 +81,9 @@ class Candidate:
         return min_donation, max_donation
 
     @staticmethod
-    def mean_name_len() -> int:
-        names = CANDIDATE_NAME_POOL
-        first_names = names["first"]
-        last_names = names["last"]
+    def mean_name_len(candidates: dict) -> int:
+        if not candidates:
+            return 0
 
-        name_lens = []
-        for i in range(0, len(first_names)):
-            for j in range(0, len(last_names)):
-                name_lens.append(len(first_names[i] + ' ' + last_names[j]))
-      
-        return int(mean(name_lens))
+        return int(mean(len(c.name) for c in candidates))
                 

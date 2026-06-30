@@ -21,6 +21,7 @@ from src.constants import (I_TIMER, MAX_LINE_LEN, MSEC, PEP8_LINE_LEN, PERCENTIL
 
 results_logger = logging.getLogger("results_logger")
 
+# --- General Helpers --- #
 def get_run_id() -> str:
     """ Generates a unique ID for the current run. """
     return str(random.randint(RUN_MIN_ID, RUN_MAX_ID))
@@ -111,7 +112,6 @@ def _create_subtitle_banner(text: str | list, center_text: bool=False) -> None:
     if isinstance(text, list):
         wrapped_lines = text
    
-
     elif isinstance(text, str):
         wrapped_lines = textwrap.wrap(text, width=max_line_len)
 
@@ -149,6 +149,18 @@ def show_banner(title: str, subtitle: str | list | None="", center_title_text: b
         _create_subtitle_banner(subtitle, center_subtitle_text)
 
 
+# --- App based helpers --- #
+def calc_pct_change(start: float, final: float) -> float:
+    return round(((final - start) / start) * PERCENTILE, 1)
+
+
+def optimize_index_by_uid(uid: str, candidates: dict) -> int | None:
+    # Instant O(1) lookup, no matter how many millions of items exist
+    if uid in candidates:
+        return candidates[uid]
+    pass
+
+
 def get_index_by_uid(candidates: list, uid: str) -> int | None:
     return next((i for i, candidate in enumerate(candidates) if candidate.uid == uid), None)
 
@@ -174,20 +186,16 @@ def placement(place: int, mode: str="") -> str:
     return attrs[place]
 
 
-def calc_pct_change(start: float, final: float) -> float:
-    return round(((final - start) / start) * PERCENTILE, 1)
-
-
 def init_logger(run_id: str, debug_flag: bool=False) -> logging.Logger:
     logging.debug("# --- Setting logger --- #")
 
     logging_type = logging.DEBUG if debug_flag else logging.INFO
     
     project_dir = Path(__file__).resolve().parent.parent
-    print(f"project_dir={project_dir}")
+    logging.info(f"Project Dir: {project_dir}")
     
     log_dir = project_dir / "logs"
-    print(f"log_dir={log_dir}")
+    logging.info(f"Log Dir: {log_dir}")
     
     # Safely creates folder if it doesn't exist
     log_dir.mkdir(parents=True, exist_ok=True)

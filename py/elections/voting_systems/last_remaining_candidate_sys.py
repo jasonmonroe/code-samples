@@ -16,8 +16,8 @@ from voting_systems.base_voting_sys import BaseVotingSystem
 
 
 class LastRemainingCandidateSystem(BaseVotingSystem):
-    def __init__(self, candidates: list, ballots: list):
-        super().__init__(candidates, ballots) 
+    def __init__(self, candidates: dict, voters: dict):
+        super().__init__(candidates, voters) 
         
         self.title = f"Weighted Voting" + self.title
 

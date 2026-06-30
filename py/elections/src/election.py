@@ -17,15 +17,13 @@ import sys
 import json
 
 # Local Libraries
-#from src import candidate
-from src import candidate
 from src.candidate import Candidate
 from src.candidate_chooser import CandidateChooser
 from src.candidate_pool import CandidatePool
 from src.constants import (
 
     CANDIDATE_DEFAULT_COUNT, 
-    DEFAULT_VOTER_COUNT,
+    VOTER_DEFAULT_COUNT,
     DONOR_COUNT_MAX,
     DONOR_COUNT_MIN,
     ELECTION_DURATION,
@@ -46,15 +44,15 @@ from src.utils import (
 )
 from src.voter import Voter
 
-# @TODO rename donations to donations
+
 class ElectionSys:
     def __init__(self, add_noise: bool=False):
         self.add_noise = add_noise
-        self.candidates = []
+        self.candidates = {} # was []
         self.party_counts = []
         self.results = [] # Election results
         self.total_donations = 0.0 
-        self.voters = []
+        self.voters = {} # was []
         self.election_at = datetime.now().strftime("%B %d, %Y")
         self.register_at = self._get_register_at()
 
@@ -71,13 +69,10 @@ class ElectionSys:
         self._declare_candidacy(q_candidate_cnt)
 
         # --- Register voters
-        
         # @TODO - uncomment q_voters_cnt = self._query_voter_count()
-        q_voters_cnt = 14
-
-        for _ in range(0, q_voters_cnt):
-            self.voters.append(Voter(self.register_at, self.add_noise))
-
+        q_voter_cnt = 16
+        self._register_voters(q_voter_cnt)
+        
         # --- 🚩 Turn off logs if participation is too high!
         if len(self.candidates) > 50 or len(self.voters) > 1000:
             mute_logger(len(self.candidates), len(self.voters))
@@ -92,15 +87,18 @@ class ElectionSys:
 
     def _declare_candidacy(self, candidate_cnt: int) -> None:
         subtitles = []
-        for _ in range(0, candidate_cnt):
+        total_donations = 0.0
+        for _ in range(candidate_cnt):
             candidate = Candidate(self.add_noise)
             subtitles.append(f"Candidate: {candidate.uid} | {candidate.name} | Party: {candidate.party}")
 
             # Tabulate candidates
-            self.candidates.append(candidate)
+            #self.candidates.append(candidate)
+            self.candidates[candidate.uid] = candidate
+            total_donations += candidate.donations
       
         # Total candidate donations
-        self.total_donations = self._sum_donations()
+        self.total_donations = total_donations #self._sum_donations()
 
         # Count candidate's political party representation
         self.party_counts = self._count_parties()
@@ -108,6 +106,13 @@ class ElectionSys:
         show_banner(f'CANDIDATES ({candidate_cnt})', subtitles)
         logging.info(f'There are {candidate_cnt} candidates running in this election.')
         
+    def _register_voters(self, voter_cnt: int) -> None:
+        for _ in range(voter_cnt):
+            voter = Voter(self.register_at, self.add_noise)
+    
+            self.voters[voter.uid] = voter
+             
+
     def _query_candidate_count(self) -> int:
         # Query number of candidates.
         query_candidates = f"\nHow many candidates ({CANDIDATE_DEFAULT_COUNT} to {CANDIDATE_COUNT_MAX}) will register for this election{I_QUES} "
@@ -127,7 +132,7 @@ class ElectionSys:
         q_voters_cnt = self._validate_input(query_voters)
 
         if q_voters_cnt == '':
-            q_voters_cnt = DEFAULT_VOTER_COUNT
+            q_voters_cnt = VOTER_DEFAULT_COUNT
         
         return q_voters_cnt
 
@@ -162,7 +167,10 @@ class ElectionSys:
         for party in POLITICAL_PARTIES:
             party_counts[party] = 0
 
-            for candidate in self.candidates:
+            for _, candidate in self.candidates.items():
+                #print(candidate.get("party"))
+                #import sys
+                #sys.exit(0)
                 if candidate.party == party:
                     party_counts[party] += 1
    
@@ -173,14 +181,20 @@ class ElectionSys:
         logging.info('🤝🏾 Candidates are campaigning and getting more donors 🤝🏾')
 
         total_donations = round(self.total_donations, 2)
-        donor_cnt = random.randint(DONOR_COUNT_MIN, DONOR_COUNT_MAX)
+        #donor_cnt = random.randint(DONOR_COUNT_MIN, DONOR_COUNT_MAX)
         
-        for i in range(0, len(self.candidates)):
-            amt = self.candidates[i].campaign(donor_cnt)
-            self.candidates[i].donations += amt
+        for _, candidate in self.candidates.items():
+            donor_cnt = random.randint(DONOR_COUNT_MIN, DONOR_COUNT_MAX)
+            amount = candidate.campaign(donor_cnt)
+            candidate.donations += amount
+            total_donations += amount
+
+        #for i in range(0, len(self.candidates)):
+        #    amt = self.candidates[i].campaign(donor_cnt)
+        #    self.candidates[i].donations += amt
         
         # Add to total donations
-        self.total_donations = self._sum_donations()
+        self.total_donations = total_donations #self._sum_donations()
         pct_change = calc_pct_change(total_donations, self.total_donations)
         
         msg = f'Wow! Your total donations went from ${total_donations} (pre-election) to ${self.total_donations}.'
@@ -188,10 +202,19 @@ class ElectionSys:
 
         logging.info(msg)
 
+    # @todo - not needed
     def _sum_donations(self) -> float:
+
+        sum_val = sum(candidate.donation for candidate in self.candidates.values())
+        return round(sum_val, 2)
+
         sum_val = 0
-        for i in range(0, len(self.candidates)):
-            sum_val += self.candidates[i].donations
+
+        for candidate in self.candidates.items():
+            sum_val += candidate.donations 
+
+        #for i in range(0, len(self.candidates)):
+        #    sum_val += self.candidates[i].donations
 
         return round(sum_val, 2)
 
@@ -208,15 +231,13 @@ class ElectionSys:
             self._pool.get(),
             self.total_donations,
             self.party_counts,
-            Candidate.mean_name_len(),
+            Candidate.mean_name_len(self.candidates.values()),
             self.add_noise,
             )
-
-        max_choice = self._get_max_choice()
         
         # Every voter casts a ballot, # Every voter has up to 4 choices
-        for idx, voter in enumerate(self.voters):
-            
+        for idx, (uid, voter) in enumerate(self.voters.items()):
+             
             # Reset candidate pool and candidate favorables before picking unique candidates
             self._pool.reset()
             self._candidate_chooser.reset_favorables()
@@ -224,10 +245,10 @@ class ElectionSys:
             if not voter.voted:
                 continue
 
-            logging.info(f"\n=== {idx}: Voter {voter.uid} is voting. ===")
+            logging.info(f"\n=== {idx}: Voter {uid} is voting. ===")
 
             choice = FIRST_CHOICE
-            while choice < max_choice:
+            while choice < MAX_CHOICES:
                 logging.debug(f"# --- Choice: {choice} --- #")
                
                 # Update class with current candidate pool
@@ -242,14 +263,14 @@ class ElectionSys:
                 candidate_chosen = voter.execute(self._candidate_chooser, choice)
 
                 if candidate_chosen is None:
-                    logging.warning(f"Voter {voter.uid} did not choose a candidate for {placement(choice)}.")
+                    logging.warning(f"Voter {uid} did not choose a candidate for {placement(choice)}.")
                 else:
                     self._pool.remove(candidate_chosen)
 
                 choice += 1
 
             # End choice loop
-            logging.info(f"--- END | voter[{idx}]:{voter.uid} Ballot: {voter.ballot} | END ---")
+            logging.info(f"--- END | voter[{idx}]:{uid} Ballot: {voter.ballot} | END ---")
              
         logging.info("# --- Election Day is over.  Closing all voting polls. --- #\n\n")
 
@@ -257,24 +278,27 @@ class ElectionSys:
         logging.info(f"# --- {I_BALLOT} Tallying ballots {I_BALLOT} --- #")
         
         no_vote_ctr = 0
-        for i, voter in enumerate(self.voters):
+        for idx, (uid, voter) in enumerate(self.voters.items()):
+           
             for choice, ballot_choice in enumerate(voter.ballot):
                 if ballot_choice == VOTE_BLANK:
                     no_vote_ctr += 1
                     continue
 
                 if ballot_choice != VOTE_BLANK:
-                    voter_candidate_idx = get_index_by_uid(self.candidates, ballot_choice)
-                    self.candidates[voter_candidate_idx].votes[choice] += 1
+                    self.candidates[ballot_choice].votes[choice] += 1
         
-        self.show_ballot_banner(self.candidates)
+        self.show_ballot_banner()
         logging.warning(f"Note: There were {no_vote_ctr} no votes.")
                 
-    def show_ballot_banner(self, candidates):
+    def show_ballot_banner(self):
         subtitles = []
         subtitles.append("     VOTES    | Candidate")
-        for i in range(0, len(candidates)):
-            subtitles.append(f"{candidates[i].votes} | {candidates[i].uid} - ({candidates[i].party[0:3].upper()}) {candidates[i].name}")
+        for _, candidate in self.candidates.items():
+            #print(candidate)
+            #import sys
+            #sys.exit(0)
+            subtitles.append(f"{candidate.votes} | {candidate.uid} - ({candidate.party[0:3].upper()}) {candidate.name}")
 
         show_banner('BALLOT TALLIES', subtitles)
 

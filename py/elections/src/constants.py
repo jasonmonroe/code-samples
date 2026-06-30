@@ -134,6 +134,14 @@ CANDIDATE_NAME_POOL = {
     ]
 }
 
+CANDIDATE_WEIGHT_PARTY = 40
+CANDIDATE_WEIGHT_DURATION = 20
+CANDIDATE_WEIGHT_DONATION = 25
+CANDIDATE_WEIGHT_BALLOT_PLACEMENT = 10
+CANDIDATE_WEIGHT_NAME = 5
+
+WEIGHT_NOISE = 0.10
+
 # Source: https://ballotpedia.org/List_of_political_parties_in_the_United_States
 POLITICAL_PARTIES = [
     'Constitution',
@@ -185,7 +193,7 @@ VOTER_VOTED = 0      # Registered voter than participated 63.7%.
 FIRST_CHOICE = 0
 MAX_CHOICES = 4
 
-DEFAULT_VOTER_COUNT = 16
+VOTER_DEFAULT_COUNT = 16
 BALLOT_BLANK = ['', '', '', ''] # used to mark votes
 BALLOT_FRESH = [0, 0, 0, 0] # used to tally votes
 VOTE_BLANK = None

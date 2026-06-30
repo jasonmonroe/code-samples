@@ -31,24 +31,22 @@
 import logging
 
 # Local Libraries
-from src.candidate import Candidate
-from src.constants import FIRST_CHOICE, MAX_CHOICES
 from src.utils import get_index_by_uid, placement
 from voting_systems.base_voting_sys import BaseVotingSystem
 
 
 class RankChoiceVotingSystem(BaseVotingSystem):
-    def __init__(self, candidates: list, ballots: list):
+    def __init__(self, candidates: dict, voters: dict):
         super().__init__(candidates, ballots) 
         self.title = "Rank Choice Voting" + self.title
 
     def results(self):
-        for round in range(0, MAX_CHOICES):
+        for round in range(0, self.max_choice):
             logging.debug(f"choice={round}, {placement(round, 'a')} round...")
 
             # Important: Always count the first choice regardless of round
             # because the loser will have their names removed from the ballots!
-            self.tally_totals(FIRST_CHOICE, True, True) 
+            self.tally_totals(clear_totals=True) 
 
             # Any candidate have a majority?
             for candidate in self._pool.get():
@@ -57,6 +55,7 @@ class RankChoiceVotingSystem(BaseVotingSystem):
                     break
                 
             if self.winner is not None:
+                logging.info("Winner found!")
                 break
 
             # If no winner, remove lowest performing candidate
@@ -70,9 +69,9 @@ class RankChoiceVotingSystem(BaseVotingSystem):
                 loser_idx = get_index_by_uid(self._pool.get(), loser_candidate.uid)
                 
                 self._pool.remove(loser_idx)
-                self.shift_ballots(loser_candidate.uid)     
+                self._shift_ballots(loser_candidate.uid)     
    
-    def shift_ballots(self, loser_uid: str) -> None:
+    def _shift_ballots(self, loser_uid: str) -> None:
         logging.debug(f"Shifting Loser UID: {loser_uid} from ballot.")
 
         for ballot in self.ballots:
