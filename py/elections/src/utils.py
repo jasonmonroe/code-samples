@@ -14,10 +14,20 @@ import random
 import textwrap
 import time
 import uuid
+from statistics import mean
 
 # Local Libraries
 from src.class_name_filter import ClassNameFilter
-from src.constants import (I_TIMER, MAX_LINE_LEN, MSEC, PEP8_LINE_LEN, PERCENTILE, RUN_MAX_ID, RUN_MIN_ID, SECS_IN_MIN)
+from src.constants import (
+    I_TIMER, 
+    MAX_LINE_LEN, 
+    MSEC, 
+    PEP8_LINE_LEN, 
+    PERCENTILE, 
+    RUN_MAX_ID, 
+    RUN_MIN_ID, 
+    SECS_IN_MIN
+    )
 
 results_logger = logging.getLogger("results_logger")
 
@@ -168,6 +178,13 @@ def get_index_by_uid(candidates: list, uid: str) -> int | None:
 def get_candidate_by_uid(candidates: list, uid: str):
     return next((candidate for candidate in candidates if candidate.uid == uid), None)
 
+def name_len(candidates: dict) -> dict:
+        if not candidates:
+            return {"mean": 0, "max": 0}
+
+        lenghts = [len(c.name) for c in candidates]
+
+        return {"mean": int(mean(lenghts)), "max": int(max(lenghts))}
 
 def placement(place: int, mode: str="") -> str:
     """

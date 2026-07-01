@@ -21,7 +21,7 @@ import logging
 
 # Local Libraries
 from src.constants import FIRST_CHOICE
-from src.utils import get_index_by_uid, placement
+from src.utils import placement
 from voting_systems.base_voting_sys import BaseVotingSystem
 
 
@@ -37,13 +37,13 @@ class PopularVotingSystem(BaseVotingSystem):
         candidates = self._pool.get()
         choice = FIRST_CHOICE
         self.tally_totals()
-
+   
         while choice < self.max_choice:
             highest_total = 0
             highest = []
             
             # Check which candidate has the highest vote
-            for candidate in candidates.items():
+            for uid, candidate in candidates.items():
                 if candidate.votes[choice] > highest_total:
                     highest_total = candidate.votes[choice]
                     highest = [candidate]
@@ -58,8 +58,7 @@ class PopularVotingSystem(BaseVotingSystem):
             
             # Go to next choice
             choice += 1
-            logging.debug(f"Updating round to {choice}.")   
-
+               
     # Override parent class
     def determine_winner(self, candidates: list, choice: int) -> bool |  None:
         if len(candidates) == 0: # This will never hit!
@@ -69,19 +68,15 @@ class PopularVotingSystem(BaseVotingSystem):
         elif len(candidates) == 1:
             # Winner has been determined (set) so end the loop
             logging.info("Success! We have a winner!")
+
             candidates[0].is_winner = True
             self.winner = candidates[0]
-            #winner_idx = get_index_by_uid(candidates, self.winner.uid)
-            #candidates[winner_idx].is_winner = True
-            #self.winner = candidates[winner_idx]
+
             self.candidates = candidates
-            #self.candidates[winner_idx].is_winner = True
+            self._pool.update_all(self.candidates)
  
             return True
         else:
             # We have multiple leaders so lets go to second round.  Update the candidates by the "pool of winners."
-            logging.info(f"No winner after {placement(choice, 'a')} round.  Limiting pool to {vars(candidates)}.")
+            logging.info(f"No winner after {placement(choice, 'a')} round.  Limiting pool to {len(candidates)}.")
             return False
-
-    def determine_loser():
-        pass

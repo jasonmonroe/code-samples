@@ -37,8 +37,8 @@ from src.constants import (
     )
 from src.utils import (
     calc_pct_change,
-    get_index_by_uid,
     mute_logger,
+    name_len,
     placement,
     show_banner
 )
@@ -231,7 +231,6 @@ class ElectionSys:
             self._pool.get(),
             self.total_donations,
             self.party_counts,
-            Candidate.mean_name_len(self.candidates.values()),
             self.add_noise,
             )
         
@@ -289,15 +288,14 @@ class ElectionSys:
                     self.candidates[ballot_choice].votes[choice] += 1
         
         self.show_ballot_banner()
-        logging.warning(f"Note: There were {no_vote_ctr} no votes.")
+
+        if not self.add_noise and no_vote_ctr > 0:
+            logging.warning(f"'🚩 Note: There were {no_vote_ctr} no votes.")
                 
     def show_ballot_banner(self):
         subtitles = []
         subtitles.append("     VOTES    | Candidate")
         for _, candidate in self.candidates.items():
-            #print(candidate)
-            #import sys
-            #sys.exit(0)
             subtitles.append(f"{candidate.votes} | {candidate.uid} - ({candidate.party[0:3].upper()}) {candidate.name}")
 
         show_banner('BALLOT TALLIES', subtitles)

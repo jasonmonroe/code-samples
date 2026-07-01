@@ -79,11 +79,3 @@ class Candidate:
             max_donation = CANDIDATE_DONATION_MAX / 4
 
         return min_donation, max_donation
-
-    @staticmethod
-    def mean_name_len(candidates: dict) -> int:
-        if not candidates:
-            return 0
-
-        return int(mean(len(c.name) for c in candidates))
-                

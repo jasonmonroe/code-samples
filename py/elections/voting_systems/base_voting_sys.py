@@ -16,7 +16,7 @@ from abc import ABC, abstractmethod
 from src.candidate import Candidate
 from src.candidate_pool import CandidatePool
 from src.constants import FIRST_CHOICE, I_RIBBON, MAX_CHOICES 
-from src.utils import get_index_by_uid, show_banner, show_timer, start_timer
+from src.utils import name_len, show_banner
 
 class BaseVotingSystem(ABC):
 
@@ -37,156 +37,60 @@ class BaseVotingSystem(ABC):
         self.candidates = candidates # Treat as a candidate pool
         self.voters = voters
         self._pool = CandidatePool(candidates)
-        #logging.debug(f"count:{self._pool.length}")
-        #print(f"len={len(self.voters)}")
         self.majority = self._get_majority_cnt()
         self.max_choice = self._get_max_choice()
         self.title = " System Results"
         self.winner = None
+        self._name_len = name_len(self.candidates.values())
         
 
     def _get_majority_cnt(self) -> int:
-        #import sys
-        #print(len(self.voters))
-        #sys.exit(0)
         return (len(self.voters) // 2) + 1
 
-    def _clear_totals(self, candidates):
-        for candidate in candidates:
+    def _clear_totals(self, candidates: dict | list) -> dict | list:
+        for candidate in candidates.values():
             candidate.total = 0
-        return candidates  # 🌟 ADD THIS RETURN STATEMENT
+
+        return candidates 
 
     def tally_totals(self, choice: int=FIRST_CHOICE, use_pool: bool=True, clear_totals: bool=False) -> None:
-        start_time = start_timer()
-        
+
         # Fetch the data source
         candidates = self._pool.get() if use_pool else self.candidates
-        
+      
         if clear_totals:
-            candidates = self._clear_totals(candidates.values())
-            
-        # OPTIMIZATION: Map UIDs to objects instantly. No more get_index_by_uid loops!
-        #candidate_map = {c.uid: c for c in candidates}
-        
-        # 3. Tally votes using the instant dictionary lookup
+            candidates = self._clear_totals(candidates)
+ 
+        # Tally votes using the instant dictionary lookup
         for _, voter in self.voters.items():
             ballot_choice = voter.ballot[choice]
-            
+           
             if ballot_choice in candidates:
                 candidates[ballot_choice].total += 1
             else:
                 logging.warning(f"Skipping vote: Candidate UID '{ballot_choice}' not found.")
                 
-        # 4. Save results back instantly
+        # Save results back instantly
         if use_pool:
             self._pool.update_all(candidates)
         else:
             self.candidates = candidates
             
-        show_timer(start_time)
-
-
-    # @todo - old
-    def tally_totals_3(self, choice: int=FIRST_CHOICE, use_pool: bool=True, clear_totals: bool=False) -> None:
-        start_time = start_timer()
-        if use_pool:
-
-            if clear_totals:
-               for candidate in self._pool.get():
-                    self._pool.update_by_uid(candidate.uid, "total", None)
-            
-            # tally
-            for voter in self.voters:
-                ballot_choice = voter.ballot[choice]
-                self._pool.update_by_uid(ballot_choice, "total", 1)
-        else:
-            if clear_totals:
-                for candidate in self.candidates:
-                    candidate.total = 0
-
-            for voter in self.voters:
-                ballot_choice = voter.ballot[choice]
-                idx = get_index_by_uid(self.candidates, ballot_choice)
-
-            if idx is not None:
-                self.candidates[idx].total += 1
-            else:
-                logging.warning(f"Skipping vote: Candidate UID '{ballot_choice}' not found.")
-
-        show_timer(start_time)
-
-            
-
-    def tally_totals_2(self, choice: int=FIRST_CHOICE, use_pool: bool=True, clear_totals: bool=False) -> None:
-        start_time = start_timer()
-        # Get candidates
-        candidates = self._pool.get() if use_pool else self.candidates
-
-        if clear_totals:
-            candidates = self._clear_totals(candidates)
-
-        for voter in self.voters:
-            ballot_choice = voter.ballot[choice]
-            idx = get_index_by_uid(candidates, ballot_choice)
-
-            if idx is not None:
-                candidates[idx].total += 1
-            else:
-                logging.warning(f"Skipping vote: Candidate UID '{ballot_choice}' not found.")
-
-        if use_pool:
-            self._pool.update_all(candidates)
-        else:
-            self.candidates = candidates
-
-        show_timer(start_time)
-
-
-
-    #@ orig gold
-    def tally_totals_orig(self, 
-        choice: int=FIRST_CHOICE, # Which round are we voting on.  Default = 0
-        clear_totals: bool=False, # Whether we set total = 0
-        use_pool: bool=True       # Use candidate_pool instead of candidates
-        ) -> None:
-        
-        # Get candidates
-        candidates = self._pool.get() if use_pool else self.candidates
-         
-        if clear_totals:
-            candidates = self._clear_totals(candidates)
-        
-        for voter in self.voters:
-            ballot_choice = voter.ballot[choice]
-            idx = get_index_by_uid(candidates, ballot_choice)
-
-            if idx is not None:
-                candidates[idx].total += 1
-            else:
-                logging.warning(f"Skipping vote: Candidate UID '{ballot_choice}' not found.")
-           
-        # After tallying votes store the values back in to the candidates
-        if not clear_totals and not use_pool:
-            self.candidates = candidates
-            self._pool.reset()
-            #self._sync_pool()
-        elif use_pool:
-            for candidate in candidates:
-                self._pool.update(candidate)
-            #self.candidate_pool = candidates
-            #self._pool.reset()
-        else:
-            self.candidates = candidates
-
     def show_results(self) -> None:
         if self.winner:
+           
             subtitles = []
-            for _, candidate in self.candidates.items():
-                line = f"Candidate: {candidate.name} | Total: {candidate.total}"
+            for candidate in self._pool.all().values():
+                padding_len = self._name_len["max"] - len(candidate.name)
+                padding = (" " * padding_len)
+             
+                # The ultra-clean, production-ready 1-liner alternative:
+                line = f"Candidate: {candidate.name:<{self._name_len['max']}} | Total: {candidate.total}"
+
                 subtitles.append(line)
 
             show_banner(self.title, subtitles)
-            msg = f"\nWinner: {I_RIBBON} {self.winner.name} ({self.winner.party})\n"
+            msg = f"\n{I_RIBBON} Winner: {self.winner.name} ({self.winner.party}) Total: {self.winner.total}\n"
             print(msg)
             logging.info(msg)
         
@@ -200,7 +104,9 @@ class BaseVotingSystem(ABC):
     def determine_winner(self, candidate: Candidate) -> bool:
         logging.debug(f"determine_winner(): if candidate:{candidate.uid} {candidate.total} >= {self.majority}:")
         if candidate.total >= self.majority or self._pool.length == 1:
+            candidate.is_winner = True
             self.winner = candidate
+            self._pool.update(candidate)
             return True
         
         return False 
@@ -231,7 +137,6 @@ class BaseVotingSystem(ABC):
             else:
                 candidates_to_check = loser_pool # Already a list of objects
                 
-
             for candidate in candidates_to_check:
                 current_votes = candidate.votes[choice]
                 if current_votes < lowest_total:

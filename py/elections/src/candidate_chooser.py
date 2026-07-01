@@ -14,7 +14,6 @@ from src.constants import (
     CANDIDATE_WEIGHT_NAME,
     CANDIDATE_WEIGHT_PARTY,
     ELECTION_DURATION,
-    FIRST_CHOICE,
     I_FLAG,
     PARTY_BTM_TIER,
     PARTY_MID_TIER,
@@ -27,38 +26,33 @@ from src.constants import (
     VOTE_NOISE_ODDS,
     WEIGHT_NOISE, 
 )
-from src.utils import get_index_by_uid
+from src.utils import name_len
+ 
 
 class CandidateChooser:
     def __init__(self, 
     candidates: dict, 
     total_donations: float, 
     party_counts: dict,
-    mean_name_len: int,
     add_noise: bool=False,
     ):
         logging.debug("# --- CandidateChooser() instantiated --- #")
-        logging.debug(f"mean_name_len: {mean_name_len}")
-
+        
         self.add_noise = add_noise
         self.candidates = candidates # public
-        self._mean_name_len = mean_name_len
 
+        self._name_len = name_len(self.candidates.values())
         self._party_counts = party_counts
         self._total_donations = round(total_donations, 2)
-
-        # Build favorables once at the beginning to get the odds.
         self._favorables_orig = self.get_favorables()
         self._favorables = self._favorables_orig.copy()
-        #self._favorables = self.get_favorables()
-        
         logging.debug(f"favorables count = {len(self._favorables)}")
         logging.debug(f"{self._favorables}")
         self._check_favorables()
 
 
     # --- Voter decision --- #
-    def _check_favorables(self):
+    def _check_favorables(self) -> None:
         if len(self._favorables) == 0:
             logging.critical("No favorables found!")
             logging.critical(f"Candidate count: {len(self.candidates)}")
@@ -68,6 +62,9 @@ class CandidateChooser:
     def decision(self) -> str | None:
         # Three options: No vote, if there is a vote a random vote, if a methodical vote either favorability or heuristic
         self._check_favorables()
+
+        # @todo - fix
+        return self._choose_anyone()
         
         candidate_uid = None
         decision_odds = random.randint(0, PERCENTILE)
@@ -179,7 +176,6 @@ class CandidateChooser:
         return self._calc_favorables()
 
     def _calc_favorables(self) -> dict:
-
         # Logic to pick a candidate.  Party, Gender name, placement on the ballot, campaign donations, 
         # duration of candidacy
         favorables = {}
@@ -205,9 +201,8 @@ class CandidateChooser:
     def sync_favorables(self) -> None:
         # Whatever candidates are left in the pool need to match the favorable choices
         synced = {}
-
         for favorable_uid, favorable in self._favorables.items():
-            for candidate_uid, candidates in self.candidates.items():
+            for candidate_uid, _ in self.candidates.items():
                 if candidate_uid == favorable_uid:
                     synced[favorable_uid] = favorable
 
@@ -285,5 +280,5 @@ class CandidateChooser:
 
     def _rank_name(self, name: str) -> int: 
         # The longer the name the harder to pronounce the least likely to vote for that andidate
-        return 0 if len(name) > self._mean_name_len else 1
+        return 0 if len(name) > self._name_len["mean"] else 1
         

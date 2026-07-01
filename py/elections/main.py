@@ -6,8 +6,8 @@ __date__ = "2025-01-24"
 __version__ = "2.0.0"
 
 # Python Libraries
+from collections.abc import ValuesView
 import logging
-from pathlib import Path
 import sys
 
 # Local Libraries
@@ -21,17 +21,10 @@ from voting_systems.ranked_choice_sys import RankChoiceVotingSystem
 from voting_systems.redistribution_sys import RedistributionSystem
 from voting_systems.weighted_sys import WeightedSystem
 
-### DONT FORGET TO REMOVE ALL @TODO'S
-def run_main_pipeline(args: dict):
-    print(f'run_main_pipeline({args})')
 
-    run_all = True
-    for arg in args:
-        if arg not in ["debug", "noise"]:
-            if not arg:
-                run_all = False
-                break
-    
+def run_main_pipeline(args: dict, run_all: bool):
+    logging.info(f"Run all voting systems: {run_all}")
+   
     # Define electoral process: Select candidate count, declare candidacy
     election = ElectionSys(args.get('noise'))
     election.register()
@@ -49,25 +42,19 @@ def run_main_pipeline(args: dict):
     # --- Now compare results to different systems --- #
 
     if run_all or args.get('popular'):
-        """
         # Popular Vote System
         popular_sys = PopularVotingSystem(candidates.copy(), voters.copy())
         logging.info("Running " +popular_sys.title.title() )
         popular_sys.results()
         popular_sys.show_results()
-        """
 
     if run_all or args.get("ranked"):
-        """
         # Ranked Choice Voting System
         ranked_choice_sys = RankChoiceVotingSystem(candidates.copy(), voters.copy())
         logging.info("Running " + ranked_choice_sys.title.title())
         ranked_choice_sys.results()
         ranked_choice_sys.show_results()
-        """
-    
-    #sys.exit(0)
-
+         
     if run_all or args.get("redist"):
      
         # Redistribution System
@@ -76,7 +63,7 @@ def run_main_pipeline(args: dict):
         redistribution_sys.results()
         redistribution_sys.show_results()
 
-    if run_all or args.get("reminaing"):
+    if run_all or args.get("remaining"):
         # Remaining Candidates System
         last_remaining_sys = LastRemainingCandidateSystem(candidates.copy(), voters.copy())
 
@@ -90,6 +77,13 @@ def run_main_pipeline(args: dict):
     # Final Results
     subtitles = election.results
 
+def _run_all_voting_sys(args: dict) -> bool:
+    all_sys = all(args.values())
+    no_sys = not any(args.values())
+
+    return all_sys or no_sys
+
+
 def _parse_args(command_line_args: list[str]) -> dict:
     """
     Parse arguments present in command line.
@@ -101,20 +95,21 @@ def _parse_args(command_line_args: list[str]) -> dict:
        
     return {arg.strip('--'): (arg in command_line_args) for arg in ARG_PARAMS}
 
+
 if __name__ == "__main__":
     start_time = start_timer()
     run_id = get_run_id()    
 
     args = _parse_args(sys.argv[1:])
-
+    run_all = _run_all_voting_sys(args)     
     logger = init_logger(run_id, args.get("debug"))
-
-    print(f'\n==== {I_BOT} START RUN ID: {run_id} {I_BOT} ====')
-    logging.info(f'\n==== {I_BOT} START RUN ID: {run_id} {I_BOT} ====')
+    
+    print(f"\n==== {I_BOT} START RUN ID: {run_id} {I_BOT} ====")
+    logging.info(f"\n==== {I_BOT} START RUN ID: {run_id} {I_BOT} ====")
     
     # --- Start --- #
-    run_main_pipeline(args)
+    run_main_pipeline(args, run_all)
 
     show_timer(start_time) 
-    print(f'\n==== {I_BOT} END   RUN ID: {run_id} {I_BOT} ====\n')
-    logging.info(f'\n==== {I_BOT} END   RUN ID: {run_id} {I_BOT} ====\n')
+    print(f"\n==== {I_BOT} END   RUN ID: {run_id} {I_BOT} ====\n")
+    logging.info(f"\n==== {I_BOT} END   RUN ID: {run_id} {I_BOT} ====\n")

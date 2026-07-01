@@ -31,50 +31,54 @@
 import logging
 
 # Local Libraries
+from src.constants import FIRST_CHOICE
 from src.utils import get_index_by_uid, placement
 from voting_systems.base_voting_sys import BaseVotingSystem
 
 
 class RankChoiceVotingSystem(BaseVotingSystem):
     def __init__(self, candidates: dict, voters: dict):
-        super().__init__(candidates, ballots) 
+        super().__init__(candidates, voters) 
         self.title = "Rank Choice Voting" + self.title
 
     def results(self):
-        for round in range(0, self.max_choice):
-            logging.debug(f"choice={round}, {placement(round, 'a')} round...")
+        choice = FIRST_CHOICE
+        while choice < self.max_choice:
+            logging.debug(f"choice={choice}, {placement(choice, "a")} round...")
 
             # Important: Always count the first choice regardless of round
             # because the loser will have their names removed from the ballots!
             self.tally_totals(clear_totals=True) 
 
             # Any candidate have a majority?
-            for candidate in self._pool.get():
-                logging.debug(f"line 55: determine if {candidate.uid} is the  winner...")
+            for _, candidate in self._pool.get().items():
                 if self.determine_winner(candidate):
                     break
                 
-            if self.winner is not None:
+            if self.winner:
                 logging.info("Winner found!")
                 break
 
             # If no winner, remove lowest performing candidate
-            logging.debug(f"No winner in round: {placement(round, 'a')}.")
+            logging.debug(f"No winner in round: {placement(choice, 'a')}.")
 
             # Remove lowest candidate
-            loser_candidate = self.determine_loser(round)
+            loser_candidate = self.determine_loser(choice)
 
             # Remove loser candidate pool and ballots
-            if loser_candidate is not None:
-                loser_idx = get_index_by_uid(self._pool.get(), loser_candidate.uid)
-                
-                self._pool.remove(loser_idx)
+            if loser_candidate:
+                self._pool.remove(loser_candidate)
                 self._shift_ballots(loser_candidate.uid)     
+
+            choice += 1
    
     def _shift_ballots(self, loser_uid: str) -> None:
         logging.debug(f"Shifting Loser UID: {loser_uid} from ballot.")
 
-        for ballot in self.ballots:
-            for candidate_choice in ballot:
-                if candidate_choice == loser_uid:
-                    ballot.remove(candidate_choice)
+        for uid, voter in self.voters.items():
+            for ballot_choice in voter.ballot:
+                if ballot_choice == loser_uid:
+                    logging.debug(f"Removing candidate: {loser_uid} from voter: {uid} ballot via shift.")
+                    voter.ballot.remove(loser_uid)
+        
+    
