@@ -13,7 +13,7 @@
 import logging
 import random
 from src.constants import FIRST_CHOICE, I_RIBBON, I_TROPHY, WEIGHTED_SYS_DEFAULT
-from src.utils import show_banner
+from src.utils import draw_line, show_banner
 from voting_systems.base_voting_sys import BaseVotingSystem
 
 
@@ -157,9 +157,13 @@ class WeightedSystem(BaseVotingSystem):
             subtitles.append(line)
             logging.info(line)
 
-        show_banner(self.title, subtitles)
+        
 
-        winner_line = f"\n{I_TROPHY} Winner: {winner.name} ({winner.party}) | Score: {winner.total}\n"
-        logging.info(winner_line)
-        print(winner_line)
+        winner_line = f"Final Winner: {winner.name} ({winner.party}) | Score: {round(winner.total, 2)}".upper()
+        logging.info(f"\n{I_TROPHY} {winner_line}\n")
+        subtitles.append("\n")
+        subtitles.append(winner_line)
+
+        show_banner(self.title, subtitles)
+        print(f"\n{I_TROPHY} {winner_line}\n")
     

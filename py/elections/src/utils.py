@@ -73,7 +73,7 @@ def show_timer(start_time_int: float) -> None:
     logging.info(msg)
 
 
-def _draw_line() -> str:
+def draw_line() -> str:
     return '+' + ('-' * (PEP8_LINE_LEN - 2)) + '+'
 
 
@@ -96,7 +96,7 @@ def _create_title_banner(text: str, center_text: bool=True) -> None:
         # Remove last two characters to account for open/close spacing
         title_line = "| " + text + (' ' * padding_len) + " |"
         
-    top_btm_line = _draw_line()
+    top_btm_line = draw_line()
 
     # Print title banner
     print("")
@@ -146,8 +146,8 @@ def _create_subtitle_banner(text: str | list, center_text: bool=False) -> None:
        
     # Close the subtitle
     if len(wrapped_lines) > 0:
-        print(_draw_line())
-        results_logger.info(_draw_line())
+        print(draw_line())
+        results_logger.info(draw_line())
 
     return None
 

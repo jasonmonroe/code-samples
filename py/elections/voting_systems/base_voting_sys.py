@@ -15,7 +15,7 @@ from abc import ABC, abstractmethod
 # Local Libraries
 from src.candidate import Candidate
 from src.candidate_pool import CandidatePool
-from src.constants import FIRST_CHOICE, I_RIBBON, MAX_CHOICES 
+from src.constants import FIRST_CHOICE, I_RIBBON, MAX_CHOICES, VOTE_BLANK 
 from src.utils import name_len, show_banner
 
 class BaseVotingSystem(ABC):
@@ -51,9 +51,43 @@ class BaseVotingSystem(ABC):
         for candidate in candidates.values():
             candidate.total = 0
 
-        return candidates 
+        return candidates
+
 
     def tally_totals(self, choice: int=FIRST_CHOICE, use_pool: bool=True, clear_totals: bool=False) -> None:
+        # Fetch the data source
+        candidates = self._pool.get() if use_pool else self.candidates
+        
+        if clear_totals:
+            candidates = self._clear_totals(candidates)
+            
+        # Tally votes using the instant dictionary lookup
+        for _, voter in self.voters.items():
+            # Skip the voter if they didn't rank candidates this far.
+            if choice >= len(voter.ballot):
+                logging.debug(f"Voter {voter.uid} has an exhausted ballot for choice index {choice}. Skipping...")
+                continue
+                
+            ballot_choice = voter.ballot[choice]
+            
+            # FIX B: Handle VOTE_BLANK explicitly so blank entries don't throw warnings
+            if ballot_choice == VOTE_BLANK:
+                continue
+                
+            if ballot_choice in candidates:
+                candidates[ballot_choice].total += 1
+            else:
+                logging.warning(f"Skipping vote: Candidate UID '{ballot_choice}' not found.")
+                
+        # Save results back instantly
+        if use_pool:
+            # Pass a clean dictionary copy back to prevent turning self._data into a dict_values view wrapper
+            self._pool.update_all(dict(candidates))
+        else:
+            self.candidates = dict(candidates)
+ 
+
+    def tally_totals_orig(self, choice: int=FIRST_CHOICE, use_pool: bool=True, clear_totals: bool=False) -> None:
 
         # Fetch the data source
         candidates = self._pool.get() if use_pool else self.candidates
