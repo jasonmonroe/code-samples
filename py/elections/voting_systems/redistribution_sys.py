@@ -27,7 +27,7 @@ class RedistributionSystem(BaseVotingSystem):
         self.ballot_index = {}
         self.title = "Redistribution Voting" + self.title
 
-    def results(self):
+    def results(self) -> None:
         choice = FIRST_CHOICE
 
         self._pool.reset()
@@ -87,7 +87,7 @@ class RedistributionSystem(BaseVotingSystem):
     def _redistribute_votes(self, loser: str, choice: int) -> None:
         logging.debug(f"Redistributing votes for eliminated candidate: {loser}")
         
-        # 1. Instantly grab ONLY the voters who chose the loser this round.
+        # Instantly grab ONLY the voters who chose the loser this round.
         loser_voters = self.ballot_index.pop(loser, [])
         logging.debug(f"loser_voters count: {len(loser_voters)}")
         
@@ -98,7 +98,7 @@ class RedistributionSystem(BaseVotingSystem):
             next_choice = choice + 1
             allocated = False
             
-            # 2. Loop through subsequent ballot ranks until an ACTIVE candidate is found
+            # Loop through subsequent ballot ranks until an ACTIVE candidate is found
             while next_choice < len(voter.ballot):
                 next_choice_uid = voter.ballot[next_choice]
                 
@@ -124,7 +124,7 @@ class RedistributionSystem(BaseVotingSystem):
                 logging.debug(f"voter:{voter.uid} choice at rank {next_choice} ({next_choice_uid}) is eliminated. Skipping...")
                 next_choice += 1
                 
-            # 3. Handle exhausted ballots gracefully if no active choices remain
+            # Handle exhausted ballots gracefully if no active choices remain
             if not allocated:
                 logging.info(f"voter:{voter.uid} has an exhausted ballot (no active candidates remaining).")
 

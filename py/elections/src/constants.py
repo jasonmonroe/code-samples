@@ -42,98 +42,6 @@ CANDIDATE_COUNT_MAX = 10 #128
 
 CANDIDATE_DURATION_MAX_OFFSET = 45
 
-CANDIDATE_NAME_POOL = {
-    'first': [
-        'Alexander',
-        'Aïsha',
-        'Amelia',
-        'Anaïs',
-        'Aries',
-        'Ava',
-        'Benjamin',
-        'Charlotte',
-        'Chloë',
-        'Dmitri',
-        'Elijah',
-        'Elizabeth',
-        'Emma',
-        'Ella',
-        'Fatima',
-        'Harper',
-        'Henry',
-        'Isabella',
-        'James',
-        'Jürgen',
-        'León',
-        'Lars',
-        'Liam',
-        'Lucas',
-        'Matthew',
-        'Michael',
-        'Mia',
-        'Ming',
-        'Noah',
-        'Oliver',
-        'Olga',
-        'Omar',
-        'Samuel',
-        'Scarlett',
-        'Sophia',
-        'Sofia',
-        'Thaddeus',
-        'William',
-        'Yuki',
-        'Zhang'
-    ],
-    'last': [
-        'Abdullah',
-        'Anderson',
-        'Ben-Ali',
-        'Brown',
-        'Clark',
-        'Davis',
-        'Dupont',
-        'Dubois',
-        'Fernández',
-        'Garcia',
-        'García',
-        'Gonzalez',
-        'Harris',
-        'Hussein',
-        'Hernandez',
-        'Johnson',
-        'Johansson',
-        'Jackson',
-        'King',
-        'Lee',
-        'Lewis',
-        'Lopez',
-        'Martin',
-        'Martinez',
-        'Miller',
-        'Moore',
-        'Ramírez',
-        'Ramirez',
-        'Rodriguez',
-        'Schmidt',
-        'Sanchez',
-        'Sharma',
-        'Silva',
-        'Smith',
-        'Taylor',
-        'Thomas',
-        'Thompson',
-        'Takahashi',
-        'Ivanov',
-        'Walker',
-        'Wilson',
-        'Wright',
-        'Young',
-        'Zhang',
-        'Zimmerman'
-    ]
-}
-
 CANDIDATE_WEIGHT_PARTY = 40
 CANDIDATE_WEIGHT_DURATION = 20
 CANDIDATE_WEIGHT_DONATION = 25
@@ -141,6 +49,7 @@ CANDIDATE_WEIGHT_BALLOT_PLACEMENT = 10
 CANDIDATE_WEIGHT_NAME = 5
 
 WEIGHT_NOISE = 0.10
+WEIGHTED_SYS_DEFAULT = 0.25
 
 # Source: https://ballotpedia.org/List_of_political_parties_in_the_United_States
 POLITICAL_PARTIES = [

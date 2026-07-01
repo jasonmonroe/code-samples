@@ -37,27 +37,35 @@ class PopularVotingSystem(BaseVotingSystem):
         candidates = self._pool.get()
         choice = FIRST_CHOICE
         self.tally_totals()
-   
+        
         while choice < self.max_choice:
             highest_total = 0
             highest = []
             
-            # Check which candidate has the highest vote
-            for uid, candidate in candidates.items():
+            # Instantly extract just the candidate objects regardless of input type
+            if isinstance(candidates, dict):
+                cand_objects = candidates.values()
+            else:
+                cand_objects = candidates  # Already a list of objects
+                
+            # Loop through the objects directly (Bypasses .items() completely)
+            for candidate in cand_objects:
                 if candidate.votes[choice] > highest_total:
                     highest_total = candidate.votes[choice]
                     highest = [candidate]
                 elif candidate.votes[choice] == highest_total:
                     highest.append(candidate)
-                
+                    
             # Has anyone won yet?
             if self.determine_winner(highest, choice):
                 break
-            else: # If no winner, return pool of highest candidates
+            else:
+                # If no winner, narrow the candidate pool to only the tied leaders
                 candidates = highest
-            
+                
             # Go to next choice
             choice += 1
+
                
     # Override parent class
     def determine_winner(self, candidates: list, choice: int) -> bool |  None:

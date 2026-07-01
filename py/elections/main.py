@@ -24,9 +24,10 @@ from voting_systems.weighted_sys import WeightedSystem
 
 def run_main_pipeline(args: dict, run_all: bool):
     logging.info(f"Run all voting systems: {run_all}")
+    print(args)
    
     # Define electoral process: Select candidate count, declare candidacy
-    election = ElectionSys(args.get('noise'))
+    election = ElectionSys(args.get("noise"))
     election.register()
     
     # --- Start the election season --- #
@@ -40,6 +41,9 @@ def run_main_pipeline(args: dict, run_all: bool):
     voters = election.voters
 
     # --- Now compare results to different systems --- #
+
+    popular_sys, ranked_choice_sys, redistribution_sys, last_remaining_sys = None, None, None, None
+
 
     if run_all or args.get('popular'):
         # Popular Vote System
@@ -56,7 +60,6 @@ def run_main_pipeline(args: dict, run_all: bool):
         ranked_choice_sys.show_results()
          
     if run_all or args.get("redist"):
-     
         # Redistribution System
         redistribution_sys = RedistributionSystem(candidates.copy(), voters.copy())
         logging.info("Running " + redistribution_sys.title.title())
@@ -66,16 +69,33 @@ def run_main_pipeline(args: dict, run_all: bool):
     if run_all or args.get("remaining"):
         # Remaining Candidates System
         last_remaining_sys = LastRemainingCandidateSystem(candidates.copy(), voters.copy())
+        logging.info("Running " + last_remaining_sys.title.title())
+        last_remaining_sys.results()
+        last_remaining_sys.show_results()
 
     if run_all or args.get("weighted"):
         # Weighted System
         weighted_sys = WeightedSystem(candidates.copy(), voters.copy())
+        logging.info("Running" + weighted_sys.title.title())
 
+        all_candidates = {}
+        if popular_sys:
+            # FIX: Grab the live data pool containing the finalized calculations!
+            all_candidates["popular"] = popular_sys._pool.get().copy()
+        if ranked_choice_sys:
+            all_candidates["ranked"] = ranked_choice_sys._pool.get().copy()
+        if redistribution_sys:
+            all_candidates["redist"] = redistribution_sys._pool.get().copy()
+        if last_remaining_sys:
+            all_candidates["remaining"] = last_remaining_sys._pool.get().copy()
+        
+        if len(all_candidates):
+            weighted_sys.results(all_candidates, args.get("noise"))
+            weighted_sys.show_results()
+        else:
+            logging.warning("No voting systems rendered to weight.")
 
-
-    
-    # Final Results
-    subtitles = election.results
+     
 
 def _run_all_voting_sys(args: dict) -> bool:
     all_sys = all(args.values())

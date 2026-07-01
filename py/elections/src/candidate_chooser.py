@@ -46,8 +46,7 @@ class CandidateChooser:
         self._total_donations = round(total_donations, 2)
         self._favorables_orig = self.get_favorables()
         self._favorables = self._favorables_orig.copy()
-        logging.debug(f"favorables count = {len(self._favorables)}")
-        logging.debug(f"{self._favorables}")
+
         self._check_favorables()
 
 

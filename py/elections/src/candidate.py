@@ -12,7 +12,7 @@ from src.constants import (
     CANDIDATE_DONATION_MAX, 
     CANDIDATE_DONATION_MIN,
     CANDIDATE_DURATION_MAX_OFFSET, 
-    CANDIDATE_NAME_POOL, 
+ 
     CANDIDATE_DEFAULT_COUNT, 
     VOTER_DEFAULT_COUNT, 
     ELECTION_DURATION, 
@@ -38,13 +38,6 @@ class Candidate:
     def _get_name(self) -> str:
         return f"{fake.first_name()} {fake.last_name()}"
 
-    # @defunct
-    def _get_name_orig(self) -> str:
-        names = CANDIDATE_NAME_POOL
-        first_names = names["first"]
-        last_names = names["last"]
-
-        return random.choice(first_names) + ' ' + random.choice(last_names)
 
     def _get_party(self) -> str:
         return random.choice(POLITICAL_PARTIES)

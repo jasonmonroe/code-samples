@@ -50,7 +50,6 @@ class ElectionSys:
         self.add_noise = add_noise
         self.candidates = {} # was []
         self.party_counts = []
-        self.results = [] # Election results
         self.total_donations = 0.0 
         self.voters = {} # was []
         self.election_at = datetime.now().strftime("%B %d, %Y")
@@ -199,24 +198,7 @@ class ElectionSys:
         
         msg = f'Wow! Your total donations went from ${total_donations} (pre-election) to ${self.total_donations}.'
         msg += f'\nA {pct_change}% increase.'
-
         logging.info(msg)
-
-    # @todo - not needed
-    def _sum_donations(self) -> float:
-
-        sum_val = sum(candidate.donation for candidate in self.candidates.values())
-        return round(sum_val, 2)
-
-        sum_val = 0
-
-        for candidate in self.candidates.items():
-            sum_val += candidate.donations 
-
-        #for i in range(0, len(self.candidates)):
-        #    sum_val += self.candidates[i].donations
-
-        return round(sum_val, 2)
 
     def _get_max_choice(self) -> int:
         return min(MAX_CHOICES, len(self.candidates))
