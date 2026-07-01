@@ -6,7 +6,7 @@ __date__ = "2025-01-24"
 __version__ = "2.0.0"
 
 # Python Libraries
-from collections.abc import ValuesView
+import copy
 import logging
 import sys
 
@@ -37,8 +37,8 @@ def run_main_pipeline(args: dict, run_all: bool):
 
     # Note: Always create copies of the candidates and ballots!
     # Copy variables for scoring
-    candidates = election.candidates
-    voters = election.voters
+    candidates = election.candidates.copy()
+    voters = election.voters.copy()
 
     # --- Now compare results to different systems --- #
 
@@ -46,29 +46,25 @@ def run_main_pipeline(args: dict, run_all: bool):
 
 
     if run_all or args.get('popular'):
-        # Popular Vote System
-        popular_sys = PopularVotingSystem(candidates.copy(), voters.copy())
-        logging.info("Running " +popular_sys.title.title() )
+        popular_sys = PopularVotingSystem(copy.deepcopy(candidates), voters.copy())
+        logging.info("Running " + popular_sys.title.title())
         popular_sys.results()
         popular_sys.show_results()
-
+        
     if run_all or args.get("ranked"):
-        # Ranked Choice Voting System
-        ranked_choice_sys = RankChoiceVotingSystem(candidates.copy(), voters.copy())
+        ranked_choice_sys = RankChoiceVotingSystem(copy.deepcopy(candidates), voters.copy())
         logging.info("Running " + ranked_choice_sys.title.title())
         ranked_choice_sys.results()
         ranked_choice_sys.show_results()
-         
+        
     if run_all or args.get("redist"):
-        # Redistribution System
-        redistribution_sys = RedistributionSystem(candidates.copy(), voters.copy())
+        redistribution_sys = RedistributionSystem(copy.deepcopy(candidates), voters.copy())
         logging.info("Running " + redistribution_sys.title.title())
         redistribution_sys.results()
         redistribution_sys.show_results()
-
+        
     if run_all or args.get("remaining"):
-        # Remaining Candidates System
-        last_remaining_sys = LastRemainingCandidateSystem(candidates.copy(), voters.copy())
+        last_remaining_sys = LastRemainingCandidateSystem(copy.deepcopy(candidates), voters.copy())
         logging.info("Running " + last_remaining_sys.title.title())
         last_remaining_sys.results()
         last_remaining_sys.show_results()
