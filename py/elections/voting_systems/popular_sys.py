@@ -77,8 +77,8 @@ class PopularVotingSystem(BaseVotingSystem):
 
             candidates[0].is_winner = True
             self.winner = candidates[0]
-
             self.candidates = candidates
+            
             self._pool.update_all(self.candidates)
  
             return True

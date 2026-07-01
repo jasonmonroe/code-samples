@@ -61,6 +61,7 @@ class BaseVotingSystem(ABC):
             
         # Tally votes using the instant dictionary lookup
         for _, voter in self.voters.items():
+
             # Skip the voter if they didn't rank candidates this far.
             if choice >= len(voter.ballot):
                 logging.debug(f"Voter {voter.uid} has an exhausted ballot for choice index {choice}. Skipping...")
@@ -68,7 +69,7 @@ class BaseVotingSystem(ABC):
                 
             ballot_choice = voter.ballot[choice]
             
-            # FIX B: Handle VOTE_BLANK explicitly so blank entries don't throw warnings
+            # Handle VOTE_BLANK explicitly so blank entries don't throw warnings
             if ballot_choice == VOTE_BLANK:
                 continue
                 
@@ -90,9 +91,8 @@ class BaseVotingSystem(ABC):
             subtitles = []
             for candidate in self._pool.all().values():
     
-                # The ultra-clean, production-ready 1-liner alternative:
+                # The ultra-clean, production-ready 1-liner alternative
                 line = f"Candidate: {candidate.name:<{self._name_len['max']}} | Total: {candidate.total}"
-
                 subtitles.append(line)
 
             show_banner(self.title, subtitles)
@@ -113,6 +113,7 @@ class BaseVotingSystem(ABC):
             candidate.is_winner = True
             self.winner = candidate
             self._pool.update(candidate)
+
             return True
         
         return False 
@@ -173,7 +174,6 @@ class BaseVotingSystem(ABC):
 
     def get_candidate_pool(self) -> dict:
         return self._pool.get()
-
 
     @abstractmethod
     def results():

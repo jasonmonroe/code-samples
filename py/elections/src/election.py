@@ -22,6 +22,7 @@ from src.candidate_chooser import CandidateChooser
 from src.candidate_pool import CandidatePool
 from src.constants import (
 
+    CANDIDATE_COUNT_MIN,
     CANDIDATE_DEFAULT_COUNT,
     I_INFO,
     I_SMILING, 
@@ -65,14 +66,12 @@ class ElectionSys:
 
     def register(self) -> None:
         q_candidate_cnt = self._query_candidate_count()
-        #q_candidate_cnt = 4
 
         # --- Register and declare candidacy
         self._declare_candidacy(q_candidate_cnt)
 
         # --- Register voters
         q_voters_cnt = self._query_voter_count()
-        #q_voter_cnt = 16
         self._register_voters(q_voters_cnt)
         
         # --- 🚩 Turn off logs if participation is too high!
@@ -90,6 +89,7 @@ class ElectionSys:
     def _declare_candidacy(self, candidate_cnt: int) -> None:
         subtitles = []
         total_donations = 0.0
+        
         for _ in range(candidate_cnt):
             candidate = Candidate(self.add_noise)
             subtitles.append(f"Candidate: {candidate.uid} | {candidate.name} | Party: {candidate.party}")
@@ -109,9 +109,7 @@ class ElectionSys:
         self._show_candidate_info()
 
     def _show_candidate_info(self):
-        top_line = "Candidate Information".upper()
         subtitles = []
-
         for uid, candidate in self.candidates.items():
             subtitles.append(f"{I_SMILING} {candidate.name}")
             subtitles.append(f"  {I_INFO}  UID: {uid}")
@@ -120,7 +118,7 @@ class ElectionSys:
             subtitles.append(f"  {I_INFO}  Donations: ${candidate.donations:.2f}")
             subtitles.append("")
 
-        show_banner(top_line, subtitles)
+        show_banner("Candidate Information".upper(), subtitles)
         
     def _register_voters(self, voter_cnt: int) -> None:
         for _ in range(voter_cnt):
@@ -130,13 +128,13 @@ class ElectionSys:
              
     def _query_candidate_count(self) -> int:
         # Query number of candidates.
-        query_candidates = f"\nHow many candidates ({CANDIDATE_DEFAULT_COUNT} to {CANDIDATE_COUNT_MAX}) will register for this election{I_QUES} "
+        query_candidates = f"\nHow many candidates ({CANDIDATE_COUNT_MIN} to {CANDIDATE_COUNT_MAX}) will register for this election{I_QUES} "
         q_candidate_cnt = self._validate_input(query_candidates)
 
-        if q_candidate_cnt == '':
-            q_candidate_cnt = random.randint(CANDIDATE_DEFAULT_COUNT, (CANDIDATE_DEFAULT_COUNT * 4))
+        if q_candidate_cnt == "":
+            q_candidate_cnt = random.randint(CANDIDATE_COUNT_MIN, CANDIDATE_COUNT_MAX)
 
-        if q_candidate_cnt < CANDIDATE_DEFAULT_COUNT:
+        if q_candidate_cnt < CANDIDATE_COUNT_MIN:
             q_candidate_cnt = CANDIDATE_DEFAULT_COUNT
 
         return q_candidate_cnt
@@ -146,7 +144,7 @@ class ElectionSys:
         query_voters = f"\nHow many voters will participate in this election{I_QUES} "
         q_voters_cnt = self._validate_input(query_voters)
 
-        if q_voters_cnt == '':
+        if q_voters_cnt == "":
             q_voters_cnt = VOTER_DEFAULT_COUNT
         
         return q_voters_cnt
@@ -201,7 +199,7 @@ class ElectionSys:
             total_donations += amount
         
         # Add to total donations
-        self.total_donations = total_donations #self._sum_donations()
+        self.total_donations = total_donations
         pct_change = calc_pct_change(total_donations, self.total_donations)
         
         msg = f'Wow! Your total donations went from ${total_donations} (pre-election) to ${self.total_donations}.'

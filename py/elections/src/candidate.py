@@ -38,7 +38,6 @@ class Candidate:
     def _get_name(self) -> str:
         return f"{fake.first_name()} {fake.last_name()}"
 
-
     def _get_party(self) -> str:
         return random.choice(POLITICAL_PARTIES)
     

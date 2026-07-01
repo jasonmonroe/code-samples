@@ -81,7 +81,6 @@ class WeightedSystem(BaseVotingSystem):
     def show_results(self) -> None:
         # Generates the master aligned multi-system score matrix visualization board.
         logging.info("# --- Displaying final candidate weighted scores ---#")
-
        
         candidates = self._pool.get()
         if not candidates:
@@ -136,6 +135,6 @@ class WeightedSystem(BaseVotingSystem):
             for sys_name in VOTING_SYS:
                 const_name = f"WEIGHT_{sys_name}".upper()
                 sys_weights[sys_name] = getattr(self.__class__.__name__, const_name, WEIGHTED_SYS_DEFAULT)
-                
+
         logging.info(f"Voting System Weights: {sys_weights}")
         return sys_weights
