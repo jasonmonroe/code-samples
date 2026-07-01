@@ -31,7 +31,6 @@ class PopularVotingSystem(BaseVotingSystem):
         
         self.title = "Popular Vote" + self.title
 
-
     def results(self) -> None:
         self._pool.reset()
         candidates = self._pool.get()
@@ -66,7 +65,6 @@ class PopularVotingSystem(BaseVotingSystem):
             # Go to next choice
             choice += 1
 
-               
     # Override parent class
     def determine_winner(self, candidates: list, choice: int) -> bool |  None:
         if len(candidates) == 0: # This will never hit!

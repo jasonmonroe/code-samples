@@ -60,30 +60,6 @@ class RedistributionSystem(BaseVotingSystem):
         
         self._pool.show()
 
-    def _redistribute_votes_orig(self, loser: str, choice: int) -> None:
-        logging.debug(f"_redistribute_votes_orig({loser, choice})")
-        
-        for _, voter in self.voters.items():
-            logging.debug(f"if voter:{voter.uid} choice[{choice}] {voter.ballot[choice]} == {loser}:")
-            if voter.ballot[choice] == loser:
-                
-                next_choice_uid = None
-                next_choice = choice + 1
-                while next_choice < len(voter.ballot):
-                    logging.debug(f"Does loser {loser} exist in pool?")
-                    if self._pool.exists(loser):
-                        next_choice_uid = voter.ballot[next_choice]
-                        break
-                    else:
-                        logging.debug(f"No! loser does not exist, go to next choice {next_choice+1}")
-                        next_choice + 1
-                
-                logging.debug(f"voter:{voter.uid} next choice vote is {next_choice_uid}.")
-                
-                # Apply the next choice vote to the remaining candidate.
-                if next_choice_uid:
-                    self._pool.update_by_uid(next_choice_uid, "total", 1)
-
     def _redistribute_votes(self, loser: str, choice: int) -> None:
         logging.debug(f"Redistributing votes for eliminated candidate: {loser}")
         
@@ -131,9 +107,9 @@ class RedistributionSystem(BaseVotingSystem):
         logging.debug(f"Redistributing votes for eliminated candidate: {loser}")
         next_choice = choice + 1
         
-        # 1. Instantly grab ONLY the voters who chose the loser this round.
-        # If you have 174M voters, but only 5,000 voted for the loser, 
-        # this loop runs exactly 5,000 times instead of 174,000,000 times!
+        # Instantly grab ONLY the voters who chose the loser this round.
+        # If you have millions of  voters, but only thousands voted for the loser, 
+        # this loop runs exactly thousands of times instead of millions of times!
         loser_voters = self.ballot_index.pop(loser, [])
         
         for voter in loser_voters:
@@ -157,3 +133,29 @@ class RedistributionSystem(BaseVotingSystem):
             self.ballot_index[ballot_choice].append(voter)
             
         return self.ballot_index
+
+    def _redistribute_votes_orig(self, loser: str, choice: int) -> None:
+        # Original version.  Works at a smaller scale.
+        logging.debug(f"_redistribute_votes_orig({loser, choice})")
+        
+        for _, voter in self.voters.items():
+            logging.debug(f"if voter:{voter.uid} choice[{choice}] {voter.ballot[choice]} == {loser}:")
+            if voter.ballot[choice] == loser:
+                
+                next_choice_uid = None
+                next_choice = choice + 1
+                while next_choice < len(voter.ballot):
+                    logging.debug(f"Does loser {loser} exist in pool?")
+                    if self._pool.exists(loser):
+                        next_choice_uid = voter.ballot[next_choice]
+                        break
+                    else:
+                        logging.debug(f"No! loser does not exist, go to next choice {next_choice+1}")
+                        next_choice + 1
+                
+                logging.debug(f"voter:{voter.uid} next choice vote is {next_choice_uid}.")
+                
+                # Apply the next choice vote to the remaining candidate.
+                if next_choice_uid:
+                    self._pool.update_by_uid(next_choice_uid, "total", 1)
+                    

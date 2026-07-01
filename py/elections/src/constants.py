@@ -28,15 +28,22 @@
 +--------------------------------------------------------------------------
 """
 
+VOTING_SYS = ["popular", "ranked", "redist", "remaining"]
 ARG_PARAMS = [
     "--debug",
     "--noise",
-    "--popular",
-    "--ranked",
-    "--redist",
-    "--remaining",
+    "--no_log",
+
+    #"--popular",
+    #"--ranked",
+    #"--redist",
+    #"--remaining",
     "--weighted",
     ]
+
+for sys in VOTING_SYS:
+    ARG_PARAMS.append(f"--{sys}")
+
 
 # --- Generic Constants --- #
 PEP8_LINE_LEN = 79 # PEP8 line length standards
@@ -68,8 +75,13 @@ CANDIDATE_WEIGHT_DONATION = 25
 CANDIDATE_WEIGHT_BALLOT_PLACEMENT = 10
 CANDIDATE_WEIGHT_NAME = 5
 
+# --- Weights
 WEIGHT_NOISE = 0.10
 WEIGHTED_SYS_DEFAULT = 0.25
+WEIGHT_POPULAR = 0.25
+WEIGHT_RANKED = 0.4
+WEIGHT_REDIST = .15
+WEIGHT_REMAINING = .20
 
 # Source: https://ballotpedia.org/List_of_political_parties_in_the_United_States
 POLITICAL_PARTIES = [
@@ -92,7 +104,7 @@ PARTY_BTM_TIER = 2
 
 # Voter Turnout
 # Source: https://www.census.gov/newsroom/press-releases/2025/2024-presidential-election-voting-registration-tables.html
-POPULATION = 0       # US Population
+VOTER_POPULATION = 0       # US Population
 VOTER_ELEGIBLE = 0   # 18 years or older and citizen
 VOTER_REGISTERED = 0 # Eligible voter that has actually registered
 VOTER_VOTED = 0      # Registered voter than participated 63.7%.
@@ -108,20 +120,18 @@ VOTE_BLANK_PCT_THRESH = 15 # Odds of registered voter not voting
 NO_CHOICE_PCT_THRESHOLD = 10 # Odds of a voter not picking a candidate
 
 VOTE_BY_LIKELYNESS_ODDS = 12 # The odds of a voter just randomly picking a candidate.
-
 VOTE_NOISE_ODDS = 0.1 # Add/subtract 10% from value
 VOTE_METHODICAL_ODDS = 50
  
 # Source: https://www.statista.com/statistics/273743/number-of-registered-voters-in-the-united-states/
 VOTER_MIN_COUNT = 8 #25
-VOTER_MAX_COUNT = 16 #168000000 
+VOTER_MAX_COUNT = 16 #174000000 
 
 # --- Doners --- #
 # https://www.opensecrets.org/elections-overview/donor-demographics
 # https://www.opensecrets.org/elections-overview/donor-demographics?cycle=2024&display=A
 # Only about 1.3195% of the population gives more than $200.
 # 4,411,871 donors
-
 DONOR_COUNT_MIN = 100
 DONOR_COUNT_MAX = 1000  
 

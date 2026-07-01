@@ -43,7 +43,6 @@ class BaseVotingSystem(ABC):
         self.winner = None
         self._name_len = name_len(self.candidates.values())
         
-
     def _get_majority_cnt(self) -> int:
         return (len(self.voters) // 2) + 1
 
@@ -52,7 +51,6 @@ class BaseVotingSystem(ABC):
             candidate.total = 0
 
         return candidates
-
 
     def tally_totals(self, choice: int=FIRST_CHOICE, use_pool: bool=True, clear_totals: bool=False) -> None:
         # Fetch the data source
@@ -85,46 +83,20 @@ class BaseVotingSystem(ABC):
             self._pool.update_all(dict(candidates))
         else:
             self.candidates = dict(candidates)
- 
-
-    def tally_totals_orig(self, choice: int=FIRST_CHOICE, use_pool: bool=True, clear_totals: bool=False) -> None:
-
-        # Fetch the data source
-        candidates = self._pool.get() if use_pool else self.candidates
-      
-        if clear_totals:
-            candidates = self._clear_totals(candidates)
- 
-        # Tally votes using the instant dictionary lookup
-        for _, voter in self.voters.items():
-            ballot_choice = voter.ballot[choice]
-           
-            if ballot_choice in candidates:
-                candidates[ballot_choice].total += 1
-            else:
-                logging.warning(f"Skipping vote: Candidate UID '{ballot_choice}' not found.")
-                
-        # Save results back instantly
-        if use_pool:
-            self._pool.update_all(candidates)
-        else:
-            self.candidates = candidates
-            
+         
     def show_results(self) -> None:
         if self.winner:
            
             subtitles = []
             for candidate in self._pool.all().values():
-                padding_len = self._name_len["max"] - len(candidate.name)
-                padding = (" " * padding_len)
-             
+    
                 # The ultra-clean, production-ready 1-liner alternative:
                 line = f"Candidate: {candidate.name:<{self._name_len['max']}} | Total: {candidate.total}"
 
                 subtitles.append(line)
 
             show_banner(self.title, subtitles)
-            msg = f"\n{I_RIBBON} Winner: {self.winner.name} ({self.winner.party}) Total: {self.winner.total}\n"
+            msg = f"\n{I_RIBBON} Winner: {self.winner.name} ({self.winner.party}) | Total: {self.winner.total}\n"
             print(msg)
             logging.info(msg)
         
@@ -144,10 +116,6 @@ class BaseVotingSystem(ABC):
             return True
         
         return False 
-
-    @abstractmethod
-    def results():
-        pass
 
     def determine_loser(self, choice: int = FIRST_CHOICE) -> Candidate | None:
         loser_pool = self._pool.get()
@@ -199,3 +167,14 @@ class BaseVotingSystem(ABC):
             
         logging.warning("No losing candidate found.")
         return None
+
+    def get_candidates(self) -> dict:
+        return self.candidates
+
+    def get_candidate_pool(self) -> dict:
+        return self._pool.get()
+
+
+    @abstractmethod
+    def results():
+        pass

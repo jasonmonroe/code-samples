@@ -49,31 +49,24 @@ class CandidateChooser:
 
         self._check_favorables()
 
-
     # --- Voter decision --- #
-    def _check_favorables(self) -> None:
-        if len(self._favorables) == 0:
-            logging.critical("No favorables found!")
-            logging.critical(f"Candidate count: {len(self.candidates)}")
-            logging.critical("sys.exit(0)")
-            sys.exit(0)
-
     def decision(self) -> str | None:
-        # Three options: No vote, if there is a vote a random vote, if a methodical vote either favorability or heuristic
+        # Three options: No vote, if there is a vote a random vote, if a methodical vote either favorability or heuristic.
         self._check_favorables()
 
-        # @todo - fix
-        return self._choose_anyone()
-        
         candidate_uid = None
         decision_odds = random.randint(0, PERCENTILE)
-        logging.debug(f"decision odds: {decision_odds}")
+        logging.debug(f"decision_odds: {decision_odds}")
 
         if self.add_noise and decision_odds <= VOTE_BLANK_PCT_THRESH: # 15% odds
             candidate_uid = self._choose_none()
         else: # 85% odds
-            #decision_odds = random.randint(0, PERCENTILE)
             
+            # If we're adding noise, lets get a new decision odds
+            if self.add_noise:
+                if (random.choice([0,1])) == 0:
+                    decision_odds = random.randint(0, PERCENTILE)
+
             # Voter is going to make a choice...
             if decision_odds <= VOTE_BY_LIKELYNESS_ODDS: # 12% odds
                 # Voter is just going to vote randomly due to unfamiliarity or apathy.
@@ -105,9 +98,8 @@ class CandidateChooser:
                  
         # Add 10% decision complexity for realism
         if self.add_noise:
-            noise_min_diff = ((VOTE_NOISE_ODDS * VOTE_METHODICAL_ODDS) * -1) # -10%
-            noise_max_diff = VOTE_NOISE_ODDS * VOTE_METHODICAL_ODDS # +10% 
-            methodical_odds = random.uniform(noise_min_diff, noise_max_diff)
+            noise_diff = VOTE_NOISE_ODDS * VOTE_METHODICAL_ODDS # +10% 
+            methodical_odds = random.uniform(-noise_diff, noise_diff)
             
         # Starts at 50/50
         if decision_odds < methodical_odds: # 50% odds (with noise 40-60%)
@@ -126,7 +118,7 @@ class CandidateChooser:
 
             return max_favorability_uid
         else:
-            logging.error("There are no candidates in the pool!")
+            logging.error("Error: There are no candidates in the pool❗")
             return
         
     def _choose_by_heuristic(self) -> str:
@@ -145,7 +137,7 @@ class CandidateChooser:
                 break
     
         if candidate_chosen is None:
-            logging.error("No candidate chosen!")
+            logging.error("No candidate chosen❗")
         
         return candidate_chosen
 
@@ -154,13 +146,13 @@ class CandidateChooser:
     def _get_choose_threshold(self) -> int:
 
         # Provide an empty tuple pair as a safe default to prevent crashing
-        result = max(
+        favorables_by_thresh = max(
             self._favorables.items(), 
             key=lambda x: x[1]["thresh"], 
             default=(None, None)
         )
         
-        _, favorable_data = result
+        _, favorable_data = favorables_by_thresh
         
         # Guard against an empty dictionary
         if favorable_data is None:
@@ -169,7 +161,7 @@ class CandidateChooser:
         # Pull the actual integer values out cleanly by their key names
         max_thresh = favorable_data["thresh"]
         
-        return random.randint(0, max_thresh)
+        return random.randint(0, int(max_thresh))
    
     def get_favorables(self) -> list:
         return self._calc_favorables()
@@ -177,14 +169,12 @@ class CandidateChooser:
     def _calc_favorables(self) -> dict:
         # Logic to pick a candidate.  Party, Gender name, placement on the ballot, campaign donations, 
         # duration of candidacy
-        favorables = {}
         thresh = 0
-
+        favorables = {}
         for uid, candidate in self.candidates.items():
             favorables_data = self._rank_candidate(candidate)
             thresh = thresh + favorables_data["score"]
-            #favorables_data["thresh"] = thresh
-  
+        
             favorables_dict = {
                 "score": favorables_data["score"],
                 "thresh": int(thresh)
@@ -231,26 +221,35 @@ class CandidateChooser:
 
         return favorables_data
 
+    def _add_party_noise(self, tier: int=0) -> float:
+        ten_pct_noise = WEIGHT_NOISE * tier
+        return random.uniform(-ten_pct_noise, ten_pct_noise) if self.add_noise else 0
+
     def _rank_party(self, party: str, party_cnt: int=1) -> float: 
-        # If Democrat 48/100, Republican 48/100, Green 4/100, Constitution 1/100m 
-        # Libertarian 2/100, Progressive 1/100m , Reform 0.5/100
-        if party in ['Democrat', 'Republican']:
-            points = (PARTY_TOP_TIER + random.uniform(0, 0.9)) + self._add_party_noise(PARTY_TOP_TIER)
-        elif party == 'Green':
-            points = (PARTY_MID_TIER + random.uniform(0, 0.9)) + self._add_party_noise(PARTY_MID_TIER)
-        elif party == 'Libertarian':
+        """
+        Odds of party ranking:
+        ----------------------
+        - Democrat:     48/100
+        - Republican:   48/100
+        - Green:        4/100
+        - Constitution: 1/100 
+        - Libertarian:  2/100
+        - Progressive:  1/100
+        - Reform:       0.5/100
+        """
+     
+        if party in ["Democrat", "Republican"]:
+            points = (PARTY_TOP_TIER + random.uniform(0, 1)) + self._add_party_noise(PARTY_TOP_TIER)
+        elif party == ["Green", "Socialist of America"]:
+            points = (PARTY_MID_TIER + random.uniform(0, 0.5)) + self._add_party_noise(PARTY_MID_TIER)
+        elif party == "Libertarian":
             points = (PARTY_BTM_TIER + random.uniform(0, 2)) + self._add_party_noise(PARTY_BTM_TIER)
         else:
             points = random.uniform(0.33, 1) + self._add_party_noise(1)
 
-        logging.debug(f"Raw points = {points}")
         points = ((points / party_cnt) / PERCENTILE)
-        logging.debug(f"_rank_party({party}): party_cnt={party_cnt}, points={points}, weight={CANDIDATE_WEIGHT_PARTY} ")
+        logging.debug(f"_rank_party({party}): party_cnt={party_cnt}, points={points}, weight={CANDIDATE_WEIGHT_PARTY}, points={points} ")
         return points
-
-    def _add_party_noise(self, tier: int=0) -> float:
-        ten_pct_noise = WEIGHT_NOISE * tier
-        return random.uniform(-1 * ten_pct_noise, ten_pct_noise) if self.add_noise else 0
 
     def _rank_duration(self, duration: int) -> float:
         # Longer the duration the higher the donation, media attention
@@ -266,18 +265,27 @@ class CandidateChooser:
     
     def _rank_placement_on_ballot(self, uid: str) -> float:  
         # Calculate percentile aka rank
-        index = 0
-        for idx, (candidate_uid, candidate) in enumerate(self.candidates.items()):
+        index = None
+        for idx, (candidate_uid, _) in enumerate(self.candidates.items()):
             if uid == candidate_uid:
                 index = idx
                 break
 
+        if not index:
+            return 0.0
+
         place = index + 1
         percentile_formula = (1 - (place - 1) / (len(self.candidates) - 1))
-        logging.debug(f"_rank_placement_on_ballot({uid}): pct={percentile_formula}, weight={CANDIDATE_WEIGHT_BALLOT_PLACEMENT}")
+        logging.debug(f"_rank_placement_on_ballot({uid}): pct={percentile_formula}, weight={CANDIDATE_WEIGHT_BALLOT_PLACEMENT}, place={place}")
         return round(percentile_formula, 1)
 
     def _rank_name(self, name: str) -> int: 
         # The longer the name the harder to pronounce the least likely to vote for that andidate
         return 0 if len(name) > self._name_len["mean"] else 1
+
+    def _check_favorables(self) -> None:
+        if len(self._favorables) == 0:
+            logging.critical(f"No favorables found!\nCandidate count: {len(self.candidates)}")
+            logging.critical("sys.exit(0)")
+            sys.exit(0)
         

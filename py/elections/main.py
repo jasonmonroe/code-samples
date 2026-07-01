@@ -41,42 +41,39 @@ def run_main_pipeline(args: dict, run_all: bool):
     voters = election.voters.copy()
 
     # --- Now compare results to different systems --- #
-
     popular_sys, ranked_choice_sys, redistribution_sys, last_remaining_sys = None, None, None, None
 
-
     if run_all or args.get('popular'):
-        popular_sys = PopularVotingSystem(copy.deepcopy(candidates), voters.copy())
+        popular_sys = PopularVotingSystem(copy.deepcopy(candidates), copy.deepcopy(voters))
         logging.info("Running " + popular_sys.title.title())
         popular_sys.results()
         popular_sys.show_results()
         
     if run_all or args.get("ranked"):
-        ranked_choice_sys = RankChoiceVotingSystem(copy.deepcopy(candidates), voters.copy())
+        ranked_choice_sys = RankChoiceVotingSystem(copy.deepcopy(candidates), copy.deepcopy(voters))
         logging.info("Running " + ranked_choice_sys.title.title())
         ranked_choice_sys.results()
         ranked_choice_sys.show_results()
         
     if run_all or args.get("redist"):
-        redistribution_sys = RedistributionSystem(copy.deepcopy(candidates), voters.copy())
+        redistribution_sys = RedistributionSystem(copy.deepcopy(candidates), copy.deepcopy(voters))
         logging.info("Running " + redistribution_sys.title.title())
         redistribution_sys.results()
         redistribution_sys.show_results()
         
     if run_all or args.get("remaining"):
-        last_remaining_sys = LastRemainingCandidateSystem(copy.deepcopy(candidates), voters.copy())
+        last_remaining_sys = LastRemainingCandidateSystem(copy.deepcopy(candidates), copy.deepcopy(voters))
         logging.info("Running " + last_remaining_sys.title.title())
         last_remaining_sys.results()
         last_remaining_sys.show_results()
 
     if run_all or args.get("weighted"):
-        # Weighted System
-        weighted_sys = WeightedSystem(candidates.copy(), voters.copy())
+        weighted_sys = WeightedSystem(copy.deepcopy(candidates), copy.deepcopy(voters), args.get("noise"))
         logging.info("Running" + weighted_sys.title.title())
 
         all_candidates = {}
+
         if popular_sys:
-            # FIX: Grab the live data pool containing the finalized calculations!
             all_candidates["popular"] = popular_sys._pool.get().copy()
         if ranked_choice_sys:
             all_candidates["ranked"] = ranked_choice_sys._pool.get().copy()
@@ -84,14 +81,13 @@ def run_main_pipeline(args: dict, run_all: bool):
             all_candidates["redist"] = redistribution_sys._pool.get().copy()
         if last_remaining_sys:
             all_candidates["remaining"] = last_remaining_sys._pool.get().copy()
-        
+       
         if len(all_candidates):
-            weighted_sys.results(all_candidates, args.get("noise"))
+            weighted_sys.results(all_candidates)
             weighted_sys.show_results()
         else:
             logging.warning("No voting systems rendered to weight.")
 
-     
 
 def _run_all_voting_sys(args: dict) -> bool:
     all_sys = all(args.values())
@@ -118,7 +114,7 @@ if __name__ == "__main__":
 
     args = _parse_args(sys.argv[1:])
     run_all = _run_all_voting_sys(args)     
-    logger = init_logger(run_id, args.get("debug"))
+    logger = init_logger(run_id, args.get("debug"), args.get("no_log"))
     
     print(f"\n==== {I_BOT} START RUN ID: {run_id} {I_BOT} ====")
     logging.info(f"\n==== {I_BOT} START RUN ID: {run_id} {I_BOT} ====")

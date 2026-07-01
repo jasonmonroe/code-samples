@@ -32,7 +32,7 @@ import logging
 
 # Local Libraries
 from src.constants import FIRST_CHOICE
-from src.utils import get_index_by_uid, placement
+from src.utils import placement
 from voting_systems.base_voting_sys import BaseVotingSystem
 
 
@@ -73,7 +73,7 @@ class RankChoiceVotingSystem(BaseVotingSystem):
             choice += 1
    
     def _shift_ballots(self, loser_uid: str) -> None:
-        logging.debug(f"Shifting Loser UID: {loser_uid} from ballot.")
+        logging.info(f"Shifting Loser UID: {loser_uid} from ballot.")
 
         for uid, voter in self.voters.items():
             for ballot_choice in voter.ballot:
@@ -81,4 +81,3 @@ class RankChoiceVotingSystem(BaseVotingSystem):
                     logging.debug(f"Removing candidate: {loser_uid} from voter: {uid} ballot via shift.")
                     voter.ballot.remove(loser_uid)
         
-    

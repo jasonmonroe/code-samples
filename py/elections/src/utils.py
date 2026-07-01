@@ -11,10 +11,11 @@ from datetime import datetime
 from pathlib import Path
 import logging
 import random
+from statistics import mean
 import textwrap
 import time
+from wcwidth import wcswidth
 import uuid
-from statistics import mean
 
 # Local Libraries
 from src.class_name_filter import ClassNameFilter
@@ -82,7 +83,7 @@ def _create_title_banner(text: str, center_text: bool=True) -> None:
     
     # Trim off any chars after limit plus two spaces for blanks
     text = text[0: MAX_LINE_LEN - open_close_len]
-    text_len = len(text)
+    text_len = wcswidth(text)
     padding_len = MAX_LINE_LEN - text_len    
    
     if center_text:
@@ -130,8 +131,7 @@ def _create_subtitle_banner(text: str | list, center_text: bool=False) -> None:
         if "\n" in line:
             line = ""
 
-        line_len = len(line)
-    
+        line_len = wcswidth(line)
         padding_len = max_line_len - line_len
       
         if center_text:    
@@ -164,20 +164,6 @@ def calc_pct_change(start: float, final: float) -> float:
     return round(((final - start) / start) * PERCENTILE, 1)
 
 
-def optimize_index_by_uid(uid: str, candidates: dict) -> int | None:
-    # Instant O(1) lookup, no matter how many millions of items exist
-    if uid in candidates:
-        return candidates[uid]
-    pass
-
-
-def get_index_by_uid(candidates: list, uid: str) -> int | None:
-    return next((i for i, candidate in enumerate(candidates) if candidate.uid == uid), None)
-
-
-def get_candidate_by_uid(candidates: list, uid: str):
-    return next((candidate for candidate in candidates if candidate.uid == uid), None)
-
 def name_len(candidates: dict) -> dict:
         if not candidates:
             return {"mean": 0, "max": 0}
@@ -203,8 +189,11 @@ def placement(place: int, mode: str="") -> str:
     return attrs[place]
 
 
-def init_logger(run_id: str, debug_flag: bool=False) -> logging.Logger:
+def init_logger(run_id: str, debug_flag: bool=False, no_log_flag: bool=False) -> logging.Logger | None:
     logging.debug("# --- Setting logger --- #")
+
+    if no_log_flag:
+        return None
 
     logging_type = logging.DEBUG if debug_flag else logging.INFO
     

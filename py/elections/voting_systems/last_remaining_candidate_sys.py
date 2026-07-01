@@ -25,7 +25,6 @@ class LastRemainingCandidateSystem(BaseVotingSystem):
         self.title = f"Last Remaining Voting" + self.title
 
     def results(self) -> None:
-        print("results()")
         choice = FIRST_CHOICE
         self._pool.reset()
         
@@ -34,7 +33,6 @@ class LastRemainingCandidateSystem(BaseVotingSystem):
             candidates = self._pool.get()
             
             # Tally the pure totals based on the current choice index layer
-             
             self.tally_totals(choice=choice)
             logging.debug("\n")
             
@@ -65,6 +63,7 @@ class LastRemainingCandidateSystem(BaseVotingSystem):
             candidate.is_winner = True
             self.winner = candidate
             self._pool.update(candidate)
+            
             return True
-        return False
 
+        return False

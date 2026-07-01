@@ -1,3 +1,4 @@
 # requirements.txt
 
- faker
+faker
+wcwidth
