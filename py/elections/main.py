@@ -11,7 +11,7 @@ import logging
 import sys
 
 # Local Libraries
-from src.constants import(ARG_PARAMS, I_BOT, I_WARNING)
+from src.constants import(ARG_PARAMS, I_BOT, I_WARNING, VOTING_SYS)
 from src.election import ElectionSys
 from src.utils import get_run_id, init_logger, show_timer, start_timer
 
@@ -24,6 +24,10 @@ from voting_systems.weighted_sys import WeightedSystem
 
 def run_main_pipeline(args: dict, run_all: bool):
     logging.info(f"Run all voting systems: {run_all}")
+    
+    if args.get("debug"):
+        print(f"Run all voting systems: {run_all}")
+   
      
     # Define electoral process: Select candidate count, declare candidacy
     election = ElectionSys(args.get("noise"))
@@ -41,7 +45,7 @@ def run_main_pipeline(args: dict, run_all: bool):
 
     # --- Now compare results to different systems --- #
     popular_sys, ranked_choice_sys, redistribution_sys, last_remaining_sys = None, None, None, None
-
+  
     if run_all or args.get('popular'):
         popular_sys = PopularVotingSystem(copy.deepcopy(candidates), copy.deepcopy(voters))
         logging.info("Running " + popular_sys.title.title())
@@ -85,13 +89,16 @@ def run_main_pipeline(args: dict, run_all: bool):
             weighted_sys.results(all_candidates)
             weighted_sys.show_results()
         else:
-            logging.warning("No voting systems rendered to weight.")
+            logging.warning(f"{I_WARNING} No voting systems calculate a winner.")
 
 
 def _run_all_voting_sys(args: dict) -> bool:
-    all_sys = all(args.values())
-    no_sys = not any(args.values())
-
+    voting_systems = VOTING_SYS + ["weighted"]
+    sys_args = {k: v for k, v in args.items() if k in voting_systems}.values()
+    
+    all_sys = all(sys_args)
+    no_sys = not any(sys_args)
+    
     return all_sys or no_sys
 
 

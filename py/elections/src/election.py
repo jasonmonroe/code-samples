@@ -44,7 +44,6 @@ from src.constants import (
     )
 from src.utils import (
     calc_pct_change,
-    draw_line,
     mute_logger,
     placement,
     show_banner
@@ -96,15 +95,29 @@ class ElectionSys:
 
         subtitles.append(f"{'UID':<{6}} | {'NAME':<{padding_len}} | PARTY")
         subtitles.append(f"{"-" *  MAX_LINE_LEN}")
-     
+
+        # Special Case
+        # If candidate count is 9 and noise flag is on
+        use_unique_parties = self.add_noise and candidate_cnt == len(POLITICAL_PARTIES)
+
+        if use_unique_parties:
+            logging.info("Special case: All 9 political parties will be represented by a candidate.")
+            political_party_pool = POLITICAL_PARTIES.copy()
+
         for _ in range(candidate_cnt):
             candidate = Candidate(self.add_noise)
+            
+            # Override party with a unique one
+            if use_unique_parties:
+                candidate.party = random.choice(political_party_pool)
+                political_party_pool.remove(candidate.party)
+
             subtitles.append(f"{candidate.uid} | {candidate.name:<{padding_len}} | {candidate.party}")
 
             # Tabulate candidates
             self.candidates[candidate.uid] = candidate
             total_donations += candidate.donations
-      
+    
         # Total candidate donations
         self.total_donations = total_donations
 
@@ -296,7 +309,12 @@ class ElectionSys:
 
         if not self.add_noise and no_vote_ctr > 0:
             logging.warning(f"'🚩 Note: There were {no_vote_ctr} no votes.")
-                
+
+    def _get_unique_party_candidates(self):
+        # If candidate count is 9 and noise flag is on create a special case with all candidates being represented by a unique party
+
+        pass 
+
     def show_ballot_banner(self):
         vote_str_len = 22
         subtitles = []

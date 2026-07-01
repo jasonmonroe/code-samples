@@ -76,7 +76,7 @@ class BaseVotingSystem(ABC):
             if ballot_choice in candidates:
                 candidates[ballot_choice].total += 1
             else:
-                logging.warning(f"Skipping vote: Candidate UID '{ballot_choice}' not found.")
+                logging.warning(f"Skipping vote: Candidate '{ballot_choice}' not found.")
                 
         # Save results back instantly
         if use_pool:
@@ -101,8 +101,8 @@ class BaseVotingSystem(ABC):
             logging.info(msg)
         
         else:
-            logging.warning("No winner!")
-            show_banner(self.title, "No winner!")
+            logging.warning(f"No winner! Majority Vote: {self.majority}")
+            show_banner(self.title, f"No winner! Majority Vote: {self.majority}")
 
     def _get_max_choice(self) -> int:
         return min(MAX_CHOICES, len(self.candidates))

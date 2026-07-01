@@ -98,7 +98,7 @@ class WeightedSystem(BaseVotingSystem):
         
         for rank, candidate in enumerate(sorted_candidates, 1):
             # Uses your nested f-string specifier formatting block to keep pipes perfectly straight
-            line = f" Rank #{rank} | Candidate: {candidate.name:<{max_name_len}} | Weighted Score: {candidate.total:.2f}"
+            line = f" Rank #{rank:<{3}} | Candidate: {candidate.name:<{max_name_len}} | Weighted Score: {candidate.total:.2f}"
             subtitles.append(line)
             logging.info(line)
 
