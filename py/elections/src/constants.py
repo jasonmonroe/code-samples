@@ -98,23 +98,20 @@ PARTY_MID_TIER = 4
 PARTY_BTM_TIER = 2
 
 # --- Voters --- #
-
-# Voter Turnout
 # Source: https://www.census.gov/newsroom/press-releases/2025/2024-presidential-election-voting-registration-tables.html
 FIRST_CHOICE = 0
 MAX_CHOICES = 4
 
-VOTER_DEFAULT_COUNT = 16
 BALLOT_BLANK = ["", "", "", ""] # used to mark votes
 BALLOT_FRESH = [0, 0, 0, 0]     # used to tally votes
+
 VOTE_BLANK = None
 VOTE_BLANK_PCT_THRESH = 15      # Odds of registered voter not voting
-NO_CHOICE_PCT_THRESHOLD = 10    # Odds of a voter not picking a candidate
-
 VOTE_BY_LIKELYNESS_ODDS = 12    # The odds of a voter just randomly picking a candidate
-VOTE_NOISE_ODDS = 0.1           # Add/subtract 10% from value
 VOTE_METHODICAL_ODDS = 50       # Odds that voter will use a methodical choice
- 
+VOTE_NOISE_ODDS = 0.1           # Add/subtract 10% from value
+VOTER_DEFAULT_COUNT = 16
+
 # Source: https://www.statista.com/statistics/273743/number-of-registered-voters-in-the-united-states/
 VOTER_MIN_COUNT = 32  
 VOTER_MAX_COUNT = 256 #174000000 

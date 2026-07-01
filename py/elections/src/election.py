@@ -25,7 +25,8 @@ from src.constants import (
     CANDIDATE_COUNT_MIN,
     CANDIDATE_DEFAULT_COUNT,
     I_INFO,
-    I_SMILING, 
+    I_SMILING,
+    MAX_LINE_LEN, 
     VOTER_DEFAULT_COUNT,
     DONOR_COUNT_MAX,
     DONOR_COUNT_MIN,
@@ -37,6 +38,8 @@ from src.constants import (
     MAX_CHOICES, 
     POLITICAL_PARTIES,
     VOTE_BLANK,
+    VOTER_MAX_COUNT,
+    VOTER_MIN_COUNT,
     WEIGHT_NOISE,
     )
 from src.utils import (
@@ -89,10 +92,14 @@ class ElectionSys:
     def _declare_candidacy(self, candidate_cnt: int) -> None:
         subtitles = []
         total_donations = 0.0
-        
+        padding_len = 22
+
+        subtitles.append(f"{'UID':<{6}} | {'NAME':<{padding_len}} | PARTY")
+        subtitles.append(f"{"-" *  MAX_LINE_LEN}")
+     
         for _ in range(candidate_cnt):
             candidate = Candidate(self.add_noise)
-            subtitles.append(f"Candidate: {candidate.uid} | {candidate.name} | Party: {candidate.party}")
+            subtitles.append(f"{candidate.uid} | {candidate.name:<{padding_len}} | {candidate.party}")
 
             # Tabulate candidates
             self.candidates[candidate.uid] = candidate
@@ -106,7 +113,8 @@ class ElectionSys:
 
         show_banner(f'CANDIDATES ({candidate_cnt})', subtitles)
         logging.info(f'There are {candidate_cnt} candidates running in this election.')
-        self._show_candidate_info()
+
+        self._show_candidate_info() 
 
     def _show_candidate_info(self):
         subtitles = []
@@ -137,6 +145,9 @@ class ElectionSys:
         if q_candidate_cnt < CANDIDATE_COUNT_MIN:
             q_candidate_cnt = CANDIDATE_DEFAULT_COUNT
 
+        if q_candidate_cnt > CANDIDATE_COUNT_MAX:
+            q_candidate_cnt = CANDIDATE_COUNT_MAX
+
         return q_candidate_cnt
 
     def _query_voter_count(self) -> int:
@@ -146,6 +157,12 @@ class ElectionSys:
 
         if q_voters_cnt == "":
             q_voters_cnt = VOTER_DEFAULT_COUNT
+
+        if q_voters_cnt < VOTER_MIN_COUNT:
+            q_voters_cnt = VOTER_MIN_COUNT
+
+        if q_voters_cnt > VOTER_MAX_COUNT:
+            q_voters_cnt = VOTER_MAX_COUNT
         
         return q_voters_cnt
 
@@ -235,7 +252,8 @@ class ElectionSys:
             logging.info(f"\n=== {idx}: Voter {uid} is voting. ===")
 
             choice = FIRST_CHOICE
-            while choice < MAX_CHOICES:
+            max_choice = self._get_max_choice()
+            while choice < max_choice:
                 logging.debug(f"# --- Choice: {choice} --- #")
                
                 # Update class with current candidate pool
@@ -280,9 +298,10 @@ class ElectionSys:
             logging.warning(f"'🚩 Note: There were {no_vote_ctr} no votes.")
                 
     def show_ballot_banner(self):
-        vote_str_len = 14 
+        vote_str_len = 22
         subtitles = []
         subtitles.append(f"{'VOTES':<{vote_str_len}} | Candidate")
+        subtitles.append(f"{"-" *  MAX_LINE_LEN}")
 
         for _, candidate in self.candidates.items():
             subtitles.append(f"{str(candidate.votes):<{vote_str_len}} | "

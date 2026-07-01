@@ -24,8 +24,7 @@ from voting_systems.weighted_sys import WeightedSystem
 
 def run_main_pipeline(args: dict, run_all: bool):
     logging.info(f"Run all voting systems: {run_all}")
-    print(args)
-   
+     
     # Define electoral process: Select candidate count, declare candidacy
     election = ElectionSys(args.get("noise"))
     election.register()
