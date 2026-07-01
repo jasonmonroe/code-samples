@@ -5,6 +5,26 @@
 | CONSTANTS
 +--------------------------------------------------------------------------
 | Read only variables used throughout project.
+| Research:
+| U.S. population: 340.1 million
+| Eligible to vote: 236.4 million (69.5% of the population)
+| Registered to vote: 174.0 million (73.6% of eligible voters)
+|  Actually voted: 154.0 million (88.5% of registered voters)
+| 
+| Another useful way to view turnout:
+| 
+| 154.0 million voted.
+| 82.4 million eligible citizens did not vote (about 34.7% of eligible voters).  
+| 
+| So the overall “funnel” looks like this:
+| 
+| 340.1M total people
+|    * ↓ 69.5%
+| 236.4M eligible voters
+|     * ↓ 73.6% registered
+| 174.0M registered voters
+|     * ↓ 88.5% voted
+| 154.0M ballots cast  
 +--------------------------------------------------------------------------
 """
 
@@ -70,28 +90,6 @@ PARTY_BTM_TIER = 2
 
 # --- Voters --- #
 
-"""
-* U.S. population: 340.1 million
-* Eligible to vote: 236.4 million (69.5% of the population)
-* Registered to vote: 174.0 million (73.6% of eligible voters)
-* Actually voted: 154.0 million (88.5% of registered voters)
-
-Another useful way to view turnout:
-
-* 154.0 million voted.
-* 82.4 million eligible citizens did not vote (about 34.7% of eligible voters).  
-
-So the overall “funnel” looks like this:
-
-* 340.1M total people
-    * ↓ 69.5%
-* 236.4M eligible voters
-    * ↓ 73.6% registered
-* 174.0M registered voters
-    * ↓ 88.5% voted
-* 154.0M ballots cast  
-"""
-
 # Voter Turnout
 # Source: https://www.census.gov/newsroom/press-releases/2025/2024-presidential-election-voting-registration-tables.html
 POPULATION = 0       # US Population
@@ -117,12 +115,6 @@ VOTE_METHODICAL_ODDS = 50
 # Source: https://www.statista.com/statistics/273743/number-of-registered-voters-in-the-united-states/
 VOTER_MIN_COUNT = 8 #25
 VOTER_MAX_COUNT = 16 #168000000 
-
-# 49.8% of popular vote Rep
-# 48.3% of popular vote Dem
-
-# Dems: 45.1 million registered voters.
-# Reps: 35.7 million registered voters.
 
 # --- Doners --- #
 # https://www.opensecrets.org/elections-overview/donor-demographics
