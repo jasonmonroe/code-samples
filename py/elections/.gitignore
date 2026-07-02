@@ -1,8 +1,10 @@
 # .gitignore
 
+.DS_Store
 .idea
 .venv
+.vscode
 
 venv
-
-logs/
+logs
+__pycache__

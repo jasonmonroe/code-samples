@@ -19,7 +19,7 @@
 | for the eliminated candidate (meaning they still have a say in whom wins).
 |
 | Repeat these steps in rounds until there are only two candidates and now 
-| whomever has the most votes is determined the winner.
+| whoever has the most votes is determined the winner.
 |
 | Note: If a choice is blank shift it from the ballot.
 |------
