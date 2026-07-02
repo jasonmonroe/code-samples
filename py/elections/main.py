@@ -5,6 +5,8 @@ __copyright__ = "Copyright Election Systems"
 __date__ = "2025-01-24"
 __version__ = "2.0.0"
 
+# Source: https://rankthevote.us/
+
 # Python Libraries
 import copy
 import logging
@@ -47,30 +49,39 @@ def run_main_pipeline(args: dict, run_all: bool):
     popular_sys, ranked_choice_sys, redistribution_sys, last_remaining_sys = None, None, None, None
   
     if run_all or args.get('popular'):
+        start_time = start_timer()
         popular_sys = PopularVotingSystem(copy.deepcopy(candidates), copy.deepcopy(voters))
         logging.info("Running " + popular_sys.title.title())
         popular_sys.results()
         popular_sys.show_results()
+        show_timer(start_time)
         
     if run_all or args.get("ranked"):
+        start_time = start_timer()
         ranked_choice_sys = RankChoiceVotingSystem(copy.deepcopy(candidates), copy.deepcopy(voters))
         logging.info("Running " + ranked_choice_sys.title.title())
         ranked_choice_sys.results()
         ranked_choice_sys.show_results()
+        show_timer(start_time)
         
     if run_all or args.get("redist"):
+        start_time = start_timer()
         redistribution_sys = RedistributionSystem(copy.deepcopy(candidates), copy.deepcopy(voters))
         logging.info("Running " + redistribution_sys.title.title())
         redistribution_sys.results()
         redistribution_sys.show_results()
+        show_timer(start_time)
         
     if run_all or args.get("remaining"):
+        start_time = start_timer()
         last_remaining_sys = LastRemainingCandidateSystem(copy.deepcopy(candidates), copy.deepcopy(voters))
         logging.info("Running " + last_remaining_sys.title.title())
         last_remaining_sys.results()
         last_remaining_sys.show_results()
+        show_timer(start_time)
 
     if run_all or args.get("weighted"):
+        start_time = start_timer()
         weighted_sys = WeightedSystem(copy.deepcopy(candidates), copy.deepcopy(voters), args.get("noise"))
         logging.info("Running" + weighted_sys.title.title())
 
@@ -90,6 +101,8 @@ def run_main_pipeline(args: dict, run_all: bool):
             weighted_sys.show_results()
         else:
             logging.warning(f"{I_WARNING} No voting systems calculate a winner.")
+
+        show_timer(start_time)
 
 
 def _run_all_voting_sys(args: dict) -> bool:

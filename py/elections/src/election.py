@@ -101,7 +101,9 @@ class ElectionSys:
         use_unique_parties = self.add_noise and candidate_cnt == len(POLITICAL_PARTIES)
 
         if use_unique_parties:
-            logging.info("Special case: All 9 political parties will be represented by a candidate.")
+            message = "🌟 Special case: All 9 political parties will be represented by a candidate. 🌟"
+            print(message)
+            logging.info(message)
             political_party_pool = POLITICAL_PARTIES.copy()
 
         for _ in range(candidate_cnt):
@@ -241,7 +243,8 @@ class ElectionSys:
 
     def vote(self) -> None:
         # Reset candidate pool before picking unique candidates
-        show_banner('VOTERS', f'There are {len(self.voters)} registered voters for this election.', True, True)
+        show_banner('VOTERS', f'There are {len(self.voters)} registered voters for this election.\n Majority needed: {int((len(self.voters) // 2) + 1)}', True, True)
+        
         logging.info('Voting...')
 
         self._pool = CandidatePool(self.candidates)
@@ -269,7 +272,6 @@ class ElectionSys:
             while choice < max_choice:
                 logging.debug(f"# --- Choice: {choice} --- #")
                
-                # Update class with current candidate pool
                 # Store the latest pool of candidates and sync with the candidates favorables
                 self._candidate_chooser.candidates = self._pool.get()
                 self._candidate_chooser.sync_favorables()
@@ -287,17 +289,17 @@ class ElectionSys:
                 choice += 1
 
             # End choice loop
-            logging.info(f"--- END | voter[{idx}]:{uid} Ballot: {voter.ballot} | END ---")
+            logging.info(f"--- Voter[{idx}]:{uid} Ballot: {voter.ballot} ---")
              
-        logging.info("# --- Election Day is over.  Closing all voting polls. --- #\n\n")
+        logging.info("# --- End of election day.  Polls are now closed. --- #\n\n")
 
     def tally(self) -> None:
-        logging.info(f"# --- {I_BALLOT} Tallying ballots {I_BALLOT} --- #")
+        logging.info(f"# --- {I_BALLOT} Tallying Ballots {I_BALLOT} --- #")
         
         no_vote_ctr = 0
         for _, (_, voter) in enumerate(self.voters.items()):
-           
             for choice, ballot_choice in enumerate(voter.ballot):
+                logging.debug(f"!!! ballot_choice={ballot_choice}")
                 if ballot_choice == VOTE_BLANK:
                     no_vote_ctr += 1
                     continue
@@ -309,11 +311,6 @@ class ElectionSys:
 
         if not self.add_noise and no_vote_ctr > 0:
             logging.warning(f"'🚩 Note: There were {no_vote_ctr} no votes.")
-
-    def _get_unique_party_candidates(self):
-        # If candidate count is 9 and noise flag is on create a special case with all candidates being represented by a unique party
-
-        pass 
 
     def show_ballot_banner(self):
         vote_str_len = 22

@@ -15,8 +15,8 @@ from abc import ABC, abstractmethod
 # Local Libraries
 from src.candidate import Candidate
 from src.candidate_pool import CandidatePool
-from src.constants import FIRST_CHOICE, I_RIBBON, MAX_CHOICES, VOTE_BLANK 
-from src.utils import name_len, show_banner
+from src.constants import FIRST_CHOICE, I_CROSSMARK, I_RIBBON, MAX_CHOICES, VOTE_BLANK 
+from src.utils import name_len, placement, show_banner
 
 class BaseVotingSystem(ABC):
 
@@ -47,12 +47,14 @@ class BaseVotingSystem(ABC):
         return (len(self.voters) // 2) + 1
 
     def _clear_totals(self, candidates: dict | list) -> dict | list:
+        logging.info("Clearing candidate totals.")
         for candidate in candidates.values():
             candidate.total = 0
 
         return candidates
 
     def tally_totals(self, choice: int=FIRST_CHOICE, use_pool: bool=True, clear_totals: bool=False) -> None:
+        
         # Fetch the data source
         candidates = self._pool.get() if use_pool else self.candidates
         
@@ -71,12 +73,12 @@ class BaseVotingSystem(ABC):
             
             # Handle VOTE_BLANK explicitly so blank entries don't throw warnings
             if ballot_choice == VOTE_BLANK:
+                logging.warning(f"Voter[{voter.uid}] ballot[0] choice is a `no` vote.")
                 continue
                 
             if ballot_choice in candidates:
                 candidates[ballot_choice].total += 1
-            else:
-                logging.warning(f"Skipping vote: Candidate '{ballot_choice}' not found.")
+                logging.debug(f"Counting voter[{voter.uid}] {placement(choice, "a")} choice. New total is {candidates[ballot_choice].total}.")
                 
         # Save results back instantly
         if use_pool:
@@ -126,6 +128,7 @@ class BaseVotingSystem(ABC):
    
         # Continue looking for a single loser as long as there is a tie
         # and we haven't run out of voter choice preferences
+        logging.debug(f"start with choice: {choice}")
         while len(loser_pool) > 1 and choice < self.max_choice:
             lowest = []
             lowest_total = float('inf')  # Reset threshold to infinity each round
@@ -169,6 +172,20 @@ class BaseVotingSystem(ABC):
         logging.warning("No losing candidate found.")
         return None
 
+    def _remove_blank_votes(self) -> None:
+        # Remove blank and loser votes from ballot
+        logging.info("Removing `no` votes from all ballots.")
+
+        ctr = 0
+        for uid, voter in self.voters.items():
+            while VOTE_BLANK in voter.ballot:
+                logging.debug(f"{I_CROSSMARK} Removing `None` vote from voter[{uid}] ballot {voter.ballot} via shift.")
+                voter.ballot.remove(VOTE_BLANK)
+                logging.debug(f"Refreshed ballot: {voter.ballot} after removal.")
+                ctr += 1
+
+        logging.info(f"Removed {ctr} ‘no’ votes from all ballots representing {len(self.voters)} voters.")
+                
     def get_candidates(self) -> dict:
         return self.candidates
 

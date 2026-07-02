@@ -20,6 +20,8 @@
 |
 | Repeat these steps in rounds until there are only two candidates and now 
 | whomever has the most votes is determined the winner.
+|
+| Note: If a choice is blank shift it from the ballot.
 |------
 | @link https://www.elections.alaska.gov/election-information/
 | @link https://www.youtube.com/watch?v=lLU3lbrxMBI
@@ -31,7 +33,7 @@
 import logging
 
 # Local Libraries
-from src.constants import FIRST_CHOICE
+from src.constants import FIRST_CHOICE, I_CROSSMARK, VOTE_BLANK
 from src.utils import placement
 from voting_systems.base_voting_sys import BaseVotingSystem
 
@@ -42,10 +44,17 @@ class RankChoiceVotingSystem(BaseVotingSystem):
         self.title = "Rank Choice Voting" + self.title
 
     def results(self):
-        choice = FIRST_CHOICE
-        while choice < self.max_choice:
-            logging.debug(f"choice={choice}, {placement(choice, "a")} round...")
+        logging.info(f"Majority needed to win: {self.majority}")
+        
+        self._remove_blank_votes()
 
+        choice = FIRST_CHOICE
+        max_itr = 0
+        resets = 0
+        while True and max_itr < 32:
+            logging.debug(f"BEGIN -> choice:{choice}")
+            logging.debug(f"=== Start {placement(choice, "a")} round ===".title())
+            
             # Important: Always count the first choice regardless of round
             # because the loser will have their names removed from the ballots!
             self.tally_totals(clear_totals=True) 
@@ -56,28 +65,40 @@ class RankChoiceVotingSystem(BaseVotingSystem):
                     break
                 
             if self.winner:
-                logging.info("Winner found!")
+                logging.info(f"Winner found! Iterations: {max_itr}.")
                 break
 
             # If no winner, remove lowest performing candidate
-            logging.debug(f"No winner in round: {placement(choice, 'a')}.")
+            logging.info(f"No winner in {placement(choice, 'a')} round. Resets:{resets}")
 
             # Remove lowest candidate
-            loser_candidate = self.determine_loser(choice)
+            loser_candidate = self.determine_loser()
 
             # Remove loser candidate pool and ballots
             if loser_candidate:
                 self._pool.remove(loser_candidate)
                 self._shift_ballots(loser_candidate.uid)     
+                
+            logging.debug(f"--- After {placement(choice, "a")} round | Resets: {resets} ---".title())
+             
+            for _, candidate in self._pool.get().items():
+                logging.debug(f"candidate: {candidate.uid} | total votes: {candidate.total}")
 
-            choice += 1
+            if choice < self.max_choice - 1:
+                choice += 1
+            else:
+                logging.warning(f"No majority of ({self.majority}) yet, so lets reset: {resets} the choice:{choice} to 0 again.")
+                choice = 0
+                resets += 1
+                
+            max_itr += 1
+            logging.debug(f"max_itr={max_itr}, resets: {resets}")
    
     def _shift_ballots(self, loser_uid: str) -> None:
-        logging.info(f"Shifting Loser UID: {loser_uid} from ballot.")
+        logging.info(f"Shifting loser candidate[{loser_uid}] from ballot.")
 
         for uid, voter in self.voters.items():
-            for ballot_choice in voter.ballot:
-                if ballot_choice == loser_uid:
-                    logging.debug(f"Removing candidate: {loser_uid} from voter: {uid} ballot via shift.")
-                    voter.ballot.remove(loser_uid)
-        
+            if loser_uid in voter.ballot:
+                logging.debug(f"{I_CROSSMARK} Removing candidate[{loser_uid}] from voter[{uid}] ballot{voter.ballot} via shift.")
+                voter.ballot.remove(loser_uid)
+                logging.debug(f"Revised Voter[{voter.uid}] ballot: {voter.ballot}.")

@@ -25,6 +25,7 @@ class LastRemainingCandidateSystem(BaseVotingSystem):
         self.title = f"Last Remaining Voting" + self.title
 
     def results(self) -> None:
+        self._remove_blank_votes()
         choice = FIRST_CHOICE
         self._pool.reset()
         

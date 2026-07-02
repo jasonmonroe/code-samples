@@ -28,6 +28,7 @@ class RedistributionSystem(BaseVotingSystem):
         self.title = "Redistribution Voting" + self.title
 
     def results(self) -> None:
+        self._remove_blank_votes()
         choice = FIRST_CHOICE
 
         self._pool.reset()
@@ -36,7 +37,7 @@ class RedistributionSystem(BaseVotingSystem):
         while choice < self.max_choice:
             # Only tally the totals in the first round, after that we will tally when we redistribute.
             if choice == FIRST_CHOICE:
-                self.tally_totals()
+                self.tally_totals(clear_totals=True)
                 logging.debug("\n")
 
             for _, candidate in self._pool.get().items():
@@ -97,12 +98,12 @@ class RedistributionSystem(BaseVotingSystem):
                     break  # Vote successfully transferred! Stop scanning this voter's ballot.
                 
                 # If next_choice_uid is already eliminated, log it and keep scanning forward
-                logging.debug(f"voter:{voter.uid} choice at rank {next_choice} ({next_choice_uid}) is eliminated. Skipping...")
+                logging.debug(f"Voter:{voter.uid} choice at rank {next_choice} ({next_choice_uid}) is eliminated. Skipping...")
                 next_choice += 1
                 
             # Handle exhausted ballots gracefully if no active choices remain
             if not allocated:
-                logging.info(f"voter:{voter.uid} has an exhausted ballot (no active candidates remaining).")
+                logging.debug(f"Voter:{voter.uid} has an exhausted ballot (no active candidates remaining).")
 
         logging.debug(f"Redistributing votes for eliminated candidate: {loser}")
         next_choice = choice + 1

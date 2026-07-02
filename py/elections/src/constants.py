@@ -34,6 +34,7 @@ VOTING_SYS = [
     "redist",   # Calculates Redistribution Voting Systemn
     "remaining" # Calculates Last Remaining Voting System
     ]
+
 ARG_PARAMS = [
     "--debug",  # Turns on the debug log
     "--noise",  # Add noise
@@ -102,19 +103,19 @@ PARTY_BTM_TIER = 2
 FIRST_CHOICE = 0
 MAX_CHOICES = 4
 
-BALLOT_BLANK = ["", "", "", ""] # used to mark votes
+BALLOT_BLANK = [None, None, None, None] # used to mark votes
 BALLOT_FRESH = [0, 0, 0, 0]     # used to tally votes
 
 VOTE_BLANK = None
-VOTE_BLANK_PCT_THRESH = 15      # Odds of registered voter not voting
+VOTE_BLANK_PCT_THRESH = 8      # Odds of registered voter not voting
 VOTE_BY_LIKELYNESS_ODDS = 12    # The odds of a voter just randomly picking a candidate
 VOTE_METHODICAL_ODDS = 50       # Odds that voter will use a methodical choice
 VOTE_NOISE_ODDS = 0.1           # Add/subtract 10% from value
 VOTER_DEFAULT_COUNT = 16
 
 # Source: https://www.statista.com/statistics/273743/number-of-registered-voters-in-the-united-states/
-VOTER_MIN_COUNT = 32  
-VOTER_MAX_COUNT = 256 #174000000 
+VOTER_MIN_COUNT = 100  
+VOTER_MAX_COUNT = 100000 #174,000,000 
 
 # --- Doners --- #
 # https://www.opensecrets.org/elections-overview/donor-demographics

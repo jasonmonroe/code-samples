@@ -34,6 +34,7 @@ class PopularVotingSystem(BaseVotingSystem):
     def results(self) -> None:
         self._pool.reset()
         candidates = self._pool.get()
+        self._remove_blank_votes()
         choice = FIRST_CHOICE
         self.tally_totals()
         

@@ -14,6 +14,7 @@ from src.constants import (
     CANDIDATE_WEIGHT_NAME,
     CANDIDATE_WEIGHT_PARTY,
     ELECTION_DURATION,
+    FIRST_CHOICE,
     I_FLAG,
     PARTY_BTM_TIER,
     PARTY_MID_TIER,
@@ -50,22 +51,25 @@ class CandidateChooser:
         self._check_favorables()
 
     # --- Voter decision --- #
-    def decision(self) -> str | None:
+    def decision(self, choice:int=FIRST_CHOICE) -> str | None:
         # Three options: No vote, if there is a vote a random vote, if a methodical vote either favorability or heuristic.
         self._check_favorables()
 
         candidate_uid = None
-        decision_odds = random.randint(0, PERCENTILE)
-        logging.debug(f"decision_odds: {decision_odds}")
 
-        if self.add_noise and decision_odds <= VOTE_BLANK_PCT_THRESH: # 15% odds
+        # The higher the choice, the more likely to pick random
+        max_odds =  (PERCENTILE / choice) if choice > 2 else PERCENTILE
+        decision_odds = random.randint(0, int(max_odds))
+        logging.debug(f"decision_odds: {decision_odds}")        
+        
+        if self.add_noise and decision_odds <= VOTE_BLANK_PCT_THRESH: # 8% odds
             candidate_uid = self._choose_none()
         else: # 85% odds
             
             # If we're adding noise, lets get a new decision odds
             if self.add_noise:
                 if (random.choice([0,1])) == 0:
-                    decision_odds = random.randint(0, PERCENTILE)
+                    decision_odds = random.randint(0, decision_odds)
 
             # Voter is going to make a choice...
             if decision_odds <= VOTE_BY_LIKELYNESS_ODDS: # 12% odds
@@ -81,6 +85,7 @@ class CandidateChooser:
         return candidate_uid
         
     def _choose_none(self) -> None:
+        logging.info(f"Choosing no candidate as you do not like anyone.")
         return VOTE_BLANK
 
     def _choose_anyone(self) -> str:
@@ -89,7 +94,9 @@ class CandidateChooser:
     
         # Pick a random choice safely if the list isn't empty
         if uids:
-            return random.choice(uids)
+            random_uid = random.choice(uids)
+            logging.info(f"Choosing {random_uid} at random.")
+            return random_uid
             
         return None
 
@@ -112,9 +119,10 @@ class CandidateChooser:
     def _choose_by_favorability(self) -> str:
         # Option 1: Treat as favorability: Take scoress of all candidates, sort by highest as choose order.
         # Sort by score.
+        
         if len(self._favorables):
-             
             max_favorability_uid, _ = max(self._favorables.items(), key=lambda x: x[1]["score"])
+            logging.info(f"Choosing {max_favorability_uid} by a favorability approach.")
 
             return max_favorability_uid
         else:
@@ -218,6 +226,8 @@ class CandidateChooser:
         }
 
         favorables_data["score"] = round(self._get_favorables_score(favorables_data), 2)
+
+        logging.debug(f"favorable_data: {favorables_data}")
 
         return favorables_data
 
